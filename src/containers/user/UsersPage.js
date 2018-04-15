@@ -125,7 +125,7 @@ class UsersPage extends Component {
       </div>
     );
   }
-}
+} 
 
 UsersPage.propTypes = {
   page: PropTypes.number.isRequired,

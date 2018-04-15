@@ -1,23 +1,19 @@
 import React, { Component } from 'react'
-
+import MapComponent from './mapcomponent/MapComponent'
+import "leaflet/dist/leaflet.css"
 class UserContentPage extends Component {
 
    
   render() {
     return (
-      <div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
+      <div className="container-fluid ">
+      <div className="row">
+        <nav className="col-md-2 d-none d-md-block bg-light sidebar">
               <div>任务列表</div>
-            </ul>
-          </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-          <h1 class="h2">地图区域</h1>
-          
+        <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          <MapComponent />
         </main>
       </div>
     </div>
