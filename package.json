@@ -37,7 +37,6 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-leaflet": "^1.9.1",
-    "react-leaflet-fullscreen": "0.0.6",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-virtualized": "^9.12.0",
