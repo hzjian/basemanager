@@ -39,7 +39,7 @@ class Header extends Component {
         </button>
         
         <div id="navbarCollapse" className="collapse navbar-collapse">
-          <ul className="navbar-nav mr-auto">
+          <ul className="navbar-nav mr-auto ">
             <li
               title="我的内容"
               className={isUsersPage ? "nav-item active" : "nav-item"}>
@@ -68,7 +68,7 @@ class Header extends Component {
             <li
               title="Github Repos with over 10000 Stars"
               className={isReposPage ? "nav-item active" : "nav-item"}>
-              <Link className="nav-link" to="/repos">Most Starred Repos</Link>
+              <Link className="nav-link" to="/repos"> Repos</Link>
             </li>
            
           </ul>

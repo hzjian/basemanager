@@ -36,7 +36,7 @@ class Alerts extends Component {
   render() {
     const { alerts, hasError } = this.props;
     const count = (alerts && alerts.length) || 0;
-    const badge = count <= 1 ? `${count} new message` : `${count} new messages`;
+    const badge = count <= 1 ? `${count} 条消息` : `${count} 条消息`;
     return (
       <li className="dropdown nav-item">
         <a

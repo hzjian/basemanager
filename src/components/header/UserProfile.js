@@ -13,7 +13,7 @@ const UserProfile = ({ user, handleLogout }) => {
         aria-expanded="false"
       >
         <span className="fa fa-user" style={{ marginRight: "0.5em" }} />
-        {user || "Anonymous"}
+        {user || "未登录"}
         <span className="caret" />
       </a>
       <ul className="dropdown-menu" style={{ right: 0, left: "auto" }}>
