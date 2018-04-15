@@ -43,23 +43,34 @@ class Header extends Component {
             <li
               title="我的内容"
               className={isUsersPage ? "nav-item active" : "nav-item"}>
-              <Link className="nav-link" to="/mycontent">我的内容</Link>
+              <Link className="nav-link" to="/ucontent">我的内容</Link>
             </li>
             <li
-              title="Github Users with over 1000 Followers"
+              title="我的任务"
               className={isUsersPage ? "nav-item active" : "nav-item"}>
-              <Link className="nav-link" to="/users">Most Followed Users</Link>
+              <Link className="nav-link" to="/utaskmanager">我的任务</Link>
+            </li>
+            <li
+              title="我的组织"
+              className={isUsersPage ? "nav-item active" : "nav-item"}>
+              <Link className="nav-link" to="/groupmanager">我的组织</Link>
+            </li>
+            <li
+              title="GAMMA图层"
+              className={isUsersPage ? "nav-item active" : "nav-item"}>
+              <Link className="nav-link" to="/gammadata">GAMMA图层</Link>
+            </li>
+            <li
+              title="关于"
+              className={isAboutPage ? "nav-item active" : "nav-item"}>
+              <Link className="nav-link" to="/about">关于</Link>
             </li>
             <li
               title="Github Repos with over 10000 Stars"
               className={isReposPage ? "nav-item active" : "nav-item"}>
               <Link className="nav-link" to="/repos">Most Starred Repos</Link>
             </li>
-            <li
-              title="About"
-              className={isAboutPage ? "nav-item active" : "nav-item"}>
-              <Link className="nav-link" to="/about">About Us</Link>
-            </li>
+           
           </ul>
 
           <ul className="navbar-nav mt-2 mt-md-0">

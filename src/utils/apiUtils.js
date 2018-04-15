@@ -1,6 +1,10 @@
 import "isomorphic-fetch";
 import jwt_decode from "jwt-decode";
 
+export const ID_TOKEN = "x-auth-token";
+
+export const SYSID = "gamma.tl";
+
 export function checkStatus(response) {
   if (!response.ok) {
     // (response.status < 200 || response.status > 300)
@@ -35,7 +39,8 @@ export function callApi(
 ) {
   return dispatch => {
     dispatch(request);
-
+    if(config && config.headers )
+      config.headers[ID_TOKEN] = SYSID + "." + localStorage.getItem(ID_TOKEN);
     return fetch(url, config)
       .then(checkStatus)
       .then(parseJSON)
@@ -62,8 +67,6 @@ export function callApi(
       });
   };
 }
-
-export const ID_TOKEN = "x-auth-token";
 
 export function setIdToken(idToken) {
   localStorage.setItem(ID_TOKEN, idToken);

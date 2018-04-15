@@ -3,6 +3,8 @@ import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
 import auth from "../reducers/auth";
 import alerts from "../reducers/alerts";
+import { selectedUserTasksPage, userTasksByPage } from "../reducers/usertasks";
+
 import { selectedUsersPage, usersByPage } from "../reducers/users";
 import { selectedReposPage, reposByPage } from "../reducers/repos";
 
@@ -12,6 +14,8 @@ const rootReducer = combineReducers({
   alerts,
   selectedUsersPage,
   usersByPage,
+  selectedUserTasksPage,
+  userTasksByPage,
   selectedReposPage,
   reposByPage
 });

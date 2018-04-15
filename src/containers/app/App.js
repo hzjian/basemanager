@@ -17,6 +17,9 @@ import Home from "../home/Home";
 import UsersPage from "../user/UsersPage";
 import ReposPage from "../repo/ReposPage";
 import UserContentPage from '../usercontent/UserContentPage';
+import TaskManager from '../taskmanager/taskmanager';
+import GroupManager from  '../groupmanager/groupmanager'
+import GammaData from '../gammadata/gammadata'
 import About from "../about/About";
 import NotFound from "../misc/NotFound";
 
@@ -54,9 +57,24 @@ class App extends Component {
                   component={ReposPage}
                 />
                  <PrivateRoute
-                  path="/mycontent"
+                  path="/ucontent"
                   isAuthenticated={isAuthenticated}
                   component={UserContentPage}
+                />
+                 <PrivateRoute
+                  path="/utaskmanager"
+                  isAuthenticated={isAuthenticated}
+                  component={TaskManager}
+                />
+                 <PrivateRoute
+                  path="/groupmanager"
+                  isAuthenticated={isAuthenticated}
+                  component={GroupManager}
+                />
+                 <PrivateRoute
+                  path="/gammadata"
+                  isAuthenticated={isAuthenticated}
+                  component={GammaData}
                 />
                 <Route component={NotFound} />
               </Switch>
