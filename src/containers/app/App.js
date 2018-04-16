@@ -22,7 +22,7 @@ import GroupManager from  '../groupmanager/groupmanager'
 import GammaData from '../gammadata/gammadata'
 import About from "../about/About";
 import NotFound from "../misc/NotFound";
-
+import {loadUserProfile} from '../../utils/apiUtils'
 import { logout } from "../../actions/auth";
 
 import "./app.css";
@@ -34,8 +34,15 @@ class App extends Component {
   }
 
   render() {
-    const { user } = this.props;
-    const isAuthenticated = true && user;
+    let userProfie = loadUserProfile();
+    let isAuthenticated = false;
+    let user;
+    if(userProfie) 
+    {
+      const {sub, scope, non_expired, exp, enabled, non_locked} = userProfie;
+      user = sub;
+      isAuthenticated = true && user;
+    }
     return (
       <Router>
         <div>
