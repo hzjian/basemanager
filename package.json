@@ -16,6 +16,7 @@
     "react-scripts": "1.0.17"
   },
   "dependencies": {
+    "ant-design": "^1.0.0",
     "bootstrap": "^4.0.0-beta.2",
     "classnames": "^2.2.5",
     "font-awesome": "^4.7.0",

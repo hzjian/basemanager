@@ -3,8 +3,24 @@ import {
   INVALIDATE_GROUPS_PAGE,
   GROUPS_REQUEST,
   GROUPS_SUCCESS,
-  GROUPS_FAILURE
+  GROUPS_FAILURE,
+  EDIT_GROUPS_INFO,
+  CLOSE_GROUPS_INFO
 } from "../actions/groups";
+
+
+export function editGroupsInfo(state={},action){
+  switch (action.type) {
+    case CLOSE_GROUPS_INFO:
+    case EDIT_GROUPS_INFO:
+      return {
+        payload: action.payload,
+        isShowingModal: action.isShowingModal
+      };
+    default:
+      return state;
+  }
+}
 
 export function selectedGroupsPage(state = 1, action) {
   switch (action.type) {

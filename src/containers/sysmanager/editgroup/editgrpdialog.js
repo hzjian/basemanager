@@ -1,74 +1,87 @@
 import React, { Component } from 'react'
 
 import Modal from 'react-modal';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-const customStyles = {
-    content : {
-      top                   : '50%',
-      left                  : '50%',
-      right                 : 'auto',
-      bottom                : 'auto',
-      marginRight           : '-50%',
-      transform             : 'translate(-50%, -50%)'
-    }
-  };
+
+import {
+  closeGroupInfoDialog,
+  saveGroupInfo,
+} from "../../../actions/groups";
   
   // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-  Modal.setAppElement('#yourAppElement')
+  // 
+  
+Modal.setAppElement('#root')
+
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
 
 class EditgrpDialog extends Component {
     constructor() {
         super();
-    
         this.state = {
-          modalIsOpen: false
-        };
-    
-        this.openModal = this.openModal.bind(this);
-        this.afterOpenModal = this.afterOpenModal.bind(this);
+                        modalIsOpen: false,
+                        group:{}
+                      }
         this.closeModal = this.closeModal.bind(this);
+        this.saveGroup = this.saveGroup.bind(this);
       }
-    
-      openModal() {
-        this.setState({modalIsOpen: true});
+      closeModal(e) {
+        const { dispatch } = this.props;
+        dispatch(closeGroupInfoDialog());
+
+        // this.setState(prevState => ({
+        //   modalIsOpen: false,
+        //   group:{}
+        // }));
       }
-    
-      afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        this.subtitle.style.color = '#f00';
+
+      saveGroup(e) {
+        const { dispatch } = this.props;
+        dispatch(saveGroupInfo(this.state.group));
       }
-    
-      closeModal() {
-        this.setState({modalIsOpen: false});
+
+      componentWillReceiveProps(nextProps) {
+        this.setState(prevState => ({
+          modalIsOpen: nextProps.modalIsOpen,
+          group : nextProps.group
+        }));
       }
     
       render() {
         return (
           <div>
-            <button onClick={this.openModal}>Open Modal</button>
             <Modal
               isOpen={this.state.modalIsOpen}
               onAfterOpen={this.afterOpenModal}
               onRequestClose={this.closeModal}
               style={customStyles}
-              contentLabel="Example Modal"
+              contentLabel="组织管理"
             >
-    
-              <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
-              <button onClick={this.closeModal}>close</button>
+              
               <div>I am a modal</div>
-              <form>
+              <div>
                 <input />
                 <button>tab navigation</button>
                 <button>stays</button>
                 <button>inside</button>
-                <button>the modal</button>
-              </form>
+                <button onClick={this.saveGroup}>保存</button>
+                <button onClick={this.closeModal}>关闭</button>
+              </div>
             </Modal>
           </div>
         );
       }
 }
 
-
-export default EditgrpDialog;
+export default connect()(EditgrpDialog);

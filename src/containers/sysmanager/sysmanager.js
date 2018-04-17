@@ -3,16 +3,21 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import GroupItem from './groupitem/groupitem'
+import Modal from 'react-modal';
+import GroupItem from './groupitem/groupitem';
+import EditgrpDialog from './editgroup/editgrpdialog'
 
 import {
     invalidateGroupsPage,
     selectGroupsPage,
-    fetchTopGroupsIfNeeded
+    fetchTopGroupsIfNeeded,
+    editGroupsInfo,
   } from "../../actions/groups";
 
- class SysManager extends Component {
 
+  
+
+ class SysManager extends Component {
     constructor(props) {
         super(props);
         this.handleEditGroupEvent = this.handleEditGroupEvent.bind(this);
@@ -21,10 +26,11 @@ import {
         // this.handleRefreshClick = this.handleRefreshClick.bind(this);
     }
 
-    handleEditGroupEvent(group){
-        
-    }
+    handleEditGroupEvent(e,group){
+        const { dispatch } = this.props;
+        dispatch(editGroupsInfo(group));
 
+    }
     componentDidMount() {
         const { dispatch, page } = this.props;
         dispatch(fetchTopGroupsIfNeeded(page));
@@ -38,7 +44,7 @@ import {
     }
 
     render() {
-        const { page, error, groups, isFetching } = this.props;
+        const { page, error, groups, isFetching ,group,isShowingModal} = this.props;
         const prevStyles = classNames("page-item", { disabled: page <= 1 });
         const nextStyles = classNames("page-item", {
             disabled: groups.length === 0
@@ -62,25 +68,30 @@ import {
                     {groups.length > 0 &&
                             <table className ="table" style={{ opacity: isFetching ? 0.5 : 1 }}>
                             <thead>
+                                <tr>
                                 <th>名称</th>
                                 <th>地址</th>
                                 <th>电话</th>
                                 <th></th>
+                                </tr>
                             </thead>
+                            <tbody>
                             {groups.map(group => (
                                 <tr key={group.groupName} className="col-md-4">
                                     <td>{group.groupName}</td>
                                     <td>{group.groupAddress}</td>
                                     <td>{group.groupPhone}</td>
-                                    <td> <i className="fa fa-edit" onClick = {this.handleEditGroupEvent(group)}></i> <i className="fa fa-trash"></i></td>
+                                    <td> <i className="fa fa-edit" onClick ={ (e) => this.handleEditGroupEvent(e,group) }></i> <i className="fa fa-trash"></i></td>
                                 </tr>
                             ))}
+                            </tbody>
                             </table>}
                 </div>
                 <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                 数据字典维护
                 </div>
             </div>
+            <EditgrpDialog modalIsOpen = {isShowingModal} group ={group} />
         </div>
         )
     }
@@ -96,7 +107,7 @@ SysManager.propTypes = {
   };
   
   function mapStateToProps(state) {
-    const { selectedGroupsPage, groupsByPage } = state;
+    const { selectedGroupsPage, groupsByPage,editGroupsInfo } = state;
     const page = selectedGroupsPage || 1;
   
     if (!groupsByPage || !groupsByPage[page]) {
@@ -116,7 +127,9 @@ SysManager.propTypes = {
       isFetching: groupsByPage[page].isFetching,
       didInvalidate: groupsByPage[page].didInvalidate,
       totalCount: groupsByPage[page].totalCount,
-      groups: groupsByPage[page].groups
+      groups: groupsByPage[page].groups,
+      group: editGroupsInfo.payload,
+      isShowingModal: editGroupsInfo.isShowingModal
     };
   }
   
