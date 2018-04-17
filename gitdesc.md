@@ -1,6 +1,12 @@
 
 https://github.com/hzjian/gamma.git
 
+git add test.txt
+
+    add to stage
+    
+git commit -a 'desc'
+
 git pull origin master:master
 
 git push -u origin master

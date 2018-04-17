@@ -18,11 +18,12 @@ import UsersPage from "../user/UsersPage";
 import ReposPage from "../repo/ReposPage";
 import UserContentPage from '../usercontent/UserContentPage';
 import TaskManager from '../taskmanager/taskmanager';
-import GroupManager from  '../groupmanager/groupmanager'
-import GammaData from '../gammadata/gammadata'
+import GroupManager from  '../groupmanager/groupmanager';
+import GammaData from '../gammadata/gammadata';
+import SysManager from '../sysmanager/sysmanager';
 import About from "../about/About";
 import NotFound from "../misc/NotFound";
-import {loadUserProfile} from '../../utils/apiUtils'
+import {loadUserProfile} from '../../utils/apiUtils';
 import { logout } from "../../actions/auth";
 
 import "./app.css";
@@ -82,6 +83,11 @@ class App extends Component {
                   path="/gammadata"
                   isAuthenticated={isAuthenticated}
                   component={GammaData}
+                />
+                <PrivateRoute
+                  path="/sysmanager"
+                  isAuthenticated={isAuthenticated}
+                  component={SysManager}
                 />
                 <Route component={NotFound} />
               </Switch>
