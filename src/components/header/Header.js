@@ -61,6 +61,11 @@ class Header extends Component {
               <Link className="nav-link" to="/gammadata">GAMMA图层</Link>
             </li>
             <li
+              title="系统管理"
+              className={isUsersPage ? "nav-item active" : "nav-item"}>
+              <Link className="nav-link" to="/sysmanager">系统管理</Link>
+            </li>
+            <li
               title="关于"
               className={isAboutPage ? "nav-item active" : "nav-item"}>
               <Link className="nav-link" to="/about">关于</Link>
