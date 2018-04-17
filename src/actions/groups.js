@@ -1,4 +1,5 @@
 import { callApi } from "../utils/apiUtils";
+import {  notification } from 'antd';
 
 export const SELECT_GROUPS_PAGE = "SELECT_GROUPS_PAGE";
 export const INVALIDATE_GROUPS_PAGE = "INVALIDATE_GROUPS_PAGE";
@@ -26,6 +27,10 @@ export function editGroupsInfo(group) {
 
 export function saveGroupInfo(group) {
   return (dispatch, getState) => {
+    notification.open({
+      message: 'Notification Title',
+      description: 'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+    });
       return dispatch(saveGroupCallApi(group));
 
   };

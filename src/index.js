@@ -8,6 +8,7 @@ import App from "./containers/app/App";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.css";
+import 'antd/dist/antd.css';
 import jquery from "jquery";
 window.$ = window.jQuery = jquery;
 window.Popper = require("popper.js");
