@@ -76,6 +76,7 @@ function fetchToptasks(page) {
     tasksFailure(page)
   );
 }
+
 function shouldFetchTasks(state, page) {
   // Check cache first
   const tasks = state.userTasksByPage[page];
@@ -97,8 +98,6 @@ export function fetchTopTasksIfNeeded(page) {
   return (dispatch, getState) => {
     if (shouldFetchTasks(getState(), page)) {
       return dispatch(fetchToptasks(page));
-
     }
   };
 }
-

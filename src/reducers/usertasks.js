@@ -3,7 +3,7 @@ import {
   INVALIDATE_TASKS_PAGE,
   TASKS_REQUEST,
   TASKS_SUCCESS,
-  TASKS_FAILURE,
+  TASKS_FAILURE
 } from "../actions/usertask";
 
 export function selectedUserTasksPage(state = 1, action) {
@@ -32,23 +32,23 @@ function userTasks(
       });
     case TASKS_REQUEST:
       return Object.assign({}, state, {
-          isFetching: true,
-          didInvalidate: false
+        isFetching: true,
+        didInvalidate: false
       });
-      case TASKS_SUCCESS:
-          return Object.assign({}, state, {
-              isFetching: false,
-              didInvalidate: false,
-              totalCount: action.totalCount,
-              tasks: action.tasks,
-              error: null
-          });
-      case TASKS_FAILURE:
-          return Object.assign({}, state, {
-              isFetching: false,
-              didInvalidate: false,
-              error: action.error
-          });
+    case TASKS_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        totalCount: action.totalCount,
+        tasks: action.tasks,
+        error: null
+      });
+    case TASKS_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        error: action.error
+      });
     default:
       return state;
   }
