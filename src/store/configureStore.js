@@ -6,7 +6,7 @@ import alerts from "../reducers/alerts";
 import { selectedUserTasksPage, userTasksByPage } from "../reducers/usertasks";
 import { selectedGroupsPage, groupsByPage, editGroupsInfo} from "../reducers/groups";
 
-
+import { selectedUserMapPage,userMapByPage } from "../reducers/map";
 import { selectedUsersPage, usersByPage } from "../reducers/users";
 import { selectedReposPage, reposByPage } from "../reducers/repos";
 
@@ -17,7 +17,8 @@ const rootReducer = combineReducers({
   selectedGroupsPage, groupsByPage,editGroupsInfo,
   selectedUsersPage,  usersByPage,
   selectedUserTasksPage, userTasksByPage,
-  selectedReposPage, reposByPage
+  selectedReposPage, reposByPage,
+  selectedUserMapPage, userMapByPage
 });
 
 const initialState = {};
