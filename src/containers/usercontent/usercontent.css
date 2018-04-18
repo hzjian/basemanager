@@ -1,0 +1,48 @@
+@charset "utf-8";
+/* CSS Document */
+/*内容代码*/
+.gammabody{ width:100%; height:100%;top:10%;position:absolute;background:#ebebeb;}
+/*内容左边*/
+.gammabody_left{ z-index:9999; float:left; width:22%; background:#b3b6b9;position:absolute;height:100%; left:0px;}
+.statusbar{width:96%; margin:15px auto; height:42px;border-radius:5px; background:#000000; overflow:hidden;}
+/*排行全部任务 ID搜索*/
+.statusbar span{ float:left; margin:7px 15px; line-height:28px; color:#fff;border-radius:50px;font-family:"微软雅黑", arial, helvetica; font-size:14px;}
+.statusbar span.search{ float:right; margin:7px 15px; line-height:28px; height:28px; background:#f5f5f5; color:#fff;font-family:"微软雅黑", arial, helvetica; font-size:14px; width:45%; overflow:hidden;}
+.search .text_ipt{float:left; width:75%; line-height:28px; height:28px;color:#9b9b9b; border:none; background:none; padding:0 5px; font-size:12px;border-radius:50px; overflow:hidden;}
+.search .button_ipt{ float:right; border:none; background:url(imgs/nr-search.png) no-repeat; width:22px; height:22px; margin:2px 5px;}
+
+/*任务列表*/
+.gammawork{width:96%; margin:0 auto; height:525px; overflow:hidden;}
+.gammawork li{ border-radius:5px; width:78%; margin:0 auto; background:#fff; height:64px; border-left:10px solid #d9d9d9; padding:5px 10px; overflow:hidden;margin-bottom:1px;}
+.gammawork li:hover{ border-radius:5px; width:78%; margin:0 auto; background:#fff; height:64px; border-left:10px solid #ee861b; padding:5px 10px; overflow:hidden;margin-bottom:1px;}
+.gammawork li.work-d{border-radius:5px; width:78%; margin:0 auto; background:#fff; height:64px; border-left:10px solid #ee861b; padding:5px 10px; overflow:hidden; margin-bottom:1px;}
+.list-workname{  z-index:9999; float:left; width:75%;}
+.list-workname h1{ float:left; width:100%; height:32px; font-size:16px; color:#000; line-height:32px; overflow:hidden;}
+.list-workname p{ float:left; width:100%; clear:both; font-size:12px; color:#666666; padding-top:10px;}
+.czimg{ float:right; margin-top:9px; margin-right:5px;}
+.list-no{ float:left; margin:5px; width:18px; height:18px; border:2px solid #d9d9d9; font-size:14px; color:#000000; border-radius:5px; text-align:center; line-height:18px;}
+
+/*主数据*/
+.date-tree{ width:82%; border-radius:5px; margin:15px auto;background:#ffffff; padding-bottom:10px;}
+.tree-title{ border-radius:5px 5px 0 0;padding:0 10px;  height:33px; line-height:33px; background:#000000; font-size:16px; color:#ffffff; margin-bottom:10px;}
+.tree-body{ padding:0 10px; min-height:100px; font-size:12px; color:#000000;}
+
+/*内容右边*/
+.gammabody_right{ float:right; width:78%; position:absolute;right:0px;height:100%;}
+
+/*info*/
+.mapinfo{ width:22%;position:absolute; z-index:9999; left:10px; top:20px; }
+.mapsearch{ width:100%;border-radius:5px; background:url(imgs/map-searchbj.png); height:46px; border:1px solid #828282; overflow:hidden;}
+.mapsearch .mapselect{ float:left; width:12%; text-align:center; height:46px;}
+.mapselect img{ text-align:center; float:left;vertical-align:middle; height:46px;}
+.mapsearch .text_ipt2{float:left; width:66%; height:46px; line-height:46px; color:#9b9b9b; border:none; background:none; padding:0 5px; font-size:12px;border-radius:50px; overflow:hidden; font-size:14px; color:#fff;}/*.mapsearch .button_ipt2{ float:right; border:none; background:url(../images/map-search.png) no-repeat center center; width:12%; height:46px;cursor:pointer;}*/
+.mapsearch .button_ipt2{ float:right; border:none; width:12%; padding-top:5px; height:46px;cursor:pointer; text-align:center}
+.mapsearch .button_ipt2 img{ float:right;vertical-align:middle; height:40px;}
+
+
+.info-window{ float:left; width:100%; background:#ffffff;box-shadow:0px 0px 13px #666;border-radius:5px; padding-bottom:15px; margin-top:15px;}
+.infoname{ background:url(imgs/infowindowbj.jpg) no-repeat right bottom #246fa8;border-radius:5px 5px 0 0; padding-top:24px; margin-bottom:20px;}
+.Object-name{ margin:0 auto; width:80%; font-size:16px; overflow:hidden; padding-bottom:10px; font-family:'Microsoft Yahei'; color:#FFF;}
+.Object-txt{margin:0 auto; width:80%; font-size:12px; color:#ceeaff; line-height:1.8; padding-bottom:20px; font-family:"宋体", "微软雅黑";}
+.btn-black{ width:80%; margin:0 auto; padding-top:100px; text-align:right;}
+.btn-black img{ margin-left:15px;}
