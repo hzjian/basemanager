@@ -1,4 +1,15 @@
 
+git init 
+
+git config --global user.name 'zhangjian'
+git config --global user.email 'hzjian@sina.com'
+
+git rm --cached index.html
+
+git log --all --decorate --oneline --graph
+
+
+
 https://github.com/hzjian/gamma.git
 
 git add test.txt
@@ -8,6 +19,9 @@ git add test.txt
 git commit -a 'desc'
 
 git pull origin master:master
+
+// 在本地仓库中解决完成冲突后，需要再将本地仓库中的最新版拉到本地
+git pull 
 
 git push -u origin master
 
