@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import './Map.css';
 import L from 'leaflet';
+import antd from 'antd';
 import 'leaflet-draw';
 import  'leaflet-fullscreen';
 import  'leaflet-measure';
@@ -15,6 +16,7 @@ import "leaflet-measure/dist/leaflet-measure.css"
 import "leaflet-fullscreen/dist/leaflet.fullscreen.css"
 import "leaflet.measurecontrol/docs/leaflet.measurecontrol.css"
 import "bootstrap/dist/css/bootstrap.min.css"
+import "antd/dist/antd.css"
 import img from '../imgs/marker-icon.png';
 import Titlewindows from "./titlewindows/Titlewindows";
 
