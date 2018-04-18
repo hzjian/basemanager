@@ -1,3 +1,0 @@
-add test2 by test2
-
-add test2 by test1
