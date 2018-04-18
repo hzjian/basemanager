@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import 'react-select/dist/react-select.css';
 import "bootstrap/dist/css/bootstrap.min.css"
 class Titlewindows extends Component {
     render() {
