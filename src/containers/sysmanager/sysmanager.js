@@ -5,46 +5,52 @@ import { connect } from "react-redux";
 
 import Modal from 'react-modal';
 import GroupItem from './groupitem/groupitem';
-import EditgrpDialog from './editgroup/editgrpdialog'
+import EditDialog from './editgroup/editdialog'
 
 import {
-    invalidateGroupsPage,
-    selectGroupsPage,
     fetchTopGroupsIfNeeded,
     editGroupsInfo,
-  } from "../../actions/groups";
-
-
-  
+    deleteGroup,
+    addNewGroup
+  } from "../../actions/groupAction";
 
  class SysManager extends Component {
     constructor(props) {
         super(props);
         this.handleEditGroupEvent = this.handleEditGroupEvent.bind(this);
+        this.handleDeleteGroupEvent = this.handleDeleteGroupEvent.bind(this);
+        this.handleAddGroupEvent = this.handleAddGroupEvent.bind(this);
         // this.handleNextPageClick = this.handleNextPageClick.bind(this);
         // this.handlePreviousPageClick = this.handlePreviousPageClick.bind(this);
         // this.handleRefreshClick = this.handleRefreshClick.bind(this);
     }
 
     handleEditGroupEvent(e,group){
-        const { dispatch } = this.props;
-        dispatch(editGroupsInfo(group));
+        this.props.editGroupsInfo(group);
+    }
 
+    handleDeleteGroupEvent(e,group){
+        this.props.deleteGroup(group);
+    }
+
+    handleAddGroupEvent(e)
+    {
+        this.props.addNewGroup();
     }
     componentDidMount() {
-        const { dispatch, page } = this.props;
-        dispatch(fetchTopGroupsIfNeeded(page));
+
+        this.props.fetchTopGroupsIfNeeded(this.props.groupdata.page);
     }
     
     componentWillReceiveProps(nextProps) {
-        if (nextProps.page !== this.props.page) {
-            const { dispatch, page } = nextProps;
-            dispatch(fetchTopGroupsIfNeeded(page));
+        if (nextProps.groupdata.delGroupGuid && nextProps.groupdata.delGroupGuid.length >1) {
+            const idx = this.props.groupdata.groups.findIndex( g =>{ return g.groupGuid == nextProps.groupdata.delGroupGuid });
+            this.props.groupdata.groups.splice(idx,1);
         }
     }
 
     render() {
-        const { page, error, groups, isFetching ,group,isShowingModal} = this.props;
+        const { page, error, groups, isFetching ,group,isShowingModal} = this.props.groupdata;
         const prevStyles = classNames("page-item", { disabled: page <= 1 });
         const nextStyles = classNames("page-item", {
             disabled: groups.length === 0
@@ -72,7 +78,7 @@ import {
                                 <th>名称</th>
                                 <th>地址</th>
                                 <th>电话</th>
-                                <th></th>
+                                <th><i className="fa fa-plus"  onClick ={(e) => this.handleAddGroupEvent(e) }></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,7 +87,8 @@ import {
                                     <td>{group.groupName}</td>
                                     <td>{group.groupAddress}</td>
                                     <td>{group.groupPhone}</td>
-                                    <td> <i className="fa fa-edit" onClick ={ (e) => this.handleEditGroupEvent(e,group) }></i> <i className="fa fa-trash"></i></td>
+                                    <td> <i className="fa fa-edit"  onClick ={(e) => this.handleEditGroupEvent(e,group) }></i>
+                                         <i className="fa fa-trash" onClick ={(e) => this.handleDeleteGroupEvent(e,group)}></i></td>
                                 </tr>
                             ))}
                             </tbody>
@@ -91,7 +98,7 @@ import {
                 数据字典维护
                 </div>
             </div>
-            <EditgrpDialog modalIsOpen = {isShowingModal} group ={group} />
+            <EditDialog modalIsOpen = {isShowingModal} group ={group} />
         </div>
         )
     }
@@ -106,31 +113,14 @@ SysManager.propTypes = {
     error: PropTypes.object
   };
   
-  function mapStateToProps(state) {
-    const { selectedGroupsPage, groupsByPage,editGroupsInfo } = state;
-    const page = selectedGroupsPage || 1;
+  const mapStateToProps = state =>({
+        groupdata: state.groupform
+  });
   
-    if (!groupsByPage || !groupsByPage[page]) {
-      return {
-        page,
-        isFetching: false,
-        didInvalidate: false,
-        totalCount: 0,
-        groups: [],
-        error: null
-      };
-    }
-  
-    return {
-      page,
-      error: groupsByPage[page].error,
-      isFetching: groupsByPage[page].isFetching,
-      didInvalidate: groupsByPage[page].didInvalidate,
-      totalCount: groupsByPage[page].totalCount,
-      groups: groupsByPage[page].groups,
-      group: editGroupsInfo.payload,
-      isShowingModal: editGroupsInfo.isShowingModal
-    };
-  }
-  
-  export default connect(mapStateToProps)(SysManager);
+  export default connect(mapStateToProps,{ 
+                                            fetchTopGroupsIfNeeded, 
+                                            editGroupsInfo,
+                                            deleteGroup,
+                                            addNewGroup
+                        })
+                        (SysManager);

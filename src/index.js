@@ -6,6 +6,9 @@ import configureStore from "./store/configureStore";
 import "./index.css";
 import App from "./containers/app/App";
 
+import { LocaleProvider } from 'antd';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.css";
 import 'antd/dist/antd.css';
@@ -18,7 +21,9 @@ const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <LocaleProvider locale={zhCN}>
+      <App />
+    </LocaleProvider>
   </Provider>,
   document.getElementById("root")
 );
