@@ -59,43 +59,53 @@ class UserContentPage extends Component {
                         <div>
                             <Tabs onChange={this.callback} type="card">
                                 <TabPane tab="热门任务" key="1">
-                                    <ul class="gammawork">
-                                        <li class="">
-                                            <div class="llist_workname"><span class="list_number">1</span><p>高铁站 </p><a href="#" class="work_open">打开</a><a href="#" class="work_link">查看</a></div>
+                                    <div class="gammawork">
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
                                             <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 266参与</span></div>
-                                        </li>
-                                        <li class="">
-                                            <div class="llist_workname"><span class="list_number">2</span><p>高铁站 </p><a href="#" class="work_open">打开</a><a href="#" class="work_link">查看</a></div>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 10参与</span></div>
+                                        </div>
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
                                             <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 266参与</span></div>
-                                        </li>
-                                        <li class="">
-                                            <div class="llist_workname"><span class="list_number">3</span><p>高铁站 </p><a href="#" class="work_open">打开</a><a href="#" class="work_link">查看</a></div>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 10参与</span></div>
+                                        </div>
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
                                             <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 266参与</span></div>
-                                        </li>
-                                    </ul>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 10参与</span></div>
+                                        </div>
+
+
+                                    </div>
                                     <Pagination  total={50} pageSize={10} />
                                 </TabPane>
                                 <TabPane tab="最新任务" key="2">
-                                    <ul class="gammawork">
-                                        <li class="">
-                                            <div class="llist_workname"><span class="list_number">1</span><p>高校数据采集 </p><a href="#" class="work_open">打开</a><a href="#" class="work_link">查看</a></div>
+                                    <div class="gammawork">
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>高铁站数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
                                             <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 266参与</span></div>
-                                        </li>
-                                        <li class="">
-                                            <div class="llist_workname"><span class="list_number">2</span><p>景区数据采集</p><a href="#" class="work_open">打开</a><a href="#" class="work_link">查看</a></div>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="images/workuser.png" /><span> 266参与</span></div>
+                                        </div>
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集 </p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
                                             <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 266参与</span></div>
-                                        </li>
-                                        <li class="">
-                                            <div class="llist_workname"><span class="list_number">3</span><p>高铁站 </p><a href="#" class="work_open">打开</a><a href="#" class="work_link">查看</a></div>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="images/workuser.png" /><span> 266参与</span></div>
+                                        </div>
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集 </p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
                                             <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 266参与</span></div>
-                                        </li>
-                                    </ul>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="images/workuser.png" /><span> 266参与</span></div>
+                                        </div>
+
+
+                                    </div>
                                     <Pagination  total={50} pageSize={10} />
                                 </TabPane>
                             </Tabs>

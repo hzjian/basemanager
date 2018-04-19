@@ -192,9 +192,7 @@ class MapComponent extends Component {
 
                         editlayer.clearLayers();
                         editlayer.addLayer( L.polygon(layer._latlngs, {color: 'red'}));
-                        dispatch(titleWindowClose("true"));
-
-                        // this.componentWillReceiveProps();
+                        titleWindowClose("true");
                     }else{
                         var polyline = L.polyline(latlngs, {color: 'black'})
                     }
