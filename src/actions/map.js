@@ -7,6 +7,7 @@ export const INVALIDATE_MAP_PAGE = "INVALIDATE_MAP_PAGE";
 export const MAP_REQUEST = "MAP_REQUEST";
 export const MAP_SUCCESS = "MAP_SUCCESS";
 export const MAP_FAILURE = "MAP_FAILURE";
+export const DRAW_ADD_MAP = "DRAW_ADD_MAP";
 
 export function selectMapsPage(page) {
   return {
@@ -14,7 +15,13 @@ export function selectMapsPage(page) {
     page
   };
 }
-
+//绘制完成返回信息
+export function drawAddMap(payload) {
+    return {
+        type: DRAW_ADD_MAP,
+        result: payload.data
+    };
+}
 export function invalidateMapsPage(page) {
   return {
     type: INVALIDATE_MAP_PAGE,
@@ -65,7 +72,24 @@ export function fetchTopmapgeojson() {
         mapFailure()
     );
 }
+//绘制图形调用后台接口
+export function DrawAddMap(latlngs) {
+    const config ={
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        }
+    }
+    const url = "/service/busdata/testData";
 
+    return callApi(
+        url,
+        config,
+        mapRequest(),
+        drawAddMap(),
+        mapFailure()
+    );
+}
 function shouldFetchMap(state, page) {
   // Check cache first
   const map = state.userMapByPage[page];
@@ -85,6 +109,5 @@ function shouldFetchMap(state, page) {
 export function fetchTopmapgeojsonIfNeeded() {
     return (dispatch, getState) => {
         return dispatch(fetchTopmapgeojson());
-
     };
 }

@@ -4,7 +4,7 @@ import { createLogger } from "redux-logger";
 import auth from "../reducers/auth";
 import alerts from "../reducers/alerts";
 import { selectedUserTasksPage, userTasksByPage } from "../reducers/usertasks";
-import { selectedUserMapPage,userMapByPage } from "../reducers/map";
+import { selectedUserMapPage,userMapByPage,drawAddMap } from "../reducers/map";
 import { selectedUsersPage, usersByPage } from "../reducers/users";
 import { selectedReposPage, reposByPage } from "../reducers/repos";
 
@@ -19,7 +19,8 @@ const rootReducer = combineReducers({
   selectedReposPage,
   reposByPage,
     selectedUserMapPage,
-    userMapByPage
+    userMapByPage,
+    drawAddMap
 });
 
 const initialState = {};
