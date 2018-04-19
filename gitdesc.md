@@ -4,6 +4,8 @@ git init
 git config --global user.name 'zhangjian'
 git config --global user.email 'hzjian@sina.com'
 
+git remote add origin https://github.com/hzjian/gammaApp.git
+
 git rm --cached index.html
 
 git log --all --decorate --oneline --graph
