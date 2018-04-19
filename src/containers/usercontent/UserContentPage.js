@@ -3,9 +3,11 @@ import classNames from "classnames";
 import Task from './taskcomponent/task'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-
+import antd from 'antd';
+import { Layout,Pagination,Card,Tabs } from 'antd';
 import MapComponent from './mapcomponent/MapComponent'
 import "leaflet/dist/leaflet.css"
+import "./usercontent.css"
 
 import {
     invalidateTasksPage,
@@ -17,6 +19,8 @@ import {
     selectMapsPage,
     fetchTopmapgeojsonIfNeeded, fetchTopmapgeojson
 } from "../../actions/map";
+const {Content  } = Layout;
+const TabPane = Tabs.TabPane;
 class UserContentPage extends Component {
     constructor(props) {
         super(props);
@@ -38,75 +42,103 @@ class UserContentPage extends Component {
             // dispatch(fetchTopmapgeojson());
         }
     }
+    callback(key) {
+        console.log(key);
+    }
 
     render() {
-        const { page, error, tasks, isFetching,geojson } = this.props;
-        const prevStyles = classNames("page-item", { disabled: page <= 1 });
-        const nextStyles = classNames("page-item", {
-            disabled: tasks.length === 0
-        });
+        // const { page, error, tasks, isFetching,geojson } = this.props;
+        // const prevStyles = classNames("page-item", { disabled: page <= 1 });
+        // const nextStyles = classNames("page-item", {
+        //     disabled: tasks.length === 0
+        // });
         return (
-            <div className="container-fluid ">
-                <div className="row">
-                    <div>
+            <div>
+                <Layout>
+                    <Content class="content" >
+                        <div>
+                            <Tabs onChange={this.callback} type="card">
+                                <TabPane tab="热门任务" key="1">
+                                    <div class="gammawork">
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
+                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 10参与</span></div>
+                                        </div>
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
+                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 10参与</span></div>
+                                        </div>
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
+                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 10参与</span></div>
+                                        </div>
+
+
+                                    </div>
+                                    <Pagination  total={50} pageSize={10} />
+                                </TabPane>
+                                <TabPane tab="最新任务" key="2">
+                                    <div class="gammawork">
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>高铁站数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
+                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="images/workuser.png" /><span> 266参与</span></div>
+                                        </div>
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集 </p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
+                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="images/workuser.png" /><span> 266参与</span></div>
+                                        </div>
+                                        <div class="listli">
+                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集 </p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+
+                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
+                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="images/workuser.png" /><span> 266参与</span></div>
+                                        </div>
+
+
+                                    </div>
+                                    <Pagination  total={50} pageSize={10} />
+                                </TabPane>
+                            </Tabs>
                             <div class="card">
                                 <div class="card-header">
-                                    任务列表
-                                    {tasks.length > 0 &&
-                                    <ul className="list-group list-group-flush" style={{ opacity: isFetching ? 0.5 : 1 }}>
-                                        {tasks.map(task => (
-                                            <div key={task.name}>
-                                                <Task key={task.name} task={task} />
-                                            </div>
-                                        ))}
-                                    </ul>}
+                                    图层信息
                                 </div>
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        <div class="card">
-                            <div class="card-header">
-                                任务列表
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1"/>
-                                <label class="custom-control-label" for="customCheck1">影像地图</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1"/>
-                                <label class="custom-control-label" for="customCheck1">标注地图</label>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1"/>
-                                <label class="custom-control-label" for="customCheck1">平面地图</label>
-                            </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1"/>
+                                    <label class="custom-control-label" for="customCheck1">影像地图</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1"/>
+                                    <label class="custom-control-label" for="customCheck1">标注地图</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1"/>
+                                    <label class="custom-control-label" for="customCheck1">平面地图</label>
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                        <main role="main" >
-                            <MapComponent id="map" geojsonarr={geojson}/>
-                        </main>
-                    </div>
-
-                </div>
+                    </Content>
+                    <Layout style={{ marginLeft: 350}}>
+                        <Content style={{ margin: '0px 0px 0', overflow: 'initial' }}>
+                                <div>
+                                    <main role="main" >
+                                        <MapComponent style={{ marginLeft: 250,height: '80vh',width:'83%' }} id="map" />
+                                    </main>
+                                </div>
+                        </Content>
+                    </Layout>
+                </Layout>
             </div>
         )
     }

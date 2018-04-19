@@ -11,7 +11,7 @@
   ],
   "author": "",
   "license": "MIT",
-  "proxy": "http://192.168.1.111:8081",
+  "proxy": "http://47.94.88.135:8181/gamma",
   "devDependencies": {
     "react-scripts": "1.0.17"
   },

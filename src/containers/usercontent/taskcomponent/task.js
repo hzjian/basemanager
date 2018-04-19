@@ -10,8 +10,13 @@ const Task = ({ task }) => {
   const { taskName, geomLayername, userName } = task;
  
   return (
-      <li class="list-group-item">{taskName} <img src={imglayer} class="img-rounded"/><img src={imgweb} class="img-rounded"/></li>
-
+      <ul class="gammawork">
+          <li class="">
+              <div class="llist_workname"><span class="list_number">1</span><p>{taskName} </p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
+              <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
+              <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="../imgs/workuser.png" /><span> 266参与</span></div>
+          </li>
+      </ul>
   );
 };
 

@@ -1,15 +1,22 @@
 import React, { Component } from 'react'
-import "bootstrap/dist/css/bootstrap.min.css"
+import { Button, Select, notification,Card,Icon,Input } from 'antd';
+import {callApi} from "../../../../utils/apiUtils";
+const { Option, OptGroup } = Select;
+const Search = Input.Search;
+const gridStyle = {
+    display:"none"
+};
 class Titlewindows extends Component {
+
+    close(){
+        // document.getElementById("titlewindowid").style.display="none";
+    }
+
     render() {
         return (
-            <div className="titlewindow">
-
-                <div className="card">
-
-                    <div className="card-header  text-white bg-primary mb-3" >属性信息</div>
+            <div className="titlewindow" style={gridStyle} id="titlewindowid">
+                <Card title="属性信息" extra={[ <Button type="primary" icon="close" onClick={this.close()}  />]} style={{ width: 300 }}>
                     <div>
-                        <nav className="navbar navbar-light bg-light justify-content-between">
                             {/*<div className="dropdown">*/}
                                 {/*<button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">*/}
                                     {/*条件*/}
@@ -20,17 +27,11 @@ class Titlewindows extends Component {
                                     {/*<a className="dropdown-item" >动车</a>*/}
                                 {/*</div>*/}
                             {/*</div>*/}
-                            <select>
-                                <option selected>高铁</option>
-                                <option value="1">火车</option>
-                                <option value="2">动车</option>
-                            </select>
-                            <br/>
-                            <form className="form-inline">
-                                <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-                                <button className="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
-                            </form>
-                        </nav>
+                        <Search
+                            placeholder="input search text"
+                            onSearch={value => console.log(value)}
+                            enterButton
+                        />
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">属性编辑</h5>
@@ -43,10 +44,17 @@ class Titlewindows extends Component {
                         <a href="#" class="btn btn-primary">编辑</a>
                         <a href="#" class="btn btn-primary">下一步</a>
                     </div>
-                </div>
+                </Card>
             </div>
         )
     }
-}
 
+}
+export function titleWindowClose(state) {
+        if(state=="true"){
+            document.getElementById("titlewindowid").style.display="";
+        }else{
+            document.getElementById("titlewindowid").style.display="none";
+        }
+}
 export default Titlewindows;

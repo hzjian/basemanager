@@ -1,20 +1,22 @@
 
 .mapDiv{
   height: 88vh;
-  width: 100vh;
+  width: 80vh;
 }
 .map{
   height: 87vh;
   /*width: 100vh;*/
-  width:100%;
+  width:76%;
   position:absolute;
 }
 .titlewindow{
   position:absolute;
   z-index:9999;
-  left:24px
+  left:365px
 }
-
+.displaytitle{
+  display: none;
+}
 
 
 

@@ -1,7 +1,9 @@
 import React, {Component} from "react";
+
 import './Map.css';
 import L from 'leaflet';
-import antd from 'antd';
+// import antd from 'antd';
+import { Button, Select, notification,Modal } from 'antd';
 import 'leaflet-draw';
 import  'leaflet-fullscreen';
 import  'leaflet-measure';
@@ -19,8 +21,12 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "antd/dist/antd.css"
 import img from '../imgs/marker-icon.png';
 import Titlewindows from "./titlewindows/Titlewindows";
+import {titleWindowClose} from "./titlewindows/Titlewindows";
+import {fetchTopmapgeojson} from "../../../actions/map";
+import { connect } from "react-redux";
 
 class MapComponent extends Component {
+
     map = null;
     mapDiv = null;
     editlayer=null;
@@ -84,6 +90,7 @@ class MapComponent extends Component {
                     iconUrl: img
                 }
             });
+
             var options = {
                 position: 'topright',
                 draw: {
@@ -117,6 +124,9 @@ class MapComponent extends Component {
             this.map.addControl(drawControl);
 
             this.map.on(L.Draw.Event.CREATED, function (e) {
+
+                var polygon = L.polygon(e.layer._latlngs);
+                var geojson= polygon.toGeoJSON();
                 var type = e.layerType,
                     layer = e.layer;
 
@@ -125,6 +135,8 @@ class MapComponent extends Component {
                 }
 
                 drawnItems.addLayer(layer);
+                titleWindowClose("true");
+                {/*<Titlewindows getBStyle={'display:""'}/>*/}
             });
             var measureControl = new L.Control.Measure({
                 localization: 'cn',
@@ -156,6 +168,7 @@ class MapComponent extends Component {
         }
 
         geojsonmap(geojson) {
+            const { dispatch } = this.props;
             if (geojson != null && geojson != "") {
                 var editlayer=new L.FeatureGroup();
                 this.map.addLayer(editlayer);
@@ -176,8 +189,10 @@ class MapComponent extends Component {
                     //L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.').addTo(this.map);
 
                     if(layer.feature.geometry.type=="Polygon"){
+
                         editlayer.clearLayers();
                         editlayer.addLayer( L.polygon(layer._latlngs, {color: 'red'}));
+                        titleWindowClose("true");
                     }else{
                         var polyline = L.polyline(latlngs, {color: 'black'})
                     }
@@ -186,17 +201,22 @@ class MapComponent extends Component {
                 }).addTo(this.map);
             }
         }
+
         render()
         {
+
             const geojsonarr=this.props.geojsonarr;
             this.geojsonmap(geojsonarr);
+
             return <div className="mapinfo">
                 <div className="map" ref={ref => this.mapDiv = ref} />
                 <Titlewindows/>
+
             </div>
 
     }
 }
+
 // Map.propTypes = {
 //     geojson: PropTypes.shape({
 //         // login: PropTypes.string.isRequired,
@@ -205,5 +225,5 @@ class MapComponent extends Component {
 //         // html_url: PropTypes.string.isRequired
 //     }).isRequired
 // };
-export default MapComponent;
+export default connect()(MapComponent);
 Map.defaultProps = {};
