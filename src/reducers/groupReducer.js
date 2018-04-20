@@ -73,6 +73,7 @@ export function groupData(state = initialState , action)
         didInvalidate: false,
         totalCount: action.payload.totalCount,
         groups: action.payload.groups,
+        page: action.payload.page,
         error: null
       }
     case GROUPS_FAILURE:
