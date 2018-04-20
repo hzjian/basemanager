@@ -12,7 +12,7 @@ import {
     closeDialog,
     saveGroupInfo,
     newGroupInfo,
-  } from "../../../actions/groupAction";
+  } from "../../actions/groupAction";
 
 const FormItem = Form.Item;
 const Option = Select.Option;

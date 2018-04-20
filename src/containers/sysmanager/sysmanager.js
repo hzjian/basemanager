@@ -4,15 +4,15 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import Modal from 'react-modal';
-import GroupItem from './groupitem/groupitem';
-import EditDialog from './editgroup/editdialog'
+import GroupItem from './groupmgr/groupitem/groupitem';
+import EditDialog from './groupmgr/editgroup/editdialog'
 
 import {
     fetchTopGroupsIfNeeded,
     editGroupsInfo,
     deleteGroup,
     addNewGroup
-  } from "../../actions/groupAction";
+  } from "./actions/groupAction";
 
  class SysManager extends Component {
     constructor(props) {
@@ -59,18 +59,23 @@ import {
         <div className ="container">
             <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li className="nav-item">
-                    <a className="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
+                    <a className="nav-link active" id="pills-group-tab" data-toggle="pill" href="#pills-group" role="tab" aria-controls="pills-group" aria-selected="true">
                         组织管理
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">
+                    <a className="nav-link" id="pills-user-tab" data-toggle="pill" href="#pills-user" role="tab" aria-controls="pills-user" aria-selected="false">
+                        用户管理
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" id="pills-dictionary-tab" data-toggle="pill" href="#pills-dictionary" role="tab" aria-controls="pills-dictionary" aria-selected="false">
                         数据字典维护
                     </a>
                 </li>
             </ul>
             <div className="tab-content" id="pills-tabContent">
-                <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div className="tab-pane fade show active" id="pills-group" role="tabpanel" aria-labelledby="pills-group-tab">
                     {groups.length > 0 &&
                             <table className ="table" style={{ opacity: isFetching ? 0.5 : 1 }}>
                             <thead>
@@ -94,8 +99,11 @@ import {
                             </tbody>
                             </table>}
                 </div>
-                <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                数据字典维护
+                <div className="tab-pane fade" id="pills-user" role="tabpanel" aria-labelledby="pills-user-tab">
+                    用户管理
+                </div>
+                <div className="tab-pane fade" id="pills-dictionary" role="tabpanel" aria-labelledby="pills-dictionary-tab">
+                    数据字典维护
                 </div>
             </div>
             <EditDialog modalIsOpen = {isShowingModal} group ={group} />
