@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import './Map.css';
 import L from 'leaflet';
 // import antd from 'antd';
-import { Button, Select, notification,Modal } from 'antd';
+import { Button, Select, notification,Modal,Popover,Checkbox  } from 'antd';
 import 'leaflet-draw';
 import  'leaflet-fullscreen';
 import  'leaflet-measure';
@@ -19,17 +19,45 @@ import "leaflet-fullscreen/dist/leaflet.fullscreen.css"
 import "leaflet.measurecontrol/docs/leaflet.measurecontrol.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "antd/dist/antd.css"
+import {Icon } from 'antd';
 import img from '../imgs/marker-icon.png';
+import layer from '../imgs/layers.png';
 import Titlewindows from "./titlewindows/Titlewindows";
 import {titleWindowClose} from "./titlewindows/Titlewindows";
 import {fetchTopmapgeojson} from "../../../actions/map";
 import { connect } from "react-redux";
-
+const  editlayer=new L.FeatureGroup();
+const  drawlayer=new L.FeatureGroup();
+const content = (
+    <div className="layerlist">
+        <label>地图图层</label><br/>
+        <Checkbox className="label" onChange={this.onlayercontrol}>影像地图</Checkbox>
+        <Checkbox className="label">标注地图</Checkbox>
+        <Checkbox className="label">平面地图</Checkbox>
+        <br/>
+        <label>Gamma图层</label>
+        <br/>
+        <Checkbox className="label">高铁图层</Checkbox>
+        <Checkbox className="label">高校图层</Checkbox>
+    </div>
+);
+//影像地图
+const ImgLayers= L.tileLayer('http://www.google.cn/maps/vt/lyrs=s@160000000&hl=zh-CN&gl=CN&src=app&y={y}&x={x}&z={z}&s=Ga', {
+    maxZoom: 21,
+    minZoom: 1,
+    attribution: '&copy; <a href="http://www.tulibj.com">Gamma</a> tuli'
+})
+//影像地图标注
+const biaozhu=L.tileLayer('http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}&s=Ga', {
+    maxZoom: 21,
+    minZoom: 1,
+    attribution: '&copy; <a href="http://www.tulibj.com">Gamma</a> tuli'
+});
+var map = null;
+var mapDiv = null;
 class MapComponent extends Component {
 
-    map = null;
-    mapDiv = null;
-    editlayer=null;
+
     componentDidMount()
     {
             const {stateProxy} = this.props;
@@ -51,9 +79,6 @@ class MapComponent extends Component {
             L.control.zoom({ zoomInTitle: '放大', zoomOutTitle: '缩小', position: 'topright' }).addTo(this.map);
             // 全屏
             var fsControl = new L.control.fullscreen({ position: 'topright',title:'全屏'}).addTo(this.map);
-
-            const  editlayer=new L.FeatureGroup();
-
             this.map.addLayer(editlayer);
             this._setBaseMap();
             // this.map._onResize();
@@ -64,19 +89,9 @@ class MapComponent extends Component {
 
         _setBaseMap()
         {
-            //影像地图
-            var ImgLayers= L.tileLayer('http://www.google.cn/maps/vt/lyrs=s@160000000&hl=zh-CN&gl=CN&src=app&y={y}&x={x}&z={z}&s=Ga', {
-                maxZoom: 21,
-                minZoom: 1,
-                attribution: '&copy; <a href="http://www.tulibj.com">Gamma</a> tuli'
-            }).addTo(this.map);
-            //影像地图标注
-            L.tileLayer('http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}&s=Ga', {
-                maxZoom: 21,
-                minZoom: 1,
-                attribution: '&copy; <a href="http://www.tulibj.com">Gamma</a> tuli'
-            }).addTo(this.map);
 
+            this.map.addLayer(ImgLayers);
+            this.map.addLayer(biaozhu);
             //增加绘制图层
             const drawnItems = new L.FeatureGroup();
             this.map.addLayer(drawnItems);
@@ -115,7 +130,7 @@ class MapComponent extends Component {
 
                 },
                 edit: {
-                    featureGroup: drawnItems, //REQUIRED!!
+                    featureGroup: editlayer, //REQUIRED!!
                     remove: false
                 }
             };
@@ -134,7 +149,7 @@ class MapComponent extends Component {
                     layer.bindPopup('A popup!');
                 }
 
-                drawnItems.addLayer(layer);
+                drawlayer.addLayer(layer);
                 titleWindowClose("true");
                 {/*<Titlewindows getBStyle={'display:""'}/>*/}
             });
@@ -166,12 +181,44 @@ class MapComponent extends Component {
             });
             this.map.addControl(bookmarksControl);
         }
+        //图层控制
 
+        onlayercontrol(e) {
+            var value=e.target.value;
+            var checked=e.target.checked;
+            //平面坐标
+            const pingmianMap=L.tileLayer('http://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}', {
+                maxZoom: 21,
+                minZoom: 1,
+                attribution: '&copy; <a href="http://www.tulibj.com">Gamma</a> tuli'
+            });
+            switch(value)
+            {
+                case '影像':
+                    if(checked){
+                        this.map.addLayer(ImgLayers);
+                    }else{
+                        this.map.removeLayer(ImgLayers);
+                    }
+                    break;
+                case '标注':
+                    if(checked){
+                        this.map.addLayer(biaozhu);
+                    }else{
+                        this.map.removeLayer(biaozhu);
+                    }
+                    break;
+                case '高铁':
+                    break;
+                default:
+
+            }
+        }
         geojsonmap(geojson) {
             const { dispatch } = this.props;
             if (geojson != null && geojson != "") {
-                var editlayer=new L.FeatureGroup();
-                this.map.addLayer(editlayer);
+                // var editlayer=new L.FeatureGroup();
+                // this.map.addLayer(editlayer);
                 this.jsonlayer= L.geoJSON(geojson, {
                     style: {
                         stroke:true,
@@ -208,10 +255,25 @@ class MapComponent extends Component {
             const geojsonarr=this.props.geojsonarr;
             this.geojsonmap(geojsonarr);
 
+            const content = (
+                <div className="layerlist">
+                    <label>地图图层</label><br/>
+                    <Checkbox className="label" defaultChecked="true" value="影像" onChange={(e) => this.onlayercontrol(e) }>影像地图</Checkbox>
+                    <Checkbox className="label" defaultChecked="true" value="标注" onChange={(e) => this.onlayercontrol(e) }>标注地图</Checkbox>
+                    <br/>
+                    <label>Gamma图层</label>
+                    <br/>
+                    <Checkbox className="label" value="高铁" onChange={(e) => this.onlayercontrol(e) }>高铁图层</Checkbox>
+                    <Checkbox className="label">高校图层</Checkbox>
+                </div>
+            );
+
             return <div className="mapinfo">
                 <div className="map" ref={ref => this.mapDiv = ref} />
                 <Titlewindows/>
-
+                <Popover placement="left" title="图层控制" className="" content={content}>
+                    <img src={layer} title="图层控制" className="layercontrol"></img>
+                </Popover>
             </div>
 
     }

@@ -1,21 +1,17 @@
 import React, { Component } from 'react'
-import { Button, Select, notification,Card,Icon,Input } from 'antd';
+import { Button, Select, notification,Card,Icon,Input,Form } from 'antd';
 import {callApi} from "../../../../utils/apiUtils";
+const FormItem = Form.Item;
 const { Option, OptGroup } = Select;
 const Search = Input.Search;
 const gridStyle = {
     display:"none"
 };
 class Titlewindows extends Component {
-
-    close(){
-        // document.getElementById("titlewindowid").style.display="none";
-    }
-
     render() {
         return (
             <div className="titlewindow" style={gridStyle} id="titlewindowid">
-                <Card title="属性信息" extra={[ <Button type="primary" icon="close" onClick={this.close()}  />]} style={{ width: 300 }}>
+                <Card title="属性信息" extra={[ <Button type="primary" icon="close" onClick={titleWindowClose}  />]} style={{ width: 300,header:25 }}>
                     <div>
                             {/*<div className="dropdown">*/}
                                 {/*<button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">*/}
@@ -28,20 +24,23 @@ class Titlewindows extends Component {
                                 {/*</div>*/}
                             {/*</div>*/}
                         <Search
-                            placeholder="input search text"
+                            placeholder="请输入查询条件"
                             onSearch={value => console.log(value)}
                             enterButton
                         />
                     </div>
+
                     <div className="card-body">
                         <h5 className="card-title">属性编辑</h5>
-                        <p className="card-text">
-                            <input type="text" class="form-control" placeholder="名称" aria-label="名称" aria-describedby="basic-addon1"/>
-                            <input type="text" class="form-control" placeholder="状态" aria-label="状态" aria-describedby="basic-addon1"/>
-                            <input type="text" class="form-control" placeholder="时间" aria-label="时间" aria-describedby="basic-addon1"/>
-                            <input type="text" class="form-control" placeholder="属于" aria-label="属于" aria-describedby="basic-addon1"/>
-                        </p>
+                        <Form onSubmit={this.handleSubmit}>
+                            <Input placeholder="任务名称"/>
+                            <Input placeholder="任务状态"/>
+                            <Input placeholder="任务时间"/>
+                            <Input placeholder="任务属于"/>
+                        </Form>
+                    <br/>
                         <a href="#" class="btn btn-primary">编辑</a>
+                        &nbsp;
                         <a href="#" class="btn btn-primary">下一步</a>
                     </div>
                 </Card>

@@ -1,19 +1,36 @@
 
-.mapDiv{
-  height: 88vh;
-  width: 80vh;
-}
+/*.mapDiv{*/
+  /*height: 88vh;*/
+  /*width: 80vh;*/
+/*}*/
 .map{
-  height: 87vh;
+  height: 87.6vh;
   /*width: 100vh;*/
-  width:76%;
-  position:absolute;
+  width:79.5%;
+  position:absolute;right:0;bottom:0px;top:6%;
 }
 .titlewindow{
   position:absolute;
   z-index:9999;
-  left:365px
+  left:24%
 }
+.layercontrol{
+  position:absolute;
+  z-index:9999;
+  right: 12px;
+  width: 33px;
+  height:33px;
+  bottom:45%;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+  background: #fff;
+  border-radius: 5px;
+}
+.layerlist{
+  width: 200px;
+   margin-left: 8px;
+}
+.layerlist .label{loat:left; clear:both; padding:10px;}
+.layerlist .label.ant-checkbox-wrapper{margin-left:0px}
 .displaytitle{
   display: none;
 }

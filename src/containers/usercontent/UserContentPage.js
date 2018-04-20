@@ -47,11 +47,11 @@ class UserContentPage extends Component {
     }
 
     render() {
-        // const { page, error, tasks, isFetching,geojson } = this.props;
-        // const prevStyles = classNames("page-item", { disabled: page <= 1 });
-        // const nextStyles = classNames("page-item", {
-        //     disabled: tasks.length === 0
-        // });
+        const { page, error, tasks, isFetching,geojson } = this.props;
+        const prevStyles = classNames("page-item", { disabled: page <= 1 });
+        const nextStyles = classNames("page-item", {
+            disabled: tasks.length === 0
+        });
         return (
             <div>
                 <Layout>
@@ -59,85 +59,46 @@ class UserContentPage extends Component {
                         <div>
                             <Tabs onChange={this.callback} type="card">
                                 <TabPane tab="热门任务" key="1">
-                                    <div class="gammawork">
-                                        <div class="listli">
-                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
-
-                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 10参与</span></div>
-                                        </div>
-                                        <div class="listli">
-                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
-
-                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 10参与</span></div>
-                                        </div>
-                                        <div class="listli">
-                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
-
-                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="imgs/workuser.png" /><span> 10参与</span></div>
-                                        </div>
-
-
+                                    {tasks.length > 0 &&
+                                    <div  style={{ opacity: isFetching ? 0.5 : 1 }}>
+                                        {tasks.map(task => (
+                                            <div key={task.name}>
+                                                <Task key={task.name} task={task} />
+                                            </div>
+                                        ))}
+                                    </div>}
+                                    <div class="workpag">
+                                        <Pagination  total={30} pageSize={10} />
                                     </div>
-                                    <Pagination  total={50} pageSize={10} />
                                 </TabPane>
                                 <TabPane tab="最新任务" key="2">
-                                    <div class="gammawork">
-                                        <div class="listli">
-                                            <div class="llist_workname"><span class="list_number">1</span><p>高铁站数据采集</p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
-
-                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="images/workuser.png" /><span> 266参与</span></div>
-                                        </div>
-                                        <div class="listli">
-                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集 </p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
-
-                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="images/workuser.png" /><span> 266参与</span></div>
-                                        </div>
-                                        <div class="listli">
-                                            <div class="llist_workname"><span class="list_number">1</span><p>万达广场数据采集 </p><a href="#" class="work_link">查看</a><a href="#" class="work_open">打开</a></div>
-
-                                            <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
-                                            <div class="work_author"><span class="wk_nm_photo">ka</span><span>kankangg</span><span>发布：2018-12-20</span><img src="images/workuser.png" /><span> 266参与</span></div>
-                                        </div>
-
-
+                                    {tasks.length > 0 &&
+                                    <div  style={{ opacity: isFetching ? 0.5 : 1 }}>
+                                        {tasks.map(task => (
+                                            <div key={task.name}>
+                                                <Task key={task.name} task={task} />
+                                            </div>
+                                        ))}
+                                    </div>}
+                                    <div class="workpag">
+                                     <Pagination  total={30} pageSize={10} />
                                     </div>
-                                    <Pagination  total={50} pageSize={10} />
                                 </TabPane>
                             </Tabs>
-                            <div class="card">
-                                <div class="card-header">
-                                    图层信息
-                                </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1"/>
-                                    <label class="custom-control-label" for="customCheck1">影像地图</label>
-                                </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1"/>
-                                    <label class="custom-control-label" for="customCheck1">标注地图</label>
-                                </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1"/>
-                                    <label class="custom-control-label" for="customCheck1">平面地图</label>
-                                </div>
 
-                            </div>
                         </div>
                     </Content>
-                    <Layout style={{ marginLeft: 350}}>
+                    <div class="mapcontent">
+                    <Layout >
                         <Content style={{ margin: '0px 0px 0', overflow: 'initial' }}>
                                 <div>
                                     <main role="main" >
-                                        <MapComponent style={{ marginLeft: 250,height: '80vh',width:'83%' }} id="map" />
+                                        <MapComponent  id="map" />
                                     </main>
                                 </div>
                         </Content>
                     </Layout>
+                    </div>
                 </Layout>
             </div>
         )
