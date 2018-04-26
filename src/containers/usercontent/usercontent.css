@@ -3,7 +3,7 @@
 
 /*.content{ width:30%; height:90%;top:10%;position:absolute;background:#ebebeb;}*/
 /*内容左边*/
-.content{ float:left; width:20.6%; background:#b3b6b9;position:absolute;height:87.6%; left:0px;bottom:0px;top:6%; }
+.content{ float:left; width:20.6%; background:#b3b6b9;position:absolute;height:87.6%; left:0px;bottom:0px;top:6.2%; }
 /*任务列表*/
 .listli{ border-radius:5px; width:94%;  background:#fff;border-bottom:10px solid #d9d9d9; padding:5px; overflow:hidden;margin:0px auto 8px auto;}
 .listli:hover{ border-radius:5px; width:94%;   background:#fff;  border-bottom:10px solid #246fa8; padding:5px; overflow:hidden;margin:0px auto 8px auto;}

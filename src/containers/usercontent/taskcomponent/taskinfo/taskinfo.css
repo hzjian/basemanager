@@ -1,0 +1,53 @@
+@charset "utf-8";
+/* CSS Document */
+/*我的任务*/
+*{	margin:0 auto;	padding:0; }
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,img,span,p,blockquote,th,td{	margin: 0;	padding: 0;}
+h1,h2,h3,h4,h5,h6 {	font-size: 100%;font-weight: 400;}
+body {	font-family: NotoSansHans-Light, 'Microsoft Yahei', sans-serif,"SalesforceSansRegular",Helvetica,Arial,sans-serif;  }
+ul,li{	margin:0;padding:0;list-style-type:none;}
+img,input,textarea{border:none;outline:none;}
+a{text-decoration:none;}
+.clear{ clear:both;}
+.f_left{ float:left;}
+.f_right{ float:right;}
+
+body{ background:#ebebeb;}
+.workbody-info{width:740px; border-radius:5px; background:#ffffff; clear:both;}
+.work-contert{ width:647px; padding:6px 0 16px 46px;}
+.work-contert-tt{ font-size:20px; color:#000000;}
+.line-block{ border-bottom:1px solid #a6a6a6;width:647px; margin:15px 46px 0 46px;padding-bottom:15px; line-height:30px;}
+.line-block2{ width:647px; margin:15px 46px 0 46px;padding-bottom:15px; line-height:30px;}
+.work-icon{ margin-bottom:15px;}
+.work-icon img{ float:left; width:34px; margin-right:10px;}
+.label-userphoto{ float:left; margin-right:15px}
+.dataimg{ float:left; width:26px; margin-right:15px;}
+.userphoto{height:30px; width:30px; float:left; margin-right:10px;text-align:center; line-height:30px; background:#000000; font-size:14px; color:#ffffff;border-radius:50%; }
+.workexplain{ float:left; width:70px; text-align:center; font-size:12px; font-weight:bold; line-height:1.5; color:#000000;}
+.workexplain-txt{ float:left; width:557px; font-size:12px; line-height:1.5; color:#000000; padding-bottom:15px;}
+.discuss-ry{ width:740px;; background:#f5f5f5; float:left; clear:both;}
+.work-personnel{ float:left; font-size:12px; width:70px; text-align:center;}
+/*评论和任务成员*/
+.commentblock{ float:left; width:647px; padding:15px 46px;}
+.commentblock li{ clear:both;}
+.userphoto2{height:30px; width:30px; float:left; margin-right:10px;text-align:center; line-height:30px; background:#000000; font-size:14px; color:#ffffff;border-radius:50%; }
+.namecomment{ float:left; width:450px; font-size:12px; color:#a6a6a6; padding-top:5px; padding-bottom:15px;}
+.namecomment p{ float:left; width:450px; line-height:1.5; color:#000000;}
+.timecomment{ padding-left:15px; float:left; color:#a6a6a6; font-size:12px;}
+/*发布评论*/
+.fpbl-block{ width:740px; clear:both; background:#e5e5e5;border-radius:0 0 5px 5px; padding:15px 0;}
+.textarea-kuang{ background:#ffffff; width:647px; margin:0 46px; border-radius:5px; border:1px solid #a6a6a6; float:left;}
+.tareablck{ display: block;width:605px;min-height: 65px;resize: none;background-color:#ffffff;font-size: 14px;color:#bdbdbd;border-radius:5px;line-height: 25px;font-family: 微软雅黑;padding: 15px 20px;border-width:1px;
+border-style: solid;border-color:#ffffff;;border-image: initial;}
+.wjbtn{ width:627px; padding:13px 10px 5px 10px; background:#dbdbdb;border-radius:0 0 5px 5px; float:left;}
+.fabu{ width:105px; height:35px; text-align:center; line-height:35px; font-size:18px; color:#ffffff; float:right; margin:0 10px; background:#083a5e;border-radius:5px;}
+.wenjian{ float:right; margin:0 10px;}
+
+.wenjian-info{ width:248px;border-radius:5px; padding:10px 13px; background:#ffffff;}
+.tit-name{ float:left; width:222px; margin:0 13px; border-bottom:1px solid #eeeeee}
+.tit-name p{ width:180px; padding-left:22px;font-size:15px; font-weight:bold; color:#383838; text-align:center; float:left; line-height:40px;}
+.tit-name a{ width:20px; font-size:21px; float:right;color:#a6a6a6; line-height:40px; text-align:right;}
+
+.direct_ku{ float:left; width:172px; background:url(../../imgs/ku01.jpg) no-repeat 5px center; padding:10px 25px; margin:0 13px; border-bottom:1px solid #eeeeee; color:#808080; font-size:14px;}
+.folder_ku{ float:left; width:172px;background:url(../../imgs/ku02.jpg) no-repeat 5px center; padding:10px 25px;  margin:0 13px; border-bottom:1px solid #eeeeee; color:#808080; font-size:14px;}
+.tianjia_btn{ float:right; width:52px; height:26px; text-align:center; line-height:26px; margin:20px 15px; border:1px solid #eeeeee; color:#808080; font-size:14px; border-radius:5px;}

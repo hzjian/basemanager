@@ -22,17 +22,17 @@ import {
 const {Content  } = Layout;
 const TabPane = Tabs.TabPane;
 class UserContentPage extends Component {
-    constructor(props) {
-        super(props);
-        // this.handleNextPageClick = this.handleNextPageClick.bind(this);
-        // this.handlePreviousPageClick = this.handlePreviousPageClick.bind(this);
-        // this.handleRefreshClick = this.handleRefreshClick.bind(this);
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.handleNextPageClick = this.handleNextPageClick.bind(this);
+    //     this.handlePreviousPageClick = this.handlePreviousPageClick.bind(this);
+    //     this.handleRefreshClick = this.handleRefreshClick.bind(this);
+    // }
 
     componentDidMount() {
         const { dispatch, page } = this.props;
-        dispatch(fetchTopTasksIfNeeded(page));
-        dispatch(fetchTopmapgeojson());
+        dispatch(fetchTopTasksIfNeeded(0));
+        // dispatch(fetchTopmapgeojson());
     }
 
     componentWillReceiveProps(nextProps) {
@@ -47,7 +47,7 @@ class UserContentPage extends Component {
     }
 
     render() {
-        const { page, error, tasks, isFetching,geojson } = this.props;
+        const { page, error, tasks, isFetching,geojson,drawdata } = this.props;
         const prevStyles = classNames("page-item", { disabled: page <= 1 });
         const nextStyles = classNames("page-item", {
             disabled: tasks.length === 0
@@ -63,7 +63,7 @@ class UserContentPage extends Component {
                                     <div  style={{ opacity: isFetching ? 0.5 : 1 }}>
                                         {tasks.map(task => (
                                             <div key={task.name}>
-                                                <Task key={task.name} task={task} />
+                                                <Task keyvalue={task.keyvalue} taskName={task.taskName} statDate={task.statDate} classId={task.classId} userName={task.userName}/>
                                             </div>
                                         ))}
                                     </div>}
@@ -76,7 +76,7 @@ class UserContentPage extends Component {
                                     <div  style={{ opacity: isFetching ? 0.5 : 1 }}>
                                         {tasks.map(task => (
                                             <div key={task.name}>
-                                                <Task key={task.name} task={task} />
+                                                <Task key={task.name} taskName={task.taskName} geomLayername={task.geomLayername} userName={task.userName}/>
                                             </div>
                                         ))}
                                     </div>}
@@ -93,7 +93,7 @@ class UserContentPage extends Component {
                         <Content style={{ margin: '0px 0px 0', overflow: 'initial' }}>
                                 <div>
                                     <main role="main" >
-                                        <MapComponent  id="map" />
+                                        <MapComponent  id="map" geojsonarr={geojson} drawdata={drawdata}/>
                                     </main>
                                 </div>
                         </Content>
@@ -116,7 +116,7 @@ class UserContentPage extends Component {
 
 function mapStateToProps(state) {
     const { selectedUserTasksPage, userTasksByPage,selectedUserMapPage,userMapByPage } = state;
-    const page = selectedUserMapPage || 1;
+    const page =0 ;
     if (!userTasksByPage || !userTasksByPage[page] ||!userMapByPage) {
         return {
             page,

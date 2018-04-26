@@ -9,6 +9,7 @@ export const MAP_SUCCESS = "MAP_SUCCESS";
 export const MAP_FAILURE = "MAP_FAILURE";
 export const DRAW_ADD_MAP = "DRAW_ADD_MAP";
 
+
 export function selectMapsPage(page) {
   return {
     type: SELECT_MAP_PAGE,
@@ -17,9 +18,11 @@ export function selectMapsPage(page) {
 }
 //绘制完成返回信息
 export function drawAddMap(payload) {
-    return {
-        type: DRAW_ADD_MAP,
-        result: payload.data
+    return function(payload) {
+        return {
+            type: DRAW_ADD_MAP,
+            drawdata: payload.data
+        };
     };
 }
 export function invalidateMapsPage(page) {
@@ -55,14 +58,16 @@ function mapFailure() {
         };
     };
 }
-export function fetchTopmapgeojson() {
+export function fetchTopmapgeojson(queryRange,classId) {
     const config ={
         method: 'POST',
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-        }
+            "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: JSON.stringify({"queryRange":queryRange,"classId":classId})
+
     }
-    const url = "/service/busdata/testData";
+    const url = "/service/busdata/userTaskData";
 
     return callApi(
         url,
@@ -73,14 +78,16 @@ export function fetchTopmapgeojson() {
     );
 }
 //绘制图形调用后台接口
-export function DrawAddMap(latlngs) {
+export function DrawAddMap(geoJson,featype,taskGuid,feaGuid) {
+    // alert("尽量了");
     const config ={
         method: 'POST',
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-        }
+            "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: JSON.stringify({"geoJson":geoJson,"featype":featype,"taskGuid":taskGuid,"feaGuid":feaGuid})
     }
-    const url = "/service/busdata/testData";
+    const url = "/service/busdata/saveData";
 
     return callApi(
         url,

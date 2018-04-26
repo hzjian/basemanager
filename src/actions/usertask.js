@@ -58,16 +58,12 @@ function fetchToptasks(page) {
   const config ={
     method: 'POST',
     headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        "Content-Type": "application/json;charset=UTF-8"
     },
-    body: {
-        page:1,
-        pageSize:10,
-        sortField:'name',
-        sortDirection:'DESC'
-    },
+      body: JSON.stringify({"page":0,"pageSize":10, "sortDirection":"DESC","sortField":"taskName"})
   }
-  const url = "/service/busdata/userTaskData";
+  const url = "/service/busdata/userTaskList";
+
   return callApi(
     url,
     config,

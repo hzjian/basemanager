@@ -1,22 +1,16 @@
 import React, { Component } from 'react'
 import { Button, Select, notification,Card,Icon,Input,Form } from 'antd';
 import {callApi} from "../../../../utils/apiUtils";
-
 const FormItem = Form.Item;
 const { Option, OptGroup } = Select;
 const Search = Input.Search;
 const gridStyle = {
     display:"none"
 };
-class Titlewindows extends Component {
-    saveClick = () => {
-        this.setState({
-            visible: true,
-        });
-    }
+class Layercontrol extends Component {
     render() {
         return (
-            <div className="titlewindow" style={gridStyle} id="titlewindowid">
+            <div className="layercontrol" style={gridStyle} id="layercontrol">
                 <Card title="属性信息" extra={[ <Button type="primary" icon="close" onClick={titleWindowClose}  />]} style={{ width: 300,header:25 }}>
                     <div>
                             {/*<div className="dropdown">*/}
@@ -45,9 +39,9 @@ class Titlewindows extends Component {
                             <Input placeholder="任务属于"/>
                         </Form>
                     <br/>
-                        <Button onClick={this.saveClick}>提交</Button>
+                        <a href="#" class="btn btn-primary">编辑</a>
                         &nbsp;
-                        {/*<a href="#" class="btn btn-primary">下一步</a>*/}
+                        <a href="#" class="btn btn-primary">下一步</a>
                     </div>
                 </Card>
             </div>
@@ -55,11 +49,11 @@ class Titlewindows extends Component {
     }
 
 }
-export function titleWindowClose(state) {
+export function layercontrolClose(state) {
         if(state=="true"){
             document.getElementById("titlewindowid").style.display="";
         }else{
             document.getElementById("titlewindowid").style.display="none";
         }
 }
-export default Titlewindows;
+export default Layercontrol;

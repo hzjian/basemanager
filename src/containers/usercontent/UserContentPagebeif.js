@@ -31,7 +31,7 @@ class UserContentPage extends Component {
     componentDidMount() {
         const { dispatch, page } = this.props;
         dispatch(fetchTopTasksIfNeeded(page));
-        dispatch(fetchTopmapgeojson());
+        // dispatch(fetchTopmapgeojson());
     }
 
     componentWillReceiveProps(nextProps) {
