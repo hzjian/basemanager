@@ -122,7 +122,7 @@ SysManager.propTypes = {
   };
   
   const mapStateToProps = state =>({
-        groupdata: state.groupform
+        groupdata: state.groupData
   });
   
   export default connect(mapStateToProps,{ 

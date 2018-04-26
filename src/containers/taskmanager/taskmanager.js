@@ -27,7 +27,6 @@ import HisTaskList  from './histasklist/histasklist';
             </ul>
             <div className="tab-content" id="pills-tabContent">
                 <div className="tab-pane fade show active" id="pills-new-task" role="tabpanel" aria-labelledby="new-task-tab">
-                  新建任务
                   <CreateTask />
                 </div>
                 <div className="tab-pane fade" id="pills-execute-task" role="tabpanel" aria-labelledby="execute-task-tab">

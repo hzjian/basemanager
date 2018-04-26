@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 
-import { DatePicker,Select } from 'antd';
+import { DatePicker,Select  } from 'antd';
 import { Upload, message, Button, Icon } from 'antd';
+import { Table, Input, Popconfirm } from 'antd';
 
 const Option = Select.Option;
 
@@ -23,11 +24,122 @@ const props = {
     },
   };
 
+ const EditableCell = ({ editable, value, onChange }) => (
+    <div>
+      {editable
+        ? <Input style={{ margin: '-5px 0' }} value={value} onChange={e => onChange(e.target.value)} />
+        : value
+      }
+    </div>
+  );
+
 export default class CreateTask extends Component {
     
-  render() {
-    return (
+    constructor(props) {
+        super(props);
+        this.fieldcolumns = [{
+          title: '属性名称 ',
+          dataIndex: 'fieldname',
+          width: '25%',
+          render: (text, record) => this.renderColumns(text, record, 'username'),
+        }, {
+          title: '属性类型',
+          dataIndex: 'fieldtype',
+          width: '35%',
+          render: (text, record) => this.renderColumns(text, record, 'cnname'),
+        },{
+          title: '是否可编辑',
+          dataIndex: 'isedit',
+          width: '20%',
+          render: (text, record) => this.renderColumns(text, record, 'password'),
+        }, {
+          title: '操作',
+          dataIndex: 'operation',
+          render: (text, record) => {
+            const { editable } = record;
+            return (
+              <div className="editable-row-operations">
+                {
+                  editable ?
+                    <span>
+                      <a onClick={() => this.save(record.key)}>保存</a>
+                    </span>
+                    : <div>
+                        <a onClick={() => this.edit(record.key)}>编辑</a>
+                        <Popconfirm title="是否保存?" onConfirm={() => this.delete(record.key)}>
+                          <a>删除</a>
+                        </Popconfirm>
+                      </div>
+                }
+              </div>
+            );
+          },
+        }];
+      }
+
+    renderColumns(text, record, column) {
+        return (
+            <EditableCell
+            editable={record.editable}
+            value={text}
+            onChange={value => this.handleChange(value, record.key, column)}
+            />
+        );
+    }
+
+    handleChange(value) {
+        console.log(`selected ${value}`);
+    }
+
+    edit(key) {
+        const newData = [...this.state.data];
+        const target = newData.filter(item => key === item.key)[0];
+        if (target) {
+          target.editable = true;
+          this.setState({ data: newData });
+        }
+      }
+      save(key) {
+        const newData = [...this.state.data];
+        const target = newData.filter(item => key === item.key)[0];
+        if (target) {
+          delete target.editable;
+          this.setState({ data: newData });
+          this.props.saveGroupMember(target);
+        }
+      }
+      cancel(key) {
+        const newData = [...this.state.data];
+        const target = newData.filter(item => key === item.key)[0];
+        if (target) {
+          delete target.editable;
+          this.setState({ data: newData });
+        }
+      }
+      handleAdd = () => {
+        const newData = {
+          key: 0,
+          name:"",
+          descinfo:"",
+          sname:"",
+          editable:true
+        };
+        const { data }= this.state;
+        data.push(newData);
+        this.setState({
+          data: data,
+        });
+      }
+    render() 
+    {
+        const children = [];
+        for (let i = 10; i < 36; i++) {
+        children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+        }
+        const memberList =[];
+        return (
         <form>
+           
             <div class="form-group">
                 <label for="taskName">任务名称</label>
                 <input type="email" class="form-control" id="taskName" placeholder="任务名称"/>
@@ -36,95 +148,37 @@ export default class CreateTask extends Component {
                 <label for="taskDesc">任务描述</label>
                 <textarea class="form-control" id="taskDesc" rows="3"></textarea>
             </div>
-
             <div class="form-group">
                 <label for="">起始日期</label>
                 <DatePicker/> <label for="">至</label> <DatePicker/>
             </div>
-
-            <div class="form-group">
-                <Upload {...props}>
-                    <Button>
-                        <Icon type="upload" /> 上传文件
-                    </Button>
-                </Upload>
-            </div>
-            <div className="form-group">
-                <div className ="row">
-                    <label for="busdata">核心对象</label>
-                    <select class="form-control" id="busdata">
-                        <option>小区</option>
-                        <option>微网格</option>
-                        <option>光缆</option>
-                    </select>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="userlist">添加用户</label>
+                    <Select  mode="multiple"  style={{ width: '100%' }}   placeholder="Please select"  defaultValue={['a10']}
+                        onChange={this.handleChange}>
+                        {children}
+                    </Select>
                 </div>
-                <div className ="row">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"/>
-                        <label class="custom-control-label" for="customRadio1">点</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input"/>
-                        <label class="custom-control-label" for="customRadio2">线</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input"/>
-                        <label class="custom-control-label" for="customRadio3">面</label>
-                    </div>
+                <div className="form-group col-md-6">
+                    <label for="">核心对象</label>
+                    <Select class="form-control" id="busdata">
+                        <Option value="key1">小区</Option >
+                        <Option value="key2">微网格</Option >
+                        <Option value="key3">光缆</Option >
+                    </Select>              
                 </div>
             </div>
             <div>
-                <label for="busdata">属性字段</label>
-                <table class="table">
-                    <thead>
-                        <tr>
-                        <th scope="col">名称</th>
-                        <th scope="col">类型</th>
-                        <th scope="col"><i className="fa fa-plus"></i></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <td>名称</td>
-                        <td><select>
-                                <option>数字</option>
-                                <option>文本</option>
-                                <option>日期</option>
-                            </select>
-                        </td>
-                        <td><i className="fa fa-trash"></i></td>
-                        </tr>
-                        <tr>
-                        <td>地址</td>
-                        <td><select>
-                                <option>数字</option>
-                                <option>文本</option>
-                                <option>日期</option>
-                            </select></td>
-                        <td><i className="fa fa-trash"></i></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <Button className="editable-add-btn" onClick={this.handleAdd}>添加</Button>
+                <Table bordered dataSource={memberList} columns={this.fieldcolumns} />
             </div>
-
             <div class="form-group">
-                <label for="busdata">参考数据列表</label><i className="fa fa-plus"/>
-                <ul class="list-group">
-                    <li class="list-group-item">朝阳区微网格</li>
-                    <li class="list-group-item">商住两用小区</li>
-                    <li class="list-group-item">朝阳区地埋光缆</li>
-                </ul>
-            </div> 
-            
-
-            <div class="form-group">
-                <div className ="row">
-                    <label for="userlist">添加用户</label>
-                    <Icon type="dribbble-square" style={{ fontSize: 32, color: '#08c' }} />
-                    <Icon type="dribbble-square" style={{ fontSize: 32, color: '#08c' }} />
-                    <Icon type="dribbble-square" style={{ fontSize: 32, color: '#08c' }} />
-                    <Icon type="user-add" style={{ fontSize: 32, color: '#08c' }} />
-                </div>
+                    <Upload {...props}>
+                        <Button>
+                            <Icon type="upload" /> 上传文件
+                        </Button>
+                    </Upload>
             </div>
         </form>
     )
