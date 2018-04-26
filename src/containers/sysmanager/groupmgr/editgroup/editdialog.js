@@ -151,9 +151,9 @@ class BaseForm extends Component {
 const EditDialog = Form.create()(BaseForm);
 
 const mapStateToProps = state =>({
-    group: state.groupform.group,
-    isnewgroup: state.groupform.isnewgroup,
-    modalIsOpen: state.groupform.isShowingModal
+    group: state.groupData.group,
+    isnewgroup: state.groupData.isnewgroup,
+    modalIsOpen: state.groupData.isShowingModal
 });
 
 export default connect(mapStateToProps,{closeDialog,saveGroupInfo,newGroupInfo})(EditDialog);

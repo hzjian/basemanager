@@ -216,7 +216,7 @@ const fetchTopGroups = (page) => dispatch => {
 }
 
 function shouldFetchGroups(state, page) {
-  const groupdata = state.groupform;
+  const groupdata = state.groupData;
   if (groupdata.isFetching) {
     return false;
   }

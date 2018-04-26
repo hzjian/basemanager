@@ -8,6 +8,7 @@ import { selectedUserMapPage,userMapByPage,drawAddMap } from "../reducers/map";
 import { selectedUsersPage, usersByPage } from "../reducers/users";
 import { selectedReposPage, reposByPage } from "../reducers/repos";
 import { groupData } from "../reducers/groupReducer"
+import { userGroupData } from '../reducers/usergroupReducer'
 
 const logger = createLogger();
 const rootReducer = combineReducers({
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
     selectedUserMapPage,
     userMapByPage,
     drawAddMap,
-    groupform:groupData
+    groupData:groupData,
+    userGroupData:userGroupData
 });
 
 const initialState = {};
