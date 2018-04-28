@@ -34,6 +34,7 @@
     "leaflet-toolbar": "^0.4.0-alpha.1",
     "leaflet.measurecontrol": "^1.1.0",
     "lodash": "^4.17.4",
+    "moment": "^2.22.1",
     "popper.js": "^1.12.6",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
