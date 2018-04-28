@@ -8,7 +8,7 @@ import { Table, Input, Popconfirm } from 'antd';
 
 import {
     fetchTaskData,changeUserList,updateFieldList,saveTaskField,addTaskField,
-    changeTaskName ,changeTaskDesc,
+    changeTaskName ,changeTaskDesc,changeSdate,changeEdate,submitCreateTask
   } from '../actions/CreateTaskAction'
 
 const Option = Select.Option;
@@ -34,11 +34,11 @@ const props = {
  const FieldTypeSelect =({ editable, value, onChange }) => (
     <div>
       {editable?
-        <Select defaultValue="TEXT" style={{ width: 120 }} onChange={e => onChange(e)}>
-            <Option value="TEXT">文本</Option>
-            <Option value="INT">整数</Option>
-            <Option value="DOUBLE">浮点数</Option>
-            <Option value="DATE">日期</Option>
+        <Select defaultValue="文本" style={{ width: 120 }} onChange={e => onChange(e)}>
+            <Option value="文本">文本</Option>
+            <Option value="整数">整数</Option>
+            <Option value="浮点数">浮点数</Option>
+            <Option value="日期">日期</Option>
         </Select>:value}
     </div>
     );
@@ -46,9 +46,9 @@ const props = {
  const IsEditSelect =({ editable, value, onChange }) => (
     <div>
         {editable?
-        <Select defaultValue="1" style={{ width: 120 }} onChange={e => onChange(e)}>
-            <Option value="1">是</Option>
-            <Option value="0">否</Option>
+        <Select defaultValue="是" style={{ width: 120 }} onChange={e => onChange(e)}>
+            <Option value="是">是</Option>
+            <Option value="否">否</Option>
         </Select>:value}
     </div>
     );
@@ -96,7 +96,7 @@ class CreateTask extends Component {
                     </span>
                     : <div>
                         <a onClick={() => this.edit(record.key)}>编辑</a>
-                        <Popconfirm title="是否保存?" onConfirm={() => this.delete(record.key)}>
+                        <Popconfirm title="是否删除?" onConfirm={() => this.delete(record.key)}>
                           <a>删除</a>
                         </Popconfirm>
                       </div>
@@ -189,7 +189,7 @@ class CreateTask extends Component {
         if (target) {
             delete target.editable;
             //this.setState({ data: newData });
-            this.props.saveTaskField(target);
+            this.props.saveTaskField(fieldList);
         }
     }
     cancel(key) {
@@ -205,8 +205,8 @@ class CreateTask extends Component {
         const newData = {
             key: fieldindex,
             fieldname:"",
-            fieldtype:"",
-            isedit:"",
+            fieldtype:"文本",
+            isedit:"是",
             editable:true
         };
         fieldList.push(newData);
@@ -216,11 +216,14 @@ class CreateTask extends Component {
     componentDidMount(){
         this.props.fetchTaskData();
     }
+    handleSubmit()
+    {
+        this.props.submitCreateTask();
+    }
 
     render() 
     {
-        const { userlist,kernellist,fieldList}  = this.props.taskData;
-
+        const { userlist,kernellist,fieldList,startdate,enddate}  = this.props.taskData;
         const userOption = userlist.map((user) =>{
             return (<Option key={user.userguid}>{user.username}</Option>)
         });
@@ -228,7 +231,7 @@ class CreateTask extends Component {
             return (<Option key={kernel.classid}>{kernel.classname}</Option>)
         });
         return (
-        <form>
+        <form onSubmit={() =>this.handleSubmit()}>
             <div class="form-group">
                 <label for="taskName">任务名称</label>
                 <Input class="form-control" id="taskName" placeholder="任务名称"  onChange={(e) =>this.handleTaskNameChange(e)} />
@@ -239,7 +242,7 @@ class CreateTask extends Component {
             </div>
             <div class="form-group">
                 <label for="">起始日期</label>
-                <DatePicker onChange={(e) =>this.handleSdateChange(e)} /> <label for="">至</label> <DatePicker onChange={(e) =>this.handleEdateChange(e)}/>
+                <DatePicker onChange={(e) =>this.handleSdateChange(e)} value = {startdate}/> <label for="">至</label> <DatePicker onChange={(e) =>this.handleEdateChange(e)} value = {enddate}/>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -267,6 +270,9 @@ class CreateTask extends Component {
                         </Button>
                     </Upload>
             </div>
+            <div>
+                <Button type="primary" htmlType="submit">创建任务</Button>
+            </div>
         </form>
     )
   }
@@ -283,5 +289,5 @@ const mapStateToProps = state =>({
 });
 
 export default connect( mapStateToProps,{ fetchTaskData,changeUserList,updateFieldList,saveTaskField,addTaskField ,
-                        changeTaskName ,changeTaskDesc})
+                        changeTaskName ,changeTaskDesc,changeSdate,changeEdate,submitCreateTask})
                       (CreateTask);

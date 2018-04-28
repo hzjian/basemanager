@@ -1,7 +1,7 @@
 import {  TASKINIT_REQUEST,TASKINIT_SUCCESS,TASKINIT_FAILURE,
-  USERLIST_CHANGE,UPDATE_TASK_FILEDS,ADD_TASK_FILED,
+  USERLIST_CHANGE,UPDATE_TASK_FILEDS,ADD_TASK_FILED,SAVE_TASKFIELD,
   SAVE_TASKFIELD_REQUEST,SAVE_TASKFIELD_SUCCESS,SAVE_TASKFIELD_FAILURE,
-  TASK_NAME_CHANGE,TASK_DESC_CHANGE,
+  TASK_NAME_CHANGE,TASK_DESC_CHANGE,CHANGE_END_DATE,CHANGE_START_DATE,
   
 } from  '../containers/taskmanager/actions/CreateTaskTypes';
 
@@ -49,7 +49,12 @@ export function createTaskData(state = initialState , action)
         ...state,
         fieldList: action.payload.fieldList,
         fieldindex: action.payload.fieldindex,
-      }  
+      }
+    case SAVE_TASKFIELD:
+      return {
+        ...state,
+        fieldList: action.payload.fieldList,
+      }
     case TASK_NAME_CHANGE:
       return {
         ...state,
@@ -60,6 +65,16 @@ export function createTaskData(state = initialState , action)
         ...state,
         taskdesc:action.payload.taskdesc,
       }    
+    case CHANGE_START_DATE:
+      return {
+        ...state,
+        startdate : action.payload.startdate
+      }
+    case CHANGE_END_DATE:
+      return {
+        ...state,
+        enddate : action.payload.enddate
+      }  
     default:
       return state;
   }

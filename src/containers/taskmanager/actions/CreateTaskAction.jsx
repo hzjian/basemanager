@@ -1,9 +1,9 @@
 import {  callApi } from "../../../utils/apiUtils";
 import {  notification } from 'antd'; 
 import {  TASKINIT_REQUEST,TASKINIT_SUCCESS,TASKINIT_FAILURE,
-        USERLIST_CHANGE,UPDATE_TASK_FILEDS,ADD_TASK_FILED,
+        USERLIST_CHANGE,UPDATE_TASK_FILEDS,ADD_TASK_FILED,SAVE_TASKFIELD,
         SAVE_TASKFIELD_REQUEST,SAVE_TASKFIELD_SUCCESS,SAVE_TASKFIELD_FAILURE,
-        TASK_NAME_CHANGE,TASK_DESC_CHANGE,
+        TASK_NAME_CHANGE,TASK_DESC_CHANGE,CHANGE_END_DATE,CHANGE_START_DATE,
         } from  './CreateTaskTypes';
 
 function TaskInitRequest() {
@@ -104,51 +104,47 @@ export const changeTaskDesc = (tdesc) => dispatch =>{
   });
 }
 
-
-function SaveTaskFieldRequest() {
-  return {
-    type: SAVE_TASKFIELD_REQUEST,
-    payload: {
-      isFetching: true,
+export const saveTaskField = (fieldList) => dispatch =>{
+ dispatch({
+    type: SAVE_TASKFIELD,
+    payload:{
+      fieldList:fieldList,
     }
-  };
-}
-
-function SaveTaskFieldSuccess() {
-  return function(result) {
-    return {
-      type: SAVE_TASKFIELD_SUCCESS,
-      payload: {
-       
-      }
-    };
-  };
-}
-
-function SaveTaskFieldFailure() {
-  return function(error) {
-    return {
-      type: SAVE_TASKFIELD_FAILURE,
-      payload: {
-        error:error
-      }
-    };
-  };
-}
-
-export const saveTaskField = (taskField) => dispatch =>{
-  const config ={
-    method: 'POST',
-    headers: {
-        "Content-Type": "application/json;charset=UTF-8"
-    },
-    body:JSON.stringify(taskField),
   }
-  dispatch(callApi(
-    "/service/task/saveTaskField",
-    config,
-    SaveTaskFieldRequest(),
-    SaveTaskFieldSuccess(),
-    SaveTaskFieldFailure()
-  ));
+ );
+}
+
+
+export const changeSdate = (sdate) =>(dispatch) =>
+{
+   dispatch(
+    {
+       type: CHANGE_START_DATE,
+       payload:{
+        startdate: sdate,
+       }
+
+    }
+   );
+}
+
+
+
+export const changeEdate = (edate) =>(dispatch) =>
+{
+   dispatch(
+    {
+       type: CHANGE_END_DATE,
+       payload:{
+        enddate: edate,
+       }
+
+    }
+   );
+}
+
+export const submitCreateTask = () =>(dispatch,getState) =>
+{
+  console.log(getState());
+
 }
