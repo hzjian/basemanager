@@ -3,8 +3,7 @@ import React, { Component } from 'react'
 import CreateTask from './createtask/CreateTask';
 import TaskList from './tasklist/TaskList';
 import HisTaskList  from './histasklist/HisTaskList';
-
- class TaskManager extends Component {
+  class TaskManager extends Component {
   render() {
     return (
       <div className ="container">
