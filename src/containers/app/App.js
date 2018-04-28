@@ -17,7 +17,7 @@ import Home from "../home/Home";
 import UsersPage from "../user/UsersPage";
 import ReposPage from "../repo/ReposPage";
 import UserContentPage from '../usercontent/UserContentPage';
-import TaskManager from '../taskmanager/taskmanager';
+import TaskManager from '../taskmanager/TaskManager';
 import GroupManager from  '../groupmanager/groupmanager';
 import GammaData from '../gammadata/gammadata';
 import SysManager from '../sysmanager/sysmanager';
@@ -52,7 +52,6 @@ class App extends Component {
             <div className="appContent">
               <Switch>
                 <Route exact path="/" component={Home} />
-                <Route path="/about" component={About} />
                 <Route path="/login" component={Login} />
                 <PrivateRoute
                   path="/users"

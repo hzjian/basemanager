@@ -26,7 +26,6 @@ class Header extends Component {
       <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <Link to="/" className="navbar-brand">
         <div title="Home" className="brand" />
-        主页
       </Link>
       
         <button
@@ -64,18 +63,7 @@ class Header extends Component {
               title="系统管理"
               className={isUsersPage ? "nav-item active" : "nav-item"}>
               <Link className="nav-link" to="/sysmanager">系统管理</Link>
-            </li>
-            <li
-              title="关于"
-              className={isAboutPage ? "nav-item active" : "nav-item"}>
-              <Link className="nav-link" to="/about">关于</Link>
-            </li>
-            <li
-              title="Github Repos with over 10000 Stars"
-              className={isReposPage ? "nav-item active" : "nav-item"}>
-              <Link className="nav-link" to="/repos"> Repos</Link>
-            </li>
-           
+            </li>           
           </ul>
 
           <ul className="navbar-nav mt-2 mt-md-0">
