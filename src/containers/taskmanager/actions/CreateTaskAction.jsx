@@ -129,7 +129,6 @@ export const changeSdate = (sdate) =>(dispatch) =>
 }
 
 
-
 export const changeEdate = (edate) =>(dispatch) =>
 {
    dispatch(
@@ -138,13 +137,12 @@ export const changeEdate = (edate) =>(dispatch) =>
        payload:{
         enddate: edate,
        }
-
     }
    );
 }
 
-export const submitCreateTask = () =>(dispatch,getState) =>
+export const submitCreateTask = (param) =>(dispatch,getState) =>
 {
-  console.log(getState());
+  console.log(param);
 
 }

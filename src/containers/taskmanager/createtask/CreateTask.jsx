@@ -218,7 +218,8 @@ class CreateTask extends Component {
     }
     handleSubmit()
     {
-        this.props.submitCreateTask();
+        const  { userlist,kernellist,fieldList,startdate,enddate}  = this.props.taskData;
+        this.props.submitCreateTask({ userlist,kernellist,fieldList,startdate,enddate});
     }
 
     render() 
@@ -242,7 +243,7 @@ class CreateTask extends Component {
             </div>
             <div class="form-group">
                 <label for="">起始日期</label>
-                <DatePicker onChange={(e) =>this.handleSdateChange(e)} value = {startdate}/> <label for="">至</label> <DatePicker onChange={(e) =>this.handleEdateChange(e)} value = {enddate}/>
+                <DatePicker locale ={"cn"} onChange={(e) =>this.handleSdateChange(e)} value = {startdate}/> <label for="">至</label> <DatePicker onChange={(e) =>this.handleEdateChange(e)} value = {enddate}/>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
