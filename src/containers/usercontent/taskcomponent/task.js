@@ -43,6 +43,7 @@ class Task extends Component {
         const { dispatch, page } = this.props;
         dispatch(fetchTopmapgeojson(MapBounds,classId));
         taskMaptoLayer(classId);
+
     }
     // handleOk = () => {
     //     this.setState({ loading: true });
@@ -59,10 +60,10 @@ class Task extends Component {
 
             <div class="listli">
                 <div class="llist_workname"><span class="list_number">1</span><p>{this.props.taskName} </p><span onClick={(e) =>this.showModal(this.props.key)} class="work_link">查看</span>
-                    <span onClick={(e) =>this.openlayer(this.props.classId)}  class="work_open">打开</span></div>
+                    <span id="openbutton" onClick={(e) =>this.openlayer(this.props.classId)}  class="work_open">打开</span></div>
                 <p class="work_bewrite"> 前言 在上一篇文章，我们已经实现了React的组 前言 在上一篇文章，我们已经实现了React的组</p>
                 <div class="work_author"><span
-                    class="wk_nm_photo">{ this.props.userName.substring(0,1).toLocaleUpperCase()}</span><span>{this.props.userName}</span><span>发布：{this.props.statDate}</span><img
+                    class="wk_nm_photo">{ this.props.userName.substring(0,2).toLocaleUpperCase()}</span><span>{this.props.userName}</span><span>发布：{this.props.statDate}</span><img
                     src={imgauthor}/><span> 266</span></div>
                 <Modal footer={null} className="ant-modal-content" title="任务详情" width={780} type="primary" destroyOnClose={true}  maskClosable={true}   visible={this.state.visible}  onCancel={this.handleCancel}>
                     <div className="work-contert-tt">{this.props.taskName}</div>

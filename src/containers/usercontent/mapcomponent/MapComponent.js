@@ -4,13 +4,17 @@ import './Map.css';
 import L from 'leaflet';
 // import antd from 'antd';
 import { Button, Select, notification,Modal,Popover,Checkbox  } from 'antd';
-import 'leaflet-draw';
+import '../../../base/draw/leaflet.draw-src';
+import '../../../base/draw/zh_cn';
 import  'leaflet-fullscreen';
+import  '../../../base/layercontrol/leaflet.groupedlayercontrol';
+// import {layerconfig} from '../../../base/layercontrol/layerconfig';
 import  'leaflet-measure';
 import  'leaflet-bookmarks';
 import 'leaflet-tilelayer-geojson';
 import 'leaflet-layerjson';
 import "leaflet/dist/leaflet.css"
+import "../../../base/layercontrol/leaflet.groupedlayercontrol.css"
 import "leaflet-toolbar/dist/leaflet.toolbar.css"
 import "leaflet-draw/dist/leaflet.draw.css"
 import "leaflet-bookmarks/dist/leaflet.bookmarks.css"
@@ -25,33 +29,43 @@ import layerpng from '../imgs/layers.png';
 import Titlewindows from "./titlewindows/Titlewindows";
 import {titleWindowClose} from "./titlewindows/Titlewindows";
 import {mapbands} from "../taskcomponent/task";
-import {fetchTopmapgeojson} from "../../../actions/map";
+import {fetchTopmapgeojson,DrawAddMap,refreshData} from "../../../actions/map";
 import {openLayer,openeditlayerEdit} from '../mapcomponent/MapComponent'
 import { connect } from "react-redux";
-import {
-    DrawAddMap
-} from "../../../actions/map";
-
 const  editlayer=new L.FeatureGroup();
 const  drawlayer=new L.FeatureGroup();
+
 var jsonlayer;
 var editObject;
-//影像地图
-const ImgLayers= L.tileLayer('http://www.google.cn/maps/vt/lyrs=s@160000000&hl=zh-CN&gl=CN&src=app&y={y}&x={x}&z={z}&s=Ga', {
-    maxZoom: 21,
-    minZoom: 1,
-    attribution: '&copy; <a href="http://www.tulibj.com">Gamma</a> tuli'
-})
-//影像地图标注
-const biaozhu=L.tileLayer('http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}&s=Ga', {
-    maxZoom: 21,
-    minZoom: 1,
-    attribution: '&copy; <a href="http://www.tulibj.com">Gamma</a> tuli'
-});
+var editResult;
+var editlatlngs;
 var map = null;
 var mapDiv = null;
 var taskclassid;
 var mapbandsvalue;
+
+
+var groups = {
+    ImgLayers: L.tileLayer('http://www.google.cn/maps/vt/lyrs=s@160000000&hl=zh-CN&gl=CN&src=app&y={y}&x={x}&z={z}&s=Ga', {
+        maxZoom: 21,
+        minZoom: 1,
+        attribution: '&copy; <a href="http://www.tulibj.com">Gamma</a> tuli'
+    }),
+    //影像地图标注
+    biaozhu:L.tileLayer('http://www.google.cn/maps/vt?lyrs=h@189&gl=cn&x={x}&y={y}&z={z}&s=Ga', {
+        maxZoom: 21,
+        minZoom: 1,
+        attribution: '&copy; <a href="http://www.tulibj.com">Gamma</a> tuli'
+    })
+};
+var basemaps = {
+    //影像地图
+    // ImgLayers: L.tileLayer()
+};
+var layerconfig = {
+    LayerGroups: groups,
+    Basemaps:basemaps
+};
 class MapComponent extends Component {
 
     componentDidMount()
@@ -59,10 +73,12 @@ class MapComponent extends Component {
             const {stateProxy} = this.props;
             this.stateProxy = stateProxy;
             this.map = L.map(this.mapDiv, {
+                layers: [groups.ImgLayers,groups.biaozhu],
                 doubleClickZoom: false,//不可以通过双击放大，因为双击的作用是添加矩形
                 contextmenu: true,
                 zoomControl:false,
                 zoom:12,
+                minZoom: 3,
                 contextmenuItems: [{
                     text: 'Bookmark this position',
                     callback: function (evt) {
@@ -73,6 +89,17 @@ class MapComponent extends Component {
                     }
                 }]
             }).setView(new L.LatLng(24.291, 166.636), 3);
+        var groupedOverlays = {
+            "地图图层": {
+                "影像地图": layerconfig.LayerGroups.ImgLayers,
+                "标注图层": layerconfig.LayerGroups.biaozhu
+            },
+            "Gamma图层":{
+                // "高铁数据": ""
+            }
+
+        };
+        L.control.groupedLayers(layerconfig.Basemaps,groupedOverlays).addTo(this.map);
         this.map.on('layeradd', function (ev) {
             console.log(ev.layer._map.getBounds());
             var x0=ev.target.getBounds()._northEast.lat;
@@ -113,8 +140,8 @@ class MapComponent extends Component {
         _setBaseMap()
         {
 
-            this.map.addLayer(ImgLayers);
-            this.map.addLayer(biaozhu);
+                // this.map.addLayer(ImgLayers);
+                // this.map.addLayer(biaozhu);
             //增加绘制图层
             const drawnItems = new L.FeatureGroup();
             this.map.addLayer(drawnItems);
@@ -162,7 +189,7 @@ class MapComponent extends Component {
             var drawControl = new L.Control.Draw(options);
             this.map.addControl(drawControl);
             const {dispatch} = this.props;
-            this.map.on(L.Draw.Event.CREATED, function (e) {
+            this.map.on("draw:created", function (e) {
                 var object;
                 if(e.layerType=="marker"){
                     object= L.marker(e.layer._latlng);
@@ -191,18 +218,35 @@ class MapComponent extends Component {
 
                 {/*<Titlewindows getBStyle={'display:""'}/>*/}
             });
-            this.map.on(L.Draw.Event.EDITED, function (e) {
+            // this.map.on(L.Draw.Event.EDITSTOP, function (e) {
+            //
+            //     var polygon=L.polygon(editObject._latlngs, {color: 'red'});
+            //     var geojson=editObject.toGeoJSON().geometry;
+            //     var featype=e.layerType;
+            //     var guid=editObject.feature.properties.guid;
+            //     dispatch(DrawAddMap(geojson,geojson.type,taskclassid,guid));
+            //     titleWindowClose("true");
+            //     editlayer.addLayer(polygon);
+            //     // editlayer.clearLayers();
+            //     drawlayer.clearLayers();
+            //  });
+            this.map.on('draw:edited', function (e) {
+                var layers = e.layers;
+                layers.eachLayer(function (layer) {
+                    editResult=layer;
+                    var polygon=L.polygon(editResult._latlngs, {color: 'red'});
+                    var geojson=editResult.toGeoJSON().geometry;
+                    var featype=e.layerType;
+                    var guid=editObject.feature.properties.guid;
+                    dispatch(DrawAddMap(geojson,geojson.type,taskclassid,guid));
+                    titleWindowClose("true");
+                    // editlayer.addLayer(polygon);
+                    editlayer.clearLayers();
+                    drawlayer.clearLayers();
+                    editlatlngs=null;
 
-                var polygon=L.polygon(editObject._latlngs, {color: 'red'});
-                var geojson=editObject.toGeoJSON().geometry;
-                var featype=e.layerType;
-                var guid=editObject.feature.properties.guid;
-                dispatch(DrawAddMap(geojson,geojson.type,taskclassid,guid));
-                dispatch(fetchTopmapgeojson(mapbandsvalue,taskclassid));
-                titleWindowClose("true");
-                editlayer.clearLayers();
-                drawlayer.clearLayers();
-             });
+                });
+            });
             var measureControl = new L.Control.Measure({
                 localization: 'cn',
                 position: 'topright',
@@ -237,37 +281,6 @@ class MapComponent extends Component {
         }
         //图层控制
 
-        onlayercontrol(e) {
-            var value=e.target.value;
-            var checked=e.target.checked;
-            //平面坐标
-            const pingmianMap=L.tileLayer('http://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}', {
-                maxZoom: 21,
-                minZoom: 1,
-                attribution: '&copy; <a href="http://www.tulibj.com">Gamma</a> tuli'
-            });
-            switch(value)
-            {
-                case '影像':
-                    if(checked){
-                        this.map.addLayer(ImgLayers);
-                    }else{
-                        this.map.removeLayer(ImgLayers);
-                    }
-                    break;
-                case '标注':
-                    if(checked){
-                        this.map.addLayer(biaozhu);
-                    }else{
-                        this.map.removeLayer(biaozhu);
-                    }
-                    break;
-                case '高铁':
-                    break;
-                default:
-
-            }
-        }
         geojsonmap() {
             const { dispatch } = this.props;
             if(jsonlayer!=null){
@@ -287,18 +300,20 @@ class MapComponent extends Component {
                          weight:5
                     }
                 }).bindPopup(function (layer) {
+
                     editObject=layer;
                     // var layeredit=new layer();
                     // return layer.feature.properties.description;
-                    var latlngs=layer.feature.geometry.coordinates[0];
+                    editlatlngs=layer._latlngs;
                     //L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.').addTo(this.map);
-
+                    this._map.setView(layer.getCenter(),14);
+                    // this._map.setZoomAround(layer.getCenter(),14);
                     if(layer.feature.geometry.type=="Polygon"){
-                        editlayer.clearLayers();
+                        // editlayer.clearLayers();
                         editlayer.addLayer( L.polygon(layer._latlngs, {color: 'red'}));
                         titleWindowClose("true");
                     }else{
-                        var polyline = L.polyline(latlngs, {color: 'black'})
+                        var polyline = L.polyline(editlatlngs, {color: 'black'})
                     }
 
 
@@ -309,13 +324,15 @@ class MapComponent extends Component {
         render()
         {
             const geojsonarr=this.props.geojsonarr;
-            const drawdata=this.props.drawdata;
-            if(geojsonarr!=null){
-                this.geojsonmap(geojsonarr);
-            }
-            if(drawdata!=null){
+            if(geojsonarr=="SUCCESS"){
                 const {dispatch} = this.props;
                 dispatch(fetchTopmapgeojson(mapbandsvalue,taskclassid));
+            }
+            if(geojsonarr!=null && geojsonarr!="SUCCESS"){
+                this.geojsonmap(geojsonarr);
+            }
+            if(editlatlngs!=null){
+                editlayer.addLayer( L.polygon(editlatlngs, {color: 'red'}));
             }
             const content = (
                 <div className="layerlist">
@@ -333,11 +350,12 @@ class MapComponent extends Component {
 
 
             return <div className="mapinfo">
-                <div className="map" ref={ref => this.mapDiv = ref} />
+                <div className="map" ref={ref => this.mapDiv = ref} >
                 <Titlewindows/>
-                <Popover placement="left" title="图层控制" className="" content={content}>
-                    <img src={layerpng} title="图层控制" className="layercontrol"></img>
-                </Popover>
+                {/*<Popover placement="left" title="图层控制" className="" content={content}>*/}
+                    {/*<img src={layerpng} title="图层控制" className="layercontrol"></img>*/}
+                {/*</Popover>*/}
+                </div>
             </div>
 
     }
@@ -359,8 +377,11 @@ export default connect()(MapComponent);
 // }
 export function taskMaptoLayer(classid) {
     taskclassid=classid;
+    refreshData(mapbandsvalue,taskclassid)
+    // document.getElementById("leaflet-right").style.display="none";
 }
 
 Map.defaultProps = {
-    geojsonarr:null
+    geojsonarr:null,
+    drawdata:null
 };

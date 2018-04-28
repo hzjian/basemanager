@@ -68,7 +68,7 @@ class UserContentPage extends Component {
                                         ))}
                                     </div>}
                                     <div class="workpag">
-                                        <Pagination  total={30} pageSize={10} />
+                                        <Pagination  total={tasks.length} pageSize={10} />
                                     </div>
                                 </TabPane>
                                 <TabPane tab="最新任务" key="2">
@@ -93,7 +93,7 @@ class UserContentPage extends Component {
                         <Content style={{ margin: '0px 0px 0', overflow: 'initial' }}>
                                 <div>
                                     <main role="main" >
-                                        <MapComponent  id="map" geojsonarr={geojson} drawdata={drawdata}/>
+                                            <MapComponent  id="map" geojsonarr={geojson} drawdata={drawdata}/>
                                     </main>
                                 </div>
                         </Content>
@@ -115,9 +115,9 @@ class UserContentPage extends Component {
 // };
 
 function mapStateToProps(state) {
-    const { selectedUserTasksPage, userTasksByPage,selectedUserMapPage,userMapByPage } = state;
+    const { selectedUserTasksPage, userTasksByPage,selectedUserMapPage,userMapByPage,drawAddMap } = state;
     const page =0 ;
-    if (!userTasksByPage || !userTasksByPage[page] ||!userMapByPage) {
+    if (!userTasksByPage || !userTasksByPage[page] ||!userMapByPage || !drawAddMap) {
         return {
             page,
             isFetching: false,
@@ -125,7 +125,8 @@ function mapStateToProps(state) {
             totalCount: 0,
             tasks: [],
             error: null,
-            geojson:[]
+            geojson:[],
+            drawdata:null
         };
     }
 
@@ -137,6 +138,7 @@ function mapStateToProps(state) {
         totalCount: userTasksByPage[page].totalCount,
         tasks: userTasksByPage[page].tasks,
         geojson:userMapByPage.geojson,
+        drawdata:drawAddMap.drawdata
 
     };
 }

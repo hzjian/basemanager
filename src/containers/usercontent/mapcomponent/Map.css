@@ -12,7 +12,11 @@
 .titlewindow{
   position:absolute;
   z-index:9999;
-  left:20.5%
+  left:0px;
+  top:12px;
+}
+.leaflet-right{
+  /*display:none*/
 }
 .layercontrol{
   position:absolute;
@@ -24,6 +28,7 @@
   box-shadow: 0 1px 5px rgba(0,0,0,0.4);
   background: #fff;
   border-radius: 5px;
+  /*display:none;*/
 }
 .layerlist{
   width: 200px;

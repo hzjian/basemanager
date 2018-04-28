@@ -12,7 +12,7 @@ export function selectedUserMapPage(state = 1, action) {
     case SELECT_MAP_PAGE:
       return action.geojson;
       case DRAW_ADD_MAP:
-          return action.result;
+          return action.drawdata;
     default:
       return state;
   }
@@ -20,7 +20,7 @@ export function selectedUserMapPage(state = 1, action) {
 export function drawAddMap(state = 1, action) {
     switch (action.type) {
         case DRAW_ADD_MAP:
-            return action.result;
+            return action.drawdata;
         default:
             return state;
     }
@@ -57,7 +57,7 @@ function userMap(
           return Object.assign({}, state, {
               isFetching: false,
               didInvalidate: false,
-              result:action.results,
+              drawdata:action.drawdata,
               error: null
           });
     case MAP_FAILURE:

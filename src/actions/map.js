@@ -9,7 +9,8 @@ export const MAP_SUCCESS = "MAP_SUCCESS";
 export const MAP_FAILURE = "MAP_FAILURE";
 export const DRAW_ADD_MAP = "DRAW_ADD_MAP";
 
-
+var taskclassid=null;
+var mapbandsvalue=null;
 export function selectMapsPage(page) {
   return {
     type: SELECT_MAP_PAGE,
@@ -21,9 +22,15 @@ export function drawAddMap(payload) {
     return function(payload) {
         return {
             type: DRAW_ADD_MAP,
-            drawdata: payload.data
+            drawdata: payload.data,
+
         };
     };
+}
+//刷新地图数据
+export function refreshData(mapbands,taskid) {
+    mapbandsvalue=mapbands;
+    taskclassid=taskid;
 }
 export function invalidateMapsPage(page) {
   return {
@@ -93,7 +100,7 @@ export function DrawAddMap(geoJson,featype,taskGuid,feaGuid) {
         url,
         config,
         mapRequest(),
-        drawAddMap(),
+        mapSuccess(),
         mapFailure()
     );
 }
@@ -116,5 +123,10 @@ function shouldFetchMap(state, page) {
 export function fetchTopmapgeojsonIfNeeded() {
     return (dispatch, getState) => {
         return dispatch(fetchTopmapgeojson());
+    };
+}
+export function fetchTopmapDrawAddMap() {
+    return (dispatch, getState) => {
+        return dispatch(DrawAddMap());
     };
 }
