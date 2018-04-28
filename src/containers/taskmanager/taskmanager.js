@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import CreateTask from './createtask/createtask';
-import TaskList from './tasklist/tasklist';
-import HisTaskList  from './histasklist/histasklist';
+import CreateTask from './createtask/CreateTask';
+import TaskList from './tasklist/TaskList';
+import HisTaskList  from './histasklist/HisTaskList';
 
  class TaskManager extends Component {
   render() {

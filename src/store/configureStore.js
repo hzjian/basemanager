@@ -7,8 +7,9 @@ import { selectedUserTasksPage, userTasksByPage } from "../reducers/usertasks";
 import { selectedUserMapPage,userMapByPage,drawAddMap } from "../reducers/map";
 import { selectedUsersPage, usersByPage } from "../reducers/users";
 import { selectedReposPage, reposByPage } from "../reducers/repos";
-import { groupData } from "../reducers/groupReducer"
-import { userGroupData } from '../reducers/usergroupReducer'
+import { groupData } from "../reducers/groupReducer";
+import { userGroupData } from '../reducers/usergroupReducer';
+import { createTaskData } from '../reducers/CreateTaskReducer';
 
 const logger = createLogger();
 const rootReducer = combineReducers({
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
     userMapByPage,
     drawAddMap,
     groupData:groupData,
-    userGroupData:userGroupData
+    userGroupData:userGroupData,
+    cTaskData: createTaskData
 });
 
 const initialState = {};

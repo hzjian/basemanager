@@ -135,9 +135,7 @@ class GroupUserMgr extends Component {
 }
 
 GroupUserMgr.propTypes = {
-    memberList: PropTypes.array.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    error: PropTypes.object
+   
 };
 
 const mapStateToProps = state =>({
