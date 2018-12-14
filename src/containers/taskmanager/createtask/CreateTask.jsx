@@ -1,44 +1,39 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import {ID_TOKEN,SYSID } from '../../../utils/apiUtils'
 
-import { DatePicker,Select  } from 'antd';
-import { Upload, message, Button, Icon } from 'antd';
-import { Table, Input, Popconfirm } from 'antd';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
+import Select from '@material-ui/core/Select';
+
+import Button from '@material-ui/core/Button';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import {
     fetchTaskData,changeUserList,updateFieldList,saveTaskField,addTaskField,
     changeTaskName ,changeTaskDesc,changeSdate,changeEdate,submitCreateTask
   } from '../actions/CreateTaskAction'
 
+
+
 const Option = Select.Option;
 const TextArea = Input.TextArea;
-const props = {
-    name: 'file',
-    action: '//jsonplaceholder.typicode.com/posts/',
-    headers: {
-      authorization: 'authorization-text',
-    },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
 
  const FieldTypeSelect =({ editable, value, onChange }) => (
     <div>
       {editable?
         <Select defaultValue="文本" style={{ width: 120 }} onChange={e => onChange(e)}>
-            <Option value="文本">文本</Option>
-            <Option value="整数">整数</Option>
-            <Option value="浮点数">浮点数</Option>
-            <Option value="日期">日期</Option>
+            <option  value="文本">文本</option>
+            <option value="整数">整数</option>
+            <option value="浮点数">浮点数</option>
+            <option value="日期">日期</option>
         </Select>:value}
     </div>
     );
@@ -47,8 +42,8 @@ const props = {
     <div>
         {editable?
         <Select defaultValue="是" style={{ width: 120 }} onChange={e => onChange(e)}>
-            <Option value="是">是</Option>
-            <Option value="否">否</Option>
+            <option value="是">是</option>
+            <option value="否">否</option>
         </Select>:value}
     </div>
     );
@@ -96,9 +91,31 @@ class CreateTask extends Component {
                     </span>
                     : <div>
                         <a onClick={() => this.edit(record.key)}>编辑</a>
-                        <Popconfirm title="是否删除?" onConfirm={() => this.delete(record.key)}>
-                          <a>删除</a>
-                        </Popconfirm>
+
+                         <Dialog
+                            open= {false}
+                            keepMounted
+                            onClose={this.handleClose}
+                            aria-labelledby="alert-dialog-slide-title"
+                            aria-describedby="alert-dialog-slide-description"
+                            >
+                            <DialogTitle id="alert-dialog-slide-title">
+                                {"Use Google's location service?"}
+                            </DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-slide-description">
+                                    是否删除
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={() => this.delete(record.key)} color="primary">
+                                是
+                                </Button>
+                                <Button onClick={this.handleClose} color="primary">
+                                否
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                       </div>
                 }
               </div>
@@ -139,11 +156,11 @@ class CreateTask extends Component {
 
     handleChange(value, key, column){
         console.log(value,key,column);
-        const {fieldList}  = this.props.taskData;
-        const target = fieldList.filter(item => key === item.key)[0];
+        const {fieldlist}  = this.props.taskData;
+        const target = fieldlist.filter(item => key === item.key)[0];
         if (target) {
           target[column] = value;
-          this.props.updateFieldList(fieldList);
+          this.props.updateFieldList(fieldlist);
           //this.setState({ data: newData });
         }
     }
@@ -159,6 +176,7 @@ class CreateTask extends Component {
 
     handleTaskNameChange(value)
     {
+        console.log(value);
         this.props.changeTaskName(value);
     }
 
@@ -166,30 +184,31 @@ class CreateTask extends Component {
     {
         this.props.changeTaskDesc(value);
     }
-    handleSdateChange(value){
-        this.props.changeSdate(value);
+    handleSdateChange(date){
+        //date.format("YYYY-MM-DD HH:mm:ss")
+        this.props.changeSdate(date);
     }
 
-    handleEdateChange(value){
-        this.props.changeEdate(value);
+    handleEdateChange(date){
+        this.props.changeEdate(date);
     }
 
     edit(key) {
-        const {fieldList}  = this.props.taskData;
-        const target = fieldList.filter(item => key === item.key)[0];
+        const {fieldlist}  = this.props.taskData;
+        const target = fieldlist.filter(item => key === item.key)[0];
         if (target) {
           target.editable = true;
-          this.props.updateFieldList(fieldList);
+          this.props.updateFieldList(fieldlist);
           //this.setState({ data: newData });
         }
     }
     save(key) {
-        const {fieldList}  = this.props.taskData;
-        const target = fieldList.filter(item => key === item.key)[0];
+        const {fieldlist}  = this.props.taskData;
+        const target = fieldlist.filter(item => key === item.key)[0];
         if (target) {
             delete target.editable;
             //this.setState({ data: newData });
-            this.props.saveTaskField(fieldList);
+            this.props.saveTaskField(fieldlist);
         }
     }
     cancel(key) {
@@ -201,7 +220,7 @@ class CreateTask extends Component {
         }
     }
     handleAddField = () => {
-        const {fieldList,fieldindex}  = this.props.taskData;
+        const {fieldlist,fieldindex}  = this.props.taskData;
         const newData = {
             key: fieldindex,
             fieldname:"",
@@ -209,44 +228,66 @@ class CreateTask extends Component {
             isedit:"是",
             editable:true
         };
-        fieldList.push(newData);
-        this.props.addTaskField(fieldList,fieldindex);
+        fieldlist.push(newData);
+        this.props.addTaskField(fieldlist,fieldindex);
     }
+    handleFileChange = (info) =>{
+        let fileList = info.fileList;
+        fileList = fileList.filter((file) => {
+            if (file.response) {
+                return file.response.status === 'success';
+            }
+            return true;
+        });
 
+        //this.setState({ fileList });
+    }
     componentDidMount(){
         this.props.fetchTaskData();
+       
     }
     handleSubmit()
     {
-        const  { userlist,kernellist,fieldList,startdate,enddate}  = this.props.taskData;
-        this.props.submitCreateTask({ userlist,kernellist,fieldList,startdate,enddate});
+        const { taskname,taskdesc,userlist,kernellist,fieldlist,startdate,enddate}  = this.props.taskData;
+        const startdatestr = startdate?startdate.format("YYYY-MM-DD HH:mm:ss"):'';
+        const enddatestr = enddate?enddate.format("YYYY-MM-DD HH:mm:ss"):'';
+        this.props.submitCreateTask({ taskname,taskdesc,userlist,kernellist,fieldlist,startdatestr,enddatestr});
     }
 
     render() 
     {
-        const { userlist,kernellist,fieldList,startdate,enddate}  = this.props.taskData;
+        const { userlist,kernellist,fieldlist,startdate,enddate}  = this.props.taskData;
         const userOption = userlist.map((user) =>{
             return (<Option key={user.userguid}>{user.username}</Option>)
         });
         const kernelOption = kernellist.map((kernel) =>{
             return (<Option key={kernel.classid}>{kernel.classname}</Option>)
         });
+        const fileOption = {
+            action : '/service/file/task/'+ 'CURRENT_TASKID',
+            headers: {
+                [ID_TOKEN]: SYSID + "." + localStorage.getItem(ID_TOKEN)
+            },
+            onChange : (info)=>{ this.handleFileChange(info)}
+        }
         return (
         <form onSubmit={() =>this.handleSubmit()}>
             <div class="form-group">
                 <label for="taskName">任务名称</label>
-                <Input class="form-control" id="taskName" placeholder="任务名称"  onChange={(e) =>this.handleTaskNameChange(e)} />
+                <Input class="form-control" id="taskName" placeholder="任务名称"  onChange={(e) =>this.handleTaskNameChange(e.target.value)} />
             </div>
             <div class="form-group">
                 <label for="taskDesc">任务描述</label>
-                <TextArea class="form-control" id="taskDesc" rows="3" onChange={(e) =>this.handleTaskDescChange(e)} />
+                <TextArea class="form-control" id="taskDesc" rows="3" onChange={(e) =>this.handleTaskDescChange(e.target.value)} />
             </div>
-            <div class="form-group">
+            <div className="form-group">
                 <label for="">起始日期</label>
-                <DatePicker locale ={"cn"} onChange={(e) =>this.handleSdateChange(e)} value = {startdate}/> <label for="">至</label> <DatePicker onChange={(e) =>this.handleEdateChange(e)} value = {enddate}/>
+                <TextField type="date"  defaultValue="2017-05-24" onChange={(date) =>this.handleSdateChange(date)} value = {startdate}/> 
+                <label for="">至</label> 
+                <TextField type="date"  defaultValue="2017-05-24" onChange={(date) =>this.handleEdateChange(date)} value = {enddate}/>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
+            <div className="form-row">
+                <div className="form-group col-md-6">
                     <label>添加用户</label>
                     <Select  mode="multiple"  style={{ width: '100%' }}   placeholder="选择用户"  defaultValue = {[]}
                         onChange={(e)=>this.handleSelectUserChange(e)}>
@@ -255,21 +296,27 @@ class CreateTask extends Component {
                 </div>
                 <div className="form-group col-md-6">
                     <label for="">核心对象</label>
-                    <Select class="form-control" id="busdata"   onChange={(e) =>this.handleSelectKernelChange(e)}>
+                    <Select className="form-control" id="busdata"   onChange={(e) =>this.handleSelectKernelChange(e)}>
                        {kernelOption}
                     </Select>              
                 </div>
             </div>
             <div>
                 <Button className="editable-add-btn" onClick={this.handleAddField}>添加</Button>
-                <Table bordered dataSource={fieldList} pagination = {false} columns={this.fieldcolumns} />
+
+               {/* <Table bordered dataSource={fieldlist} pagination = {false} columns={this.fieldcolumns} /> */}
             </div>
-            <div class="form-group">
-                    <Upload {...props}>
-                        <Button>
-                            <Icon type="upload" /> 上传文件
-                        </Button>
-                    </Upload>
+            <div className="form-group">
+                <input
+                    accept="image/*"
+                    id="contained-button-file"
+                    multiple
+                    type="file"/>
+                <label htmlFor="contained-button-file">
+                    <Button variant="contained" component="span">
+                    上传文件
+                    </Button>
+                </label>
             </div>
             <div>
                 <Button type="primary" htmlType="submit">创建任务</Button>

@@ -3,19 +3,15 @@
  */
 
 import React, { Component } from 'react';
-import { Card, Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd';
-import { Modal } from 'antd';
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { Dialog } from '@material-ui/core';
+import { connect } from 'react-redux';
 
 import {
     closeDialog,
     saveGroupInfo,
     newGroupInfo,
-  } from "../../actions/groupAction";
+  } from "../../actions/GroupAction";
 
-const FormItem = Form.Item;
-const Option = Select.Option;
 
 class BaseForm extends Component {
     constructor() {
@@ -78,13 +74,13 @@ class BaseForm extends Component {
         
         return (
         <div className="gutter-example">
-            <Modal
+            <Dialog
               visible={this.props.modalIsOpen}
               onOk = {() => this.saveGroup()}
               onCancel={() => this.closeModal()}
               title="组织管理"
             >
-                <Form onSubmit={this.handleSubmit}>                               
+                {/* <Form onSubmit={this.handleSubmit}>                               
                     <FormItem
                         {...formItemLayout}
                         label={(
@@ -142,13 +138,12 @@ class BaseForm extends Component {
                             <Input />
                         )}
                     </FormItem>
-                </Form>
-            </Modal>
+                </Form> */}
+            </Dialog>
         </div>
         )
     }
 }
-const EditDialog = Form.create()(BaseForm);
 
 const mapStateToProps = state =>({
     group: state.groupData.group,
@@ -156,4 +151,4 @@ const mapStateToProps = state =>({
     modalIsOpen: state.groupData.isShowingModal
 });
 
-export default connect(mapStateToProps,{closeDialog,saveGroupInfo,newGroupInfo})(EditDialog);
+export default connect(mapStateToProps,{closeDialog,saveGroupInfo,newGroupInfo})(BaseForm);

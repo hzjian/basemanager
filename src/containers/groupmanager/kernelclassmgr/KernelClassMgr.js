@@ -3,11 +3,14 @@ import React, { Component } from 'react'
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Table, Button,Input, Popconfirm } from 'antd';
+import { Button,Input, Dialog, DialogContent, DialogTitle, DialogActions ,DialogContentText} from '@material-ui/core'; 
+
+import  KernelClassDialog from  './kernelclassdialog/KernelClassDialog';
 
 import {
-    fetchGroupMember,saveGroupMember
-} from '../actions/usergroupAction'
+  fetchKernelData,
+  saveKernelData,
+} from '../actions/UserGroupAction';
 
 const EditableCell = ({ editable, value, onChange }) => (
   <div>
@@ -18,25 +21,20 @@ const EditableCell = ({ editable, value, onChange }) => (
   </div>
 );
 
-class GroupUserMgr extends Component {
+class KernelClassMgr extends Component {
   constructor(props) {
     super(props);
     this.columns = [{
-      title: '用户名称 ',
-      dataIndex: 'username',
-      width: '25%',
-      render: (text, record) => this.renderColumns(text, record, 'username'),
+      title: '核心对象名称 ',
+      dataIndex: 'name',
+      width: '30%',
+      render: (text, record) => this.renderColumns(text, record, 'name'),
     }, {
-      title: '用户中文名',
-      dataIndex: 'cnname',
-      width: '35%',
-      render: (text, record) => this.renderColumns(text, record, 'cnname'),
+      title: '核心对象描述',
+      dataIndex: 'descinfo',
+      width: '40%',
+      render: (text, record) => this.renderColumns(text, record, 'descinfo'),
     },{
-      title: '用户密码',
-      dataIndex: 'password',
-      width: '20%',
-      render: (text, record) => this.renderColumns(text, record, 'password'),
-    }, {
       title: '操作',
       dataIndex: 'operation',
       render: (text, record) => {
@@ -50,9 +48,30 @@ class GroupUserMgr extends Component {
                 </span>
                 : <div>
                     <a onClick={() => this.edit(record.key)}>编辑</a>
-                    <Popconfirm title="是否保存?" onConfirm={() => this.delete(record.key)}>
-                      <a>删除</a>
-                    </Popconfirm>
+                    <Dialog
+                            open= {false}
+                            keepMounted
+                            onClose={this.handleClose}
+                            aria-labelledby="alert-dialog-slide-title"
+                            aria-describedby="alert-dialog-slide-description"
+                            >
+                            <DialogTitle id="alert-dialog-slide-title">
+                                {"Use Google's location service?"}
+                            </DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-slide-description">
+                                    是否删除
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={() => this.delete(record.key)} color="primary">
+                                是
+                                </Button>
+                                <Button onClick={this.handleClose} color="primary">
+                                否
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                   </div>
             }
           </div>
@@ -92,7 +111,7 @@ class GroupUserMgr extends Component {
     if (target) {
       delete target.editable;
       this.setState({ data: newData });
-      this.props.saveGroupMember(target);
+      this.props.saveKernelData(target);
     }
   }
   cancel(key) {
@@ -119,27 +138,38 @@ class GroupUserMgr extends Component {
   }
 
   componentDidMount(){
-    this.props.fetchGroupMember(0);
+    this.props.fetchKernelData(0);
   }
 
+  handleEditEvent(e,kernel){
+    console.log(kernel);
+  }
+
+  handleDeleteEvent(e,kernel){
+    console.log(kernel);
+  }
+ 
   componentWillReceiveProps(nextProps){
-    this.setState({data:nextProps.usergroupdata.memberList});
+    this.setState({data:nextProps.usergroupdata.kernelList});
   }
   render() {
-    const { memberList,isFetching}  = this.props.usergroupdata;
+    const { kernelList,isFetching}  = this.props.usergroupdata;
     return (<div>
       <Button className="editable-add-btn" onClick={this.handleAdd}>添加</Button>
-      <Table bordered dataSource={memberList} columns={this.columns} />
+      {/* <Table bordered dataSource={kernelList} columns={this.columns} /> */}
+      <KernelClassDialog />
     </div>) 
   }
 }
 
-GroupUserMgr.propTypes = {
-   
+KernelClassMgr.propTypes = {
+  kernelList: PropTypes.number.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  error: PropTypes.object
 };
 
 const mapStateToProps = state =>({
       usergroupdata: state.userGroupData
 });
 
-export default connect( mapStateToProps,{ fetchGroupMember,saveGroupMember })(GroupUserMgr);
+export default connect( mapStateToProps,{ fetchKernelData,saveKernelData })(KernelClassMgr);

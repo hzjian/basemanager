@@ -16,7 +16,7 @@ import PrivateRoute from "../misc/PrivateRoute";
 import Home from "../home/Home";
 import UsersPage from "../user/UsersPage";
 import ReposPage from "../repo/ReposPage";
-import UserContentPage from '../usercontent/UserContentPage';
+import UserContentPage from '../usercontent/UserContent';
 import TaskManager from '../taskmanager/TaskManager';
 import GroupManager from  '../groupmanager/groupmanager';
 import GammaData from '../gammadata/gammadata';
@@ -47,12 +47,17 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <div className="container-fluid">
+          <div className="container-fluid appContent">
             <Header user={user} handleLogout={() => this.handleLogout()} />
             <div className="appContent">
               <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/login" component={Login} />
+                <Route exact path="/" 
+                  isAuthenticated={isAuthenticated}
+                  component={UserContentPage} 
+                 />
+                <Route path="/login" 
+                  component={Login} 
+                />
                 <PrivateRoute
                   path="/users"
                   isAuthenticated={isAuthenticated}
@@ -92,7 +97,6 @@ class App extends Component {
               </Switch>
             </div>
           </div>
-          <Footer />
         </div>
       </Router>
     );

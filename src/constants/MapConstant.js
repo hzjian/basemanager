@@ -1,0 +1,6 @@
+export const SELECT_MAP_PAGE = "SELECT_MAP_PAGE";
+export const INVALIDATE_MAP_PAGE = "INVALIDATE_MAP_PAGE";
+export const MAP_REQUEST = "MAP_REQUEST";
+export const MAP_SUCCESS = "MAP_SUCCESS";
+export const MAP_FAILURE = "MAP_FAILURE";
+export const DRAW_ADD_MAP = "DRAW_ADD_MAP";

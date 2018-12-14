@@ -1,37 +1,17 @@
 import React, {Component} from "react";
 
-import './Map.css';
-import L from 'leaflet';
-// import antd from 'antd';
-import { Button, Select, notification,Modal,Popover,Checkbox  } from 'antd';
-import '../../../base/draw/leaflet.draw-src';
-import '../../../base/draw/zh_cn';
-import  'leaflet-fullscreen';
-import  '../../../base/layercontrol/leaflet.groupedlayercontrol';
-// import {layerconfig} from '../../../base/layercontrol/layerconfig';
-import  'leaflet-measure';
-import  'leaflet-bookmarks';
-import 'leaflet-tilelayer-geojson';
-import 'leaflet-layerjson';
+import './MapComponent.css';
 import "leaflet/dist/leaflet.css"
-import "../../../base/layercontrol/leaflet.groupedlayercontrol.css"
-import "leaflet-toolbar/dist/leaflet.toolbar.css"
 import "leaflet-draw/dist/leaflet.draw.css"
-import "leaflet-bookmarks/dist/leaflet.bookmarks.css"
-import "leaflet-measure/dist/leaflet-measure.css"
-import "leaflet-fullscreen/dist/leaflet.fullscreen.css"
-import "leaflet.measurecontrol/docs/leaflet.measurecontrol.css"
 import "bootstrap/dist/css/bootstrap.min.css"
-import "antd/dist/antd.css"
-import {Icon } from 'antd';
 import img from '../imgs/marker-icon.png';
-import layerpng from '../imgs/layers.png';
-import Titlewindows from "./titlewindows/Titlewindows";
-import {titleWindowClose} from "./titlewindows/Titlewindows";
-import {mapbands} from "../taskcomponent/task";
-import {fetchTopmapgeojson,DrawAddMap,refreshData} from "../../../actions/map";
-import {openLayer,openeditlayerEdit} from '../mapcomponent/MapComponent'
-import { connect } from "react-redux";
+
+import L from 'leaflet';
+import "leaflet-draw";
+import "leaflet-groupedlayercontrol"
+
+import {fetchTopmapgeojson,DrawAddMap} from "../actions/MapAction";
+
 const  editlayer=new L.FeatureGroup();
 const  drawlayer=new L.FeatureGroup();
 
@@ -39,14 +19,12 @@ var jsonlayer;
 var editObject;
 var editResult;
 var editlatlngs;
-var map = null;
-var mapDiv = null;
 var taskclassid;
 var mapbandsvalue;
 
-
 var groups = {
-    ImgLayers: L.tileLayer('http://www.google.cn/maps/vt/lyrs=s@160000000&hl=zh-CN&gl=CN&src=app&y={y}&x={x}&z={z}&s=Ga', {
+    //ImgLayers: L.tileLayer('http://www.google.cn/maps/vt/lyrs=s@160000000&hl=zh-CN&gl=CN&src=app&y={y}&x={x}&z={z}&s=Ga', {
+    ImgLayers: L.tileLayer('http://mt0.google.cn/vt/lyrs=m@160000000&hl=zh-CN&gl=CN&src=app&y={y}&x={x}&z={z}&s=Ga', {
         maxZoom: 21,
         minZoom: 1,
         attribution: '&copy; <a href="http://www.tulibj.com">Gamma</a> tuli'
@@ -67,28 +45,27 @@ var layerconfig = {
     Basemaps:basemaps
 };
 class MapComponent extends Component {
-
     componentDidMount()
     {
-            const {stateProxy} = this.props;
-            this.stateProxy = stateProxy;
-            this.map = L.map(this.mapDiv, {
-                layers: [groups.ImgLayers,groups.biaozhu],
-                doubleClickZoom: false,//不可以通过双击放大，因为双击的作用是添加矩形
-                contextmenu: true,
-                zoomControl:false,
-                zoom:12,
-                minZoom: 3,
-                contextmenuItems: [{
-                    text: 'Bookmark this position',
-                    callback: function (evt) {
-                        this.fire('bookmark:new', {
-                            latlng: evt.latlng
-                        });
-                        alert("123");
-                    }
-                }]
-            }).setView(new L.LatLng(24.291, 166.636), 3);
+        const {stateProxy} = this.props;
+        this.stateProxy = stateProxy;
+        this.map = L.map(this.mapDiv, {
+            layers: [groups.ImgLayers  /*,groups.biaozhu*/ ],
+            doubleClickZoom: false,//不可以通过双击放大，因为双击的作用是添加矩形
+            contextmenu: true,
+            zoomControl:false,
+            zoom:12,
+            minZoom: 3,
+            contextmenuItems: [{
+                text: 'Bookmark this position',
+                callback: function (evt) {
+                    this.fire('bookmark:new', {
+                        latlng: evt.latlng
+                    });
+                    alert("123");
+                }
+            }]
+        }).setView(new L.LatLng(24.291, 166.636), 3);
         var groupedOverlays = {
             "地图图层": {
                 "影像地图": layerconfig.LayerGroups.ImgLayers,
@@ -109,15 +86,14 @@ class MapComponent extends Component {
             var latlngs = [[x0, y0],[x1,y0],[x1,y1],[x0,y1]];
             var polygon = L.polygon(latlngs, {color: 'red'});
             mapbandsvalue=polygon.toGeoJSON().geometry;
-            mapbands(mapbandsvalue);
 
         });
-            L.control.zoom({ zoomInTitle: '放大', zoomOutTitle: '缩小', position: 'topright' }).addTo(this.map);
-            // 全屏
-            var fsControl = new L.control.fullscreen({ position: 'topright',title:'全屏'}).addTo(this.map);
-            this.map.addLayer(editlayer);
-            this._setBaseMap();
-            // this.map._onResize();
+
+        L.control.zoom({ zoomInTitle: '放大', zoomOutTitle: '缩小', position: 'topright' }).addTo(this.map);
+
+        this.map.addLayer(editlayer);
+        this._setBaseMap();
+        // this.map._onResize();
         const {dispatch} = this.props;
             this.map.on('moveend', function (ev) {
 
@@ -129,19 +105,14 @@ class MapComponent extends Component {
                 var latlngs = [[x0, y0],[x1,y0],[x1,y1],[x0,y1]];
                 var polygon = L.polygon(latlngs, {color: 'red'});
                 mapbandsvalue=polygon.toGeoJSON().geometry;
-                mapbands(mapbandsvalue);
                 if(taskclassid!=null){
                     dispatch(fetchTopmapgeojson(mapbandsvalue,taskclassid));
                 }
             });
-
         }
 
         _setBaseMap()
         {
-
-                // this.map.addLayer(ImgLayers);
-                // this.map.addLayer(biaozhu);
             //增加绘制图层
             const drawnItems = new L.FeatureGroup();
             this.map.addLayer(drawnItems);
@@ -151,8 +122,6 @@ class MapComponent extends Component {
             var MyCustomMarker = L.Icon.extend({
                 options: {
                     shadowUrl: null,
-                    // iconAnchor: new L.Point(12, 12),
-                    // iconSize: new L.Point(24, 24),
                     iconUrl: img
                 }
             });
@@ -173,12 +142,10 @@ class MapComponent extends Component {
                         }
                     },
                     polygon: {
-                        // allowIntersection: false, // Restricts shapes to simple polygons
                         shapeOptions: {
                             color: '#bada55'
                         }
                     }
-
                 },
                 edit: {
                     featureGroup: editlayer, //REQUIRED!!
@@ -212,24 +179,10 @@ class MapComponent extends Component {
                 var featype=e.layerType;
                 const geoJsonvalue=geoJson.geometry;
                 var guid=0;
-                dispatch(DrawAddMap(geoJsonvalue,featype,taskclassid,guid));
                 drawlayer.addLayer(layer);
-                titleWindowClose("true");
 
-                {/*<Titlewindows getBStyle={'display:""'}/>*/}
             });
-            // this.map.on(L.Draw.Event.EDITSTOP, function (e) {
-            //
-            //     var polygon=L.polygon(editObject._latlngs, {color: 'red'});
-            //     var geojson=editObject.toGeoJSON().geometry;
-            //     var featype=e.layerType;
-            //     var guid=editObject.feature.properties.guid;
-            //     dispatch(DrawAddMap(geojson,geojson.type,taskclassid,guid));
-            //     titleWindowClose("true");
-            //     editlayer.addLayer(polygon);
-            //     // editlayer.clearLayers();
-            //     drawlayer.clearLayers();
-            //  });
+
             this.map.on('draw:edited', function (e) {
                 var layers = e.layers;
                 layers.eachLayer(function (layer) {
@@ -239,7 +192,6 @@ class MapComponent extends Component {
                     var featype=e.layerType;
                     var guid=editObject.feature.properties.guid;
                     dispatch(DrawAddMap(geojson,geojson.type,taskclassid,guid));
-                    titleWindowClose("true");
                     // editlayer.addLayer(polygon);
                     editlayer.clearLayers();
                     drawlayer.clearLayers();
@@ -247,20 +199,6 @@ class MapComponent extends Component {
 
                 });
             });
-            var measureControl = new L.Control.Measure({
-                localization: 'cn',
-                position: 'topright',
-                primaryLengthUnit: 'meters',
-                secondaryLengthUnit: 'kilometers',
-                primaryAreaUnit: 'sqmeters',
-                secondaryAreaUnit: 'hectares',
-                activeColor: '#ABE67E',
-                completedColor: '#C8F2BE',
-                className: 'leaflet-measure-resultpopup',
-                autoPanPadding: [10, 10],
-                captureZIndex: 10000
-            });
-            this.map.addControl(measureControl);
             this.map.on('click', function (e) {
                 // alert("尽量了");
                 // L.DomEvent.stopPropagation(e);
@@ -270,19 +208,9 @@ class MapComponent extends Component {
                     editlayer.clearLayers();
                     editlayer.addLayer( L.polygon(e.layer._latlngs, {color: 'red'}));
             });
-            //书签
-            var bookmarksControl = global.bookmarksControlLeft = new L.Control.Bookmarks({
-                position: 'topright',
-                onRemove: function (bookmark, callback) {
-                    callback(true);  // will be removed
-                },
-            });
-            this.map.addControl(bookmarksControl);
         }
         //图层控制
-
         geojsonmap() {
-            const { dispatch } = this.props;
             if(jsonlayer!=null){
                 jsonlayer.clearLayers();
             }
@@ -311,7 +239,6 @@ class MapComponent extends Component {
                     if(layer.feature.geometry.type=="Polygon"){
                         // editlayer.clearLayers();
                         editlayer.addLayer( L.polygon(layer._latlngs, {color: 'red'}));
-                        titleWindowClose("true");
                     }else{
                         var polyline = L.polyline(editlatlngs, {color: 'black'})
                     }
@@ -334,54 +261,10 @@ class MapComponent extends Component {
             if(editlatlngs!=null){
                 editlayer.addLayer( L.polygon(editlatlngs, {color: 'red'}));
             }
-            const content = (
-                <div className="layerlist">
-                    <label>地图图层</label><br/>
-                    <Checkbox className="label" defaultChecked="true" value="影像" onChange={(e) => this.onlayercontrol(e) }>影像地图</Checkbox>
-                    <Checkbox className="label" defaultChecked="true" value="标注" onChange={(e) => this.onlayercontrol(e) }>标注地图</Checkbox>
-                    <br/>
-                    <label>Gamma图层</label>
-                    <br/>
-                    <Checkbox className="label" value="高铁" onChange={(e) => this.onlayercontrol(e) }>高铁图层</Checkbox>
-                    <Checkbox className="label">高校图层</Checkbox>
-                </div>
-            );
-
-
-
-            return <div className="mapinfo">
-                <div className="map" ref={ref => this.mapDiv = ref} >
-                <Titlewindows/>
-                {/*<Popover placement="left" title="图层控制" className="" content={content}>*/}
-                    {/*<img src={layerpng} title="图层控制" className="layercontrol"></img>*/}
-                {/*</Popover>*/}
-                </div>
-            </div>
-
+            return (
+                        <div className="map" ref={ref => this.mapDiv = ref} >
+                        </div>
+                    )
     }
 }
-
-// Map.propTypes = {
-//     geojson: PropTypes.shape({
-//         // login: PropTypes.string.isRequired,
-//         // avatar_url: PropTypes.string.isRequired,
-//         // url: PropTypes.string.isRequired,
-//         // html_url: PropTypes.string.isRequired
-//     }).isRequired
-// };
-export default connect()(MapComponent);
-
-// export function openLayer() {
-//     // const geojsonarr=this.props.geojsonarr;
-//     this.geojsonmap();
-// }
-export function taskMaptoLayer(classid) {
-    taskclassid=classid;
-    refreshData(mapbandsvalue,taskclassid)
-    // document.getElementById("leaflet-right").style.display="none";
-}
-
-Map.defaultProps = {
-    geojsonarr:null,
-    drawdata:null
-};
+export default MapComponent;

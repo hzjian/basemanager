@@ -1,22 +1,13 @@
 
-/*.mapDiv{*/
-  /*height: 88vh;*/
-  /*width: 80vh;*/
-/*}*/
 .map{
-  height: 87.6vh;
-  /*width: 100vh;*/
-  width:79.5%;
-  position:absolute;right:0;bottom:0px;top:6%;
+  height: 100%;
+  width: 100%;
 }
 .titlewindow{
   position:absolute;
   z-index:9999;
   left:0px;
   top:12px;
-}
-.leaflet-right{
-  /*display:none*/
 }
 .layercontrol{
   position:absolute;

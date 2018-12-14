@@ -1,11 +1,11 @@
 import {
-  SELECT_MAP_PAGE,
-  INVALIDATE_MAP_PAGE,
+    SELECT_MAP_PAGE,
+    INVALIDATE_MAP_PAGE,
     DRAW_ADD_MAP,
     MAP_REQUEST,
     MAP_SUCCESS,
     MAP_FAILURE
-} from "../actions/map";
+} from "../constants/MapConstant";
 
 export function selectedUserMapPage(state = 1, action) {
   switch (action.type) {

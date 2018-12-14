@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import KernelDataMgr from './kerneldatamgr/kerneldatamgr';
-import GroupUserMgr from './groupusermgr/groupusermgr';
+import KernelClassMgr from './kernelclassmgr/KernelClassMgr';
+import GroupUserMgr from './groupusermgr/GroupUserMgr';
 
 class GroupManager extends Component {
 
@@ -31,39 +31,10 @@ class GroupManager extends Component {
                   <GroupUserMgr />
                 </div>
                 <div className="tab-pane fade" id="pills-group-kernel" role="tabpanel" aria-labelledby="pills-group-kernel">
-                  <KernelDataMgr />
+                  <KernelClassMgr />
                 </div>
                 <div className="tab-pane fade" id="pills-group-datasource" role="tabpanel" aria-labelledby="pills-group-datasource">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  
                 </div>
             </div>
         </div>

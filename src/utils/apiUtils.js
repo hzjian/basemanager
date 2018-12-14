@@ -1,4 +1,4 @@
-import "isomorphic-fetch";
+
 import jwt_decode from "jwt-decode";
 
 export const ID_TOKEN = "x-auth-token";

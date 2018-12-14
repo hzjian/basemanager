@@ -3,7 +3,6 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import Modal from 'react-modal';
 import GroupItem from './groupmgr/groupitem/groupitem';
 import EditDialog from './groupmgr/editgroup/editdialog'
 
@@ -12,7 +11,7 @@ import {
     editGroupsInfo,
     deleteGroup,
     addNewGroup
-  } from "./actions/groupAction";
+  } from "./actions/GroupAction";
 
  class SysManager extends Component {
     constructor(props) {
@@ -125,10 +124,5 @@ SysManager.propTypes = {
         groupdata: state.groupData
   });
   
-  export default connect(mapStateToProps,{ 
-                                            fetchTopGroupsIfNeeded, 
-                                            editGroupsInfo,
-                                            deleteGroup,
-                                            addNewGroup
-                        })
+  export default connect(mapStateToProps,{ fetchTopGroupsIfNeeded,editGroupsInfo,deleteGroup,addNewGroup})
                         (SysManager);

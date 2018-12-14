@@ -14,8 +14,8 @@ const initialState = {
    fieldindex:1,
    userlist:[],
    kernellist:[],
-   userIdList:[],
-   fieldList:[],
+   userIdlist:[],
+   fieldlist:[],
 }
 export function createTaskData(state = initialState , action)
 {
@@ -37,23 +37,23 @@ export function createTaskData(state = initialState , action)
     case USERLIST_CHANGE:
       return {
         ...state,
-        userIdList:action.payload.userIdList
+        userIdlist:action.payload.userIdlist
       }
     case UPDATE_TASK_FILEDS:
       return {
         ...state,
-        fieldList: action.payload.fieldList
+        fieldlist: action.payload.fieldlist
       }
     case ADD_TASK_FILED:
       return {
         ...state,
-        fieldList: action.payload.fieldList,
+        fieldlist: action.payload.fieldlist,
         fieldindex: action.payload.fieldindex,
       }
     case SAVE_TASKFIELD:
       return {
         ...state,
-        fieldList: action.payload.fieldList,
+        fieldlist: action.payload.fieldlist,
       }
     case TASK_NAME_CHANGE:
       return {

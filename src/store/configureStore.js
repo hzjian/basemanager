@@ -3,12 +3,12 @@ import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
 import auth from "../reducers/auth";
 import alerts from "../reducers/alerts";
-import { selectedUserTasksPage, userTasksByPage } from "../reducers/usertasks";
-import { selectedUserMapPage,userMapByPage,drawAddMap } from "../reducers/map";
-import { selectedUsersPage, usersByPage } from "../reducers/users";
+import { selectedUserTasksPage, userTasksByPage } from "../reducers/UserTaskReducer";
+import { selectedUserMapPage,userMapByPage,drawAddMap } from "../reducers/MapReducer";
+import { selectedUsersPage, usersByPage } from "../reducers/UsersManagerReducer";
 import { selectedReposPage, reposByPage } from "../reducers/repos";
-import { groupData } from "../reducers/groupReducer";
-import { userGroupData } from '../reducers/usergroupReducer';
+import { groupData } from "../reducers/GroupReducer";
+import { userGroupData } from '../reducers/UserGroupReducer';
 import { createTaskData } from '../reducers/CreateTaskReducer';
 
 const logger = createLogger();

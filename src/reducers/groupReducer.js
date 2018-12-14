@@ -8,7 +8,7 @@ import {
   CLOSE_GROUPS_INFO,
   GROUP_DELETE_SUCCESS,
   NEW_GROUPS_INFO
-} from "../containers/sysmanager/actions/groupAction";
+} from "../containers/sysmanager/actions/GroupAction";
 
 const initialState = {
     groups:[],

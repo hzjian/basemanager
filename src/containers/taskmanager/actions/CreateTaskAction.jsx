@@ -1,9 +1,9 @@
 import {  callApi } from "../../../utils/apiUtils";
-import {  notification } from 'antd'; 
 import {  TASKINIT_REQUEST,TASKINIT_SUCCESS,TASKINIT_FAILURE,
         USERLIST_CHANGE,UPDATE_TASK_FILEDS,ADD_TASK_FILED,SAVE_TASKFIELD,
         SAVE_TASKFIELD_REQUEST,SAVE_TASKFIELD_SUCCESS,SAVE_TASKFIELD_FAILURE,
         TASK_NAME_CHANGE,TASK_DESC_CHANGE,CHANGE_END_DATE,CHANGE_START_DATE,
+        CREATE_TASK_REQUEST,CREATE_TASK_SUCCESS,CREATE_TASK_FAILURE
         } from  './CreateTaskTypes';
 
 function TaskInitRequest() {
@@ -66,20 +66,20 @@ export const changeUserList = (userIdList) => dispatch =>{
   });
 }
 
-export const updateFieldList = (fieldList) => dispatch =>{
+export const updateFieldList = (fieldlist) => dispatch =>{
   dispatch({
     type: UPDATE_TASK_FILEDS,
     payload: {
-      fieldList: fieldList,
+      fieldlist: fieldlist,
     }
   });
 }
 
-export const addTaskField = (fieldList,fieldindex) => dispatch =>{
+export const addTaskField = (fieldlist,fieldindex) => dispatch =>{
   dispatch({
     type: ADD_TASK_FILED,
     payload: {
-      fieldList: fieldList,
+      fieldlist: fieldlist,
       fieldindex: fieldindex+1,
     }
   });
@@ -104,11 +104,11 @@ export const changeTaskDesc = (tdesc) => dispatch =>{
   });
 }
 
-export const saveTaskField = (fieldList) => dispatch =>{
+export const saveTaskField = (fieldlist) => dispatch =>{
  dispatch({
     type: SAVE_TASKFIELD,
     payload:{
-      fieldList:fieldList,
+      fieldlist:fieldlist,
     }
   }
  );
@@ -141,8 +141,53 @@ export const changeEdate = (edate) =>(dispatch) =>
    );
 }
 
-export const submitCreateTask = (param) =>(dispatch,getState) =>
+function CreateTaskRequest() {
+  return {
+    type: CREATE_TASK_REQUEST,
+    payload: {
+      isFetching: true,
+    }
+  };
+}
+
+function CreateTaskSuccess(page) {
+  return function(result) {
+    return {
+      type: CREATE_TASK_SUCCESS,
+      payload: {
+        data:""
+      }
+    };
+  };
+}
+
+function CreateTaskFailure() {
+  return function(error) {
+    return {
+      type: CREATE_TASK_FAILURE,
+      payload: {
+        error:error
+      }
+    };
+  };
+}
+
+export const submitCreateTask = (param) =>(dispatch) =>
 {
   console.log(param);
+  const config ={
+    method: 'POST',
+    headers: {
+        "Content-Type": "application/json;charset=UTF-8"
+    },
+    body: JSON.stringify(param),
+  }
+  dispatch(callApi(
+    "/service/task/createTask",
+    config,
+    CreateTaskRequest(),
+    CreateTaskSuccess(),
+    CreateTaskFailure()
+  ));
 
 }

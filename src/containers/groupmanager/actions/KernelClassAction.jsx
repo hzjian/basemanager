@@ -1,9 +1,8 @@
 import {  callApi } from "../../../utils/apiUtils";
-import {  notification } from 'antd'; 
 import {  KERNEL_REQUEST,KERNEL_SUCCESS,KERNEL_FAILURE,
           MEMBER_REQUEST,MEMBER_SUCCESS,MEMBER_FAILURE,
           DATASOURCE_REQUEST,DATASOURCE_SUCCESS,DATASOURCE_FAILURE,
-        } from  './types';
+        } from  './Types';
 
 function KernelRequest() {
   return {

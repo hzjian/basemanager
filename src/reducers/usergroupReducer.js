@@ -1,7 +1,7 @@
 import {  KERNEL_REQUEST,KERNEL_SUCCESS,KERNEL_FAILURE,
   MEMBER_REQUEST,MEMBER_SUCCESS,MEMBER_FAILURE,
   DATASOURCE_REQUEST,DATASOURCE_SUCCESS,DATASOURCE_FAILURE,
-} from  '../containers/groupmanager/actions/types';
+} from  '../containers/groupmanager/actions/Types';
 
 
 const initialState = {
