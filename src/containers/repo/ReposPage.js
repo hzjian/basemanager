@@ -9,7 +9,7 @@ import {
   invalidateReposPage,
   selectReposPage,
   fetchTopReposIfNeeded
-} from "../../actions/repos";
+} from "./actions";
 
 import "react-virtualized/styles.css";
 import "./repo.css";

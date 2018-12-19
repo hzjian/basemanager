@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class UserMgr extends Component {
+export default class DictMgr extends Component {
   render() {
     return (
       <div>

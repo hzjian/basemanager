@@ -9,22 +9,22 @@ import PropTypes from "prop-types";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 import { connect } from "react-redux";
-import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
-import Login from "../login/Login";
+import * as login from "../login";
 import PrivateRoute from "../misc/PrivateRoute";
 import Home from "../home/Home";
-import UsersPage from "../user/UsersPage";
 import ReposPage from "../repo/ReposPage";
-import UserContentPage from '../usercontent/UserContent';
-import TaskManager from '../taskmanager/TaskManager';
+import { UserContent } from '../usercontent';
+import { User } from '../user';
+import { Header } from '../../components/header';
+import TaskManager from '../taskmanager/taskmanager';
 import GroupManager from  '../groupmanager/groupmanager';
 import GammaData from '../gammadata/gammadata';
 import SysManager from '../sysmanager/sysmanager';
 import About from "../about/About";
 import NotFound from "../misc/NotFound";
-import {loadUserProfile} from '../../utils/apiUtils';
-import { logout } from "../../actions/auth";
+import { loadUserProfile } from '../utils/apiUtils';
+import { logout } from "../login/actions";
 
 import "./app.css";
 
@@ -53,15 +53,15 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" 
                   isAuthenticated={isAuthenticated}
-                  component={UserContentPage} 
+                  component={UserContent} 
                  />
                 <Route path="/login" 
-                  component={Login} 
+                  component={login.Login} 
                 />
                 <PrivateRoute
                   path="/users"
                   isAuthenticated={isAuthenticated}
-                  component={UsersPage}
+                  component={User}
                 />
                 <PrivateRoute
                   path="/repos"
@@ -71,7 +71,7 @@ class App extends Component {
                  <PrivateRoute
                   path="/ucontent"
                   isAuthenticated={isAuthenticated}
-                  component={UserContentPage}
+                  component={UserContent}
                 />
                  <PrivateRoute
                   path="/utaskmanager"

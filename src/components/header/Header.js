@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
-import UserProfile from "./UserProfile";
-import Alerts from "./Alerts";
+import UserProfile from "./userprofile";
+import Alerts from "./alerts";
 import "./header.css";
 
 class Header extends Component {

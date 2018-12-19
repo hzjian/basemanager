@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-
-import HisTaskList from '../../../taskmanager/histasklist/HisTaskList';
 import { Button,Input,Dialog,DialogTitle,DialogContent,DialogActions,DialogContentText } from '@material-ui/core'
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
