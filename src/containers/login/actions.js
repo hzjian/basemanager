@@ -53,8 +53,8 @@ export function login(userName, userPassword) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      userName,
-      userPassword
+      userName: userName.trim(),
+      userPassword: userPassword.trim()
     })
   };
 

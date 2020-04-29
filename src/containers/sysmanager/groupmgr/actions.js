@@ -1,225 +1,160 @@
-/* jshint esversion:6 */
 import { callApi } from "../../utils/apiUtils";
 import {
-  ADD_GROUP_SUCCESS,
-  SELECT_GROUPS_PAGE,
-  INVALIDATE_GROUPS_PAGE,
-  GROUPS_REQUEST,
-  GROUPS_SUCCESS,
-  GROUPS_FAILURE,
-  EDIT_GROUPS_INFO,
-  CLOSE_GROUPS_INFO,
-  GROUP_DELETE_SUCCESS,
-  NEW_GROUPS_INFO
-} from "./actionTypes";
+    SYSMANAGER_GROUPMGR_QUERY_REQUEST,SYSMANAGER_GROUPMGR_QUERY_SUCCESS,SYSMANAGER_GROUPMGR_QUERY_FAILURE,
+    SYSMANAGER_GROUPMGR_USER_AVALIABLE_REQUEST,SYSMANAGER_GROUPMGR_USER_AVALIABLE_SUCCESS,SYSMANAGER_GROUPMGR_USER_AVALIABLE_FAILURE,
+    SYSMANAGER_GROUPMGR_USER_DELETE_REQUEST,SYSMANAGER_GROUPMGR_USER_DELETE_SUCCESS,SYSMANAGER_GROUPMGR_USER_DELETE_FAILURE,
+    SYSMANAGER_GROUPMGR_ADD_USER_REQUEST,SYSMANAGER_GROUPMGR_ADD_USER_SUCCESS,SYSMANAGER_GROUPMGR_ADD_USER_FAILURE,
+  } from './actionTypes'
 
-
-export function editGroupsInfo(group) {
-  return {
-    type: EDIT_GROUPS_INFO,
-    payload: {
-      group: group,
-      isnewgroup: false,
-      isShowingModal: true
-    }
-  };
-}
-
-export const addNewGroup = () => {
-  return {
-    type: NEW_GROUPS_INFO,
-    payload: {
-      isnewgroup: true,
-      isShowingModal: true
-    }
-  };
-}
-
-function groupAddSuccess() {
-  return function(result) {
-    return {
-      type: ADD_GROUP_SUCCESS,
-      payload:{
-         newgroup: result.data,
-      }
-    };
-  };
-}
-
-export const newGroupInfo = (group) =>(dispatch) =>{
+export const fetchGroupList = (skey,page,pageSize,sortDirection,sortField) => dispatch => {
   const config ={
-    method: 'POST',
-    headers: {
-        "Content-Type": "application/json;charset=UTF-8"
-    },
-    body: JSON.stringify(group)
-  }
-  dispatch(callApi(
-    "/service/api/group/add",
-    config,
-    groupsRequest(),
-    groupAddSuccess(),
-    groupsFailure()
-  ));
-
-}
-
-function groupDeleteSuccess() {
-  return function(result) {
-    return {
-      type: GROUP_DELETE_SUCCESS,
-      payload:{
-         delGroupGuid: result.data,
-      }
-    };
-  };
-}
-
-export const deleteGroup = (group) =>(dispatch) =>{
-  if(group)
-  {
-    const config ={
       method: 'POST',
       headers: {
-          "Content-Type": "application/json;charset=UTF-8"
+          "Content-Type": "application/json; charset=UTF-8"
       },
-      body: JSON.stringify({groupGuid: group.groupGuid}),
-    }
-    dispatch(callApi(
-      "/service/api/group/delete",
+      body: JSON.stringify({"skey":skey,"page": page,"pageSize": pageSize,"sortDirection":sortDirection ,"sortField": sortField})
+  }
+  const url = "/service/api/groups";
+  return dispatch(callApi(
+      url,
       config,
-      groupsRequest(),
-      groupDeleteSuccess(),
-      groupsFailure()
-    ));
-  }
-}
-
-function groupInfoPostSuccess() {
-  return function(result) {
-    return {
-      type: GROUP_INFO_SUCCESS,
-      payload:{
-         groups: result.data,
-         totalCount: result.totalCount
+      () =>{
+        return {
+          type: SYSMANAGER_GROUPMGR_QUERY_REQUEST,
+          payload: {
+          }
+        };
+      },
+      (result) => {
+        return {
+          type: SYSMANAGER_GROUPMGR_QUERY_SUCCESS,
+          payload: {
+            grouplist: result.data.content,
+            totalCount: result.data.totalElements,
+          }
+        };
+      },
+      (error) => {
+        return {
+            type: SYSMANAGER_GROUPMGR_QUERY_FAILURE,
+            payload: {
+              error: error,
+            }
+        };
       }
-    };
-  };
-}
-
-export const saveGroupInfo = (group) => (dispatch,getState) => {
-  const config ={
-    method: 'POST',
-    headers: {
-        "Content-Type": "application/json;charset=UTF-8"
-    },
-    body: JSON.stringify(group),
-  }
-  dispatch(callApi(
-    "/service/api/group/update",
-    config,
-    groupsRequest(),
-    groupInfoPostSuccess(),
-    groupsFailure()
   ));
 }
 
-export function closeDialog(group)
-{
-  return {
-    type: CLOSE_GROUPS_INFO,
-    payload: {
-      isShowingModal: false,
-      group:group
-    }
-  };
-}
-
-
-export function selectGroupsPage(page) {
-  return {
-    type: SELECT_GROUPS_PAGE,
-    payload: {
-      page: page
-    }
-  };
-}
-
-export function invalidateGroupsPage(page) {
-  return {
-    type: INVALIDATE_GROUPS_PAGE,
-    payload: {
-      page: page
-    }
-  };
-}
-
-function groupsRequest() {
-  return {
-    type: GROUPS_REQUEST,
-    payload: {
-      isFetching: true
-    }
-  };
-}
-
-function groupsSuccess(page) {
-  return function(result) {
-    return {
-      type: GROUPS_SUCCESS,
-      payload: {
-        page: page,
-        groups: result.data.content,
-        totalCount: result.data.totalElements
-      }
-    };
-  };
-}
-
-function groupsFailure() {
-  return function(error) {
-    return {
-      type: GROUPS_FAILURE,
-      payload: {
-        error:error
-      }
-    };
-  };
-}
-
-const fetchTopGroups = (page) => dispatch => {
-  const requestPara = {
-    page:0,
-    pageSize:10,
-    sortField:'groupName',
-    sortDirection:'DESC'
-  };
+export const fetchTaskUserAvaliable = (taskId) =>(dispatch) =>{
   const config ={
     method: 'POST',
     headers: {
-        "Content-Type": "application/json;charset=UTF-8"
+        "Content-Type": "application/json; charset=UTF-8"
     },
-    body: JSON.stringify(requestPara),
+    body: JSON.stringify({"taskId":taskId})
   }
-  dispatch(callApi(
-    "/service/api/groups",
-    config,
-    groupsRequest(),
-    groupsSuccess(page),
-    groupsFailure()
+  const url = "/service/user/task/user/avaliable";
+  return dispatch(callApi(
+      url,
+      config,
+      () =>{
+        return {
+          type: SYSMANAGER_GROUPMGR_USER_AVALIABLE_REQUEST,
+          payload: {
+          }
+        };
+      },
+      (result) => {
+        return {
+          type: SYSMANAGER_GROUPMGR_USER_AVALIABLE_SUCCESS,
+          payload: {
+            avuserlist: result.data,
+          }
+        };
+      },
+      (error) => {
+        return {
+            type: SYSMANAGER_GROUPMGR_USER_AVALIABLE_FAILURE,
+            payload: {
+              error: error,
+            }
+        };
+      }
   ));
 }
 
-function shouldFetchGroups(state, page) {
-  const groupdata = state.groupData;
-  if (groupdata.isFetching) {
-    return false;
+export const addUserToTask = (userId,taskId) =>(dispatch) =>{
+  const config ={
+    method: 'POST',
+    headers: {
+        "Content-Type": "application/json; charset=UTF-8"
+    },
+    body: JSON.stringify({"taskId":taskId,"userName":userId})
   }
-  return true;
+  const url = "/service/user/taskuser/add";
+  return dispatch(callApi(
+      url,
+      config,
+      () =>{
+        return {
+          type: SYSMANAGER_GROUPMGR_ADD_USER_REQUEST,
+          payload: {
+          }
+        };
+      },
+      (result) => {
+        return {
+          type: SYSMANAGER_GROUPMGR_ADD_USER_SUCCESS,
+          payload: {
+            userId: result.data.userName,
+          }
+        };
+      },
+      (error) => {
+        return {
+            type: SYSMANAGER_GROUPMGR_ADD_USER_FAILURE,
+            payload: {
+              error: error,
+            }
+        };
+      }
+  ));
 }
 
-export const fetchTopGroupsIfNeeded = (page) => (dispatch,getState) =>{
-  if (shouldFetchGroups(getState(), page)) {
-    return dispatch(fetchTopGroups(page));
+export const deleteTaskUser= (userId,taskId) =>(dispatch) =>{
+  const config ={
+    method: 'POST',
+    headers: {
+        "Content-Type": "application/json; charset=UTF-8"
+    },
+    body: JSON.stringify({"taskId":taskId,"userName":userId})
   }
+  const url = "/service/user/taskuser/delete";
+  return dispatch(callApi(
+      url,
+      config,
+      () =>{
+        return {
+          type: SYSMANAGER_GROUPMGR_USER_DELETE_REQUEST,
+          payload: {
+          }
+        };
+      },
+      (result) => {
+        return {
+          type: SYSMANAGER_GROUPMGR_USER_DELETE_SUCCESS,
+          payload: {
+            kernellist: result.data,
+          }
+        };
+      },
+      (error) => {
+        return {
+            type: SYSMANAGER_GROUPMGR_USER_DELETE_FAILURE,
+            payload: {
+              error: error,
+            }
+        };
+      }
+  ));
 }

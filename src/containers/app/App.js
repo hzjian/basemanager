@@ -6,27 +6,39 @@ import PropTypes from "prop-types";
 // would require configuring the server. So we will use HashRouter here.
 // Please change to BrowserRouter if you have your own backend server.
 ///////////////////////////////////////////////////////////////////////////
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { connect } from "react-redux";
-import Footer from "../../components/footer/Footer";
-import * as login from "../login";
-import PrivateRoute from "../misc/PrivateRoute";
-import Home from "../home/Home";
-import ReposPage from "../repo/ReposPage";
+import { Login } from "../login";
+import PrivateRoute from "./privateroute";
 import { UserContent } from '../usercontent';
+import { InfoBox } from '../usercontent/popup';
 import { User } from '../user';
 import { Header } from '../../components/header';
 import TaskManager from '../taskmanager/taskmanager';
 import GroupManager from  '../groupmanager/groupmanager';
-import GammaData from '../gammadata/gammadata';
 import SysManager from '../sysmanager/sysmanager';
-import About from "../about/About";
-import NotFound from "../misc/NotFound";
 import { loadUserProfile } from '../utils/apiUtils';
 import { logout } from "../login/actions";
 
 import "./app.css";
+
+const routerData = [
+  //ROLE_USER
+  {name: '我的内容', key: 'item1' , path:'' ,  comp: UserContent, role :'ROLE_USER'}, 
+  {name: '我的内容', key: 'item2' , path:'/ucontent' , comp: UserContent, role :'ROLE_USER'}, 
+  {name: '我的任务', key: 'item3' , path:'/utaskmanager' ,  comp: TaskManager,role :'ROLE_USER'}, 
+
+  //ROLE_GROUP_ADMIN  
+  {name: '组织管理', key: 'item4' , path:'' , comp: GroupManager, role :'ROLE_GROUP_ADMIN'}, 
+  {name: '组织管理', key: 'item5' , path:'/groupmanager' , comp: GroupManager,role :'ROLE_GROUP_ADMIN'}, 
+  {name: '任务管理', key: 'item6' , path:'/utaskmanager' , comp: TaskManager, role :'ROLE_GROUP_ADMIN'}, 
+
+  //ROLE_ADMIN  
+  {name: '系统管理', key: 'item7' , path:'' ,comp: SysManager, role :'ROLE_ADMIN'}, 
+  {name: '系统管理', key: 'item8' , path:'/sysmanager' , comp: SysManager, role :'ROLE_ADMIN'}, 
+ 
+];
 
 class App extends Component {
   handleLogout() {
@@ -40,23 +52,23 @@ class App extends Component {
     let user;
     if(userProfie) 
     {
-      const {sub, scope, non_expired, exp, enabled, non_locked} = userProfie;
+      const { sub } = userProfie;
       user = sub;
       isAuthenticated = true && user;
     }
     return (
       <Router>
         <div>
-          <div className="container-fluid appContent">
+          <div className="container-fluid mainContent">
             <Header user={user} handleLogout={() => this.handleLogout()} />
             <div className="appContent">
               <Switch>
-                <Route exact path="/" 
+                <PrivateRoute exact path="/" 
                   isAuthenticated={isAuthenticated}
                   component={UserContent} 
-                 />
+                />
                 <Route path="/login" 
-                  component={login.Login} 
+                  component={Login} 
                 />
                 <PrivateRoute
                   path="/users"
@@ -64,11 +76,6 @@ class App extends Component {
                   component={User}
                 />
                 <PrivateRoute
-                  path="/repos"
-                  isAuthenticated={isAuthenticated}
-                  component={ReposPage}
-                />
-                 <PrivateRoute
                   path="/ucontent"
                   isAuthenticated={isAuthenticated}
                   component={UserContent}
@@ -83,17 +90,11 @@ class App extends Component {
                   isAuthenticated={isAuthenticated}
                   component={GroupManager}
                 />
-                 <PrivateRoute
-                  path="/gammadata"
-                  isAuthenticated={isAuthenticated}
-                  component={GammaData}
-                />
                 <PrivateRoute
                   path="/sysmanager"
                   isAuthenticated={isAuthenticated}
                   component={SysManager}
                 />
-                <Route component={NotFound} />
               </Switch>
             </div>
           </div>
@@ -102,15 +103,6 @@ class App extends Component {
     );
   }
 }
-
-App.propTypes = {
-  user: PropTypes.string,
-  dispatch: PropTypes.func.isRequired
-};
-
-App.contextTypes = {
-  store: PropTypes.object.isRequired
-};
 
 const mapStateToProps = state => {
   const { auth } = state;

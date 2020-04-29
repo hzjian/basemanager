@@ -15,4 +15,8 @@
     border-radius:20px;
   }
 
+  .fixed-top{
+    position: relative !important;
+  }
+
 

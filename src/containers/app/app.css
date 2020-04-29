@@ -1,5 +1,15 @@
-.appContent {
-  margin: 0;
+.mainContent {
   padding-left: 0px !important;
   padding-right: 0px !important;
+  width:100wh;
+  height:100vh;
+  background: url("./back.jpg");
+  background-size: 100% 100%; 
+}
+
+.appContent {
+  position:relative;
+  margin: 0 0 0 0;
+  width:100wh;
+  height:calc(100vh - 56px);
 }

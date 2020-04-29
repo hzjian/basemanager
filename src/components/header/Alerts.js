@@ -11,7 +11,7 @@ class Alerts extends Component {
   };
 
   reconnect = () => {
-    const { store } = this.context;
+
   };
 
   alert = (type, message, time) => {
@@ -113,16 +113,6 @@ class Alerts extends Component {
     );
   }
 }
-
-Alerts.contextTypes = {
-  store: PropTypes.object.isRequired
-};
-
-Alerts.propTypes = {
-  alerts: PropTypes.array.isRequired,
-  hasError: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired
-};
 
 function mapStateToProps(state) {
   const { alerts } = state;

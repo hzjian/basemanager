@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { login } from "./actions";
-
+import Container from '@material-ui/core/Container';
 import "./login.css";
 
 class Login extends Component {
@@ -12,11 +12,26 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user) {
-      // logged in, let's show redirect if any, or show home
+    if (nextProps.user && nextProps.role) {
       try {
+        let rootpath ="/";
+        if(nextProps.role[0] && nextProps.role[0].authority)
+        {
+          if(nextProps.role[0].authority === "ROLE_ADMIN")
+          {
+            rootpath ="/sysmanager";
+          }
+          else if(nextProps.role[0].authority === "ROLE_GROUP_ADMIN")
+          {
+            rootpath ="/groupmanager";
+          }
+          else
+          {
+            rootpath ="/ucontent";
+          }
+        }
         const { from } = this.props.location.state || {
-          from: { pathname: "/" }
+          from: { pathname: rootpath }
         };
         nextProps.history.replace(from);
       } catch (err) {
@@ -37,83 +52,64 @@ class Login extends Component {
   render() {
     const { user, loginError } = this.props;
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-4" style={{ float: "none", margin: "0 auto" }}>
-            <div className="card">
-              <div className="card-header">GAMMA</div>
-              <form className="card-block">
-                <div className="input-group">
-                  <span className="input-group-addon">
-                    <i className="fa fa-user" />
-                  </span>
-                  <input
-                    type="text"
-                    ref="username"
-                    className="form-control"
-                    placeholder="用户名："
-                    required
-                    autoFocus
-                  />
-                </div>
-
-                <div className="input-group">
-                  <span className="input-group-addon">
-                    <i className="fa fa-lock" />
-                  </span>
-                  <input
-                    type="password"
-                    ref="password"
-                    className="form-control"
-                    placeholder="密码："
-                    required
-                  />
-                </div>
-
-                <div className="checkbox">
-                  <label>
-                    <input type="checkbox" value="remember-me" /> 记住
-                  </label>
-                </div>
-
-                {!user &&
-                  loginError &&
-                  <div className="alert alert-danger">
-                    {loginError.message}.
-                  </div>}
-
-                <button
-                  className="btn btn-primary btn-block"
-                  onClick={this.handleLogin}
-                >
-                  <i className="fa fa-sign-in" />{" "}登 录
-                </button>
-              </form>
-            </div>
+      <div className ="LoginRoot">
+        <form className="login-form">
+          <div className="form-title">智慧农业信息平台</div>
+          <div className="input-group">
+            <span className="input-group-addon">
+              <i className="fa fa-user" />
+            </span>
+            <input
+              type="text"
+              ref="username"
+              className="form-control"
+              placeholder="用户名："
+              required
+              autoFocus
+            />
           </div>
-        </div>
+
+          <div className="input-group">
+            <span className="input-group-addon">
+              <i className="fa fa-lock" />
+            </span>
+            <input
+              type="password"
+              ref="password"
+              className="form-control"
+              placeholder="密码："
+              required
+            />
+          </div>
+
+          <div className="checkbox">
+            <label>
+              {/* <input type="checkbox" value="remember-me" /> 记住 */}
+            </label>
+          </div>
+
+          {!user &&
+            loginError &&
+            <div className="alert alert-danger">
+              {loginError.message}.
+            </div>}
+
+          <button
+            className="btn btn-primary btn-block"
+            onClick={this.handleLogin}
+          >
+            <i className="fa fa-sign-in" />{" "}登 录
+          </button>
+        </form>
       </div>
     );
   }
 }
 
-Login.contextTypes = {
-  store: PropTypes.object.isRequired
-};
-
-Login.propTypes = {
-  user: PropTypes.string,
-  loginError: PropTypes.object,
-  dispatch: PropTypes.func.isRequired
-};
-
-function mapStateToProps(state) {
-  const { auth } = state;
-  if (auth) {
-    return { user: auth.user, loginError: auth.loginError };
-  }
-
-  return { user: null };
-}
+const mapStateToProps = state =>({
+  user: state.auth.user,
+  role:  state.auth.role,
+  loginError: state.auth.loginError
+})
 
 export default connect(mapStateToProps)(Login);

@@ -1,44 +1,71 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+  },
+  paper: {
+    marginRight: theme.spacing(2),
+  },
+}));
 
 const UserProfile = ({ user, handleLogout }) => {
-  return (
-    <li className="dropdown nav-item">
-      <a
-        href=""
-        className="dropdown-toggle nav-link"
-        data-toggle="dropdown"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        <span className="fa fa-user" style={{ marginRight: "0.5em" }} />
-        {user || "未登录"}
-        <span className="caret" />
-      </a>
-      <ul className="dropdown-menu" style={{ right: 0, left: "auto" }}>
-        <a className="dropdown-item" href="" onClick={handleLogout}>
-          <i className="fa fa-sign-out" style={{ marginRight: "0.5em" }} />
-          退出
-        </a>
-        <div className="dropdown-divider" />
-        <a
-          className="dropdown-item"
-          href="http://www.tulibj.com/"
-          target="_blank"
-          title="图理科技"
-          rel="noopener noreferrer"
-        >
-          <i className="fa fa-github" style={{ marginRight: "0.5em" }} />图理科技
-        </a>
-      </ul>
-    </li>
-  );
-};
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
 
-UserProfile.propTypes = {
-  user: PropTypes.string,
-  handleLogout: PropTypes.func.isRequired
-};
+  function handleToggle() {
+    setOpen(prevOpen => !prevOpen);
+  }
+
+  function handleClose(event) {
+    // if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    //   return;
+    // }
+
+    setOpen(false);
+  }
+
+  return (
+    <div className={classes.root}>
+      <div>
+        <Button
+          className="dropdown-toggle nav-link"
+          ref={anchorRef}
+          aria-controls="menu-list-grow"
+          aria-haspopup="true"
+          onClick={handleToggle}
+        >
+          {user || "未登录"}
+        </Button>
+        <Popper open={open} anchorEl={anchorRef.current} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            >
+              <Paper id="menu-list-grow">
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList>
+                    <MenuItem onClick={handleClose}>我的信息</MenuItem>
+                    <MenuItem onClick={handleLogout}>注销</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      </div>
+    </div>
+  );
+}
 
 export default UserProfile;

@@ -1,4 +1,39 @@
+.LoginRoot { 
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+ }
 
-.input-group {
-  margin-bottom: 10px;
+.LoginRoot .login-form {
+  position: absolute;
+  height: 300px;
+  width: 400px;
+  left: calc(50% - 200px);
+  top: calc(50% - 150px);
+  padding: 40px 50px 40px 50px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 5px; 
+}
+.LoginRoot .login-form .form-title 
+{
+  color: #40a9ff; 
+  font-weight:normal;
+  font-size: 32px;
+  padding: 10px;
+	font-family: "Arial","Microsoft YaHei",sans-serif;
+}
+.form-control {
+  margin-top: 5px;
+}
+
+.LoginRoot .login-form .login-form-button 
+{
+  width: 100px; 
+}
+.LoginRoot .login-form .reset-form-button 
+{
+  width: 100px;
+  position: absolute;
+  right: 5px; 
 }

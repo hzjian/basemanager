@@ -41,16 +41,21 @@ export const  invalidateMapsPage = (page) =>dispatch => {
 function mapRequest() {
     return {
         type: MAP_REQUEST,
+        payload: {
+            
+        }
     };
 }
 
 // This is a curried function that takes page as argument,
 // and expects payload as argument to be passed upon API call success.
 function mapSuccess() {
-    return function(payload) {
+    return function(result) {
         return {
             type: MAP_SUCCESS,
-            geojson: payload.data
+            payload: {
+                geojson: result.data
+            }
         };
     };
 }

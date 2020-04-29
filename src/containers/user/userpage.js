@@ -127,13 +127,6 @@ class UsersPage extends Component {
   }
 } 
 
-UsersPage.propTypes = {
-  page: PropTypes.number.isRequired,
-  users: PropTypes.array.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  error: PropTypes.object
-};
 
 function mapStateToProps(state) {
   const { selectedUsersPage, usersByPage } = state;

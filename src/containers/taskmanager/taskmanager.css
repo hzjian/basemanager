@@ -1,0 +1,24 @@
+.pull-left {
+    float: left; 
+}
+
+.task-index {
+    height: 100%;
+    background: #fafafa;
+}
+.task-index .menu-con {
+    width: 300px;
+    height: 100%;
+    background: #fafafa;
+    border-right: solid #ddd 1px;
+    padding: 30px 0;
+}
+.task-index .main-con {
+    width: calc(100% - 300px);
+    height: 100%;
+    padding: 30px 20px 10px 20px;
+}
+.task-index .main-con .content-con {
+    height: calc(100% - 41px);
+}
+  

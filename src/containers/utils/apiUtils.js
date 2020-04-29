@@ -92,7 +92,7 @@ export function loadUserProfile() {
   try {
     const idToken = localStorage.getItem(ID_TOKEN);
     const userProfile = jwt_decode(idToken);
-    const now = new Date().getTime() / 1000; // Date().getTime() returns milliseconds.
+    const now = new Date().getTime() / 1000.0; // Date().getTime() returns milliseconds.
     // So divide by 1000 to get seconds
     if (now > userProfile.exp) {
       // user profile has expired.

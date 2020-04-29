@@ -1,86 +1,27 @@
-import {
-  SELECT_GROUPS_PAGE,
-  INVALIDATE_GROUPS_PAGE,
-  GROUPS_REQUEST,
-  GROUPS_SUCCESS,
-  GROUPS_FAILURE,
-  EDIT_GROUPS_INFO,
-  CLOSE_GROUPS_INFO,
-  GROUP_DELETE_SUCCESS,
-  NEW_GROUPS_INFO
-} from "./actionTypes";
+/* jshint esversion: 6 */
 
-const initialState = {
-    groups:[],
-    page : 0,
-    newgroup:{
-      groupGuid:"",
-      groupName: "",
-      groupAddress:"",
-      groupPhone:""
-    },
-    group:{
-      groupGuid:"",
-      groupName: "",
-      groupAddress:"",
-      groupPhone:""
-    },
-    isnewgroup: false,
-    isFetching: false,
-    didInvalidate: false,
-    totalCount: 0,
-    error: null,
-    delGroupGuid:"",
-    isShowingModal:false
-}
-export function groupData(state = initialState , action)
-{
-  switch (action.type){
-    case NEW_GROUPS_INFO:
-    return Object.assign({}, state, {
-      isnewgroup: action.payload.isnewgroup,
-      isShowingModal: action.payload.isShowingModal
-    });
-    case CLOSE_GROUPS_INFO:
-    case EDIT_GROUPS_INFO:
-      return Object.assign({}, state, {
-        isnewgroup: action.payload.isnewgroup,
-        group: action.payload.group,
-        isShowingModal: action.payload.isShowingModal
-      });
-    case SELECT_GROUPS_PAGE:
-      return Object.assign({}, state, {
-        page: action.payload.page
-      });
-    case INVALIDATE_GROUPS_PAGE:
-      return Object.assign({}, state, {
-        didInvalidate: true
-      });
-    case GROUPS_REQUEST:
-      return Object.assign({}, state, {
-        isFetching: true,
-        didInvalidate: false
-      });
-    case GROUPS_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        didInvalidate: false,
-        totalCount: action.payload.totalCount,
-        groups: action.payload.groups,
-        page: action.payload.page,
-        error: null
-      });
-    case GROUPS_FAILURE:
-      return Object.assign({}, state, {
-        isFetching: false,
-        didInvalidate: false,
-        error: action.payload.error
-      });
-    case GROUP_DELETE_SUCCESS:
-      return Object.assign({}, state, {
-        delGroupGuid: action.payload.delGroupGuid,
-      });
-    default:
-      return state;
-  }
-}
+import {
+    SYSMANAGER_GROUPMGR_QUERY_REQUEST,SYSMANAGER_GROUPMGR_QUERY_SUCCESS,SYSMANAGER_GROUPMGR_QUERY_FAILURE,
+    SYSMANAGER_GROUPMGR_USER_AVALIABLE_REQUEST,SYSMANAGER_GROUPMGR_USER_AVALIABLE_SUCCESS,SYSMANAGER_GROUPMGR_USER_AVALIABLE_FAILURE,
+  } from "./actionTypes";
+  
+  const initialState = {
+    grouplist:[],
+    totalCount:0
+  };
+  export default (state = initialState,action)  => {
+    switch (action.type) {
+        case SYSMANAGER_GROUPMGR_QUERY_SUCCESS:
+          return Object.assign({}, state, {
+            grouplist: action.payload.grouplist,
+            totalCount: action.payload.totalCount,
+          });
+        case SYSMANAGER_GROUPMGR_USER_AVALIABLE_SUCCESS:
+          return Object.assign({}, state, {
+            avuserlist: action.payload.avuserlist,
+          });    
+      default:
+        return state;
+    }
+  };
+  

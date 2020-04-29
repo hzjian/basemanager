@@ -31,13 +31,5 @@ const User = ({ user }) => {
   );
 };
 
-User.propTypes = {
-  user: PropTypes.shape({
-    login: PropTypes.string.isRequired,
-    avatar_url: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    html_url: PropTypes.string.isRequired
-  }).isRequired
-};
 
 export default User;

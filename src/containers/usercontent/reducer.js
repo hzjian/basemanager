@@ -32,7 +32,7 @@ export default ( state = initialState, action)  => {
         isFetching: false,
         didInvalidate: false,
         totalCount: action.totalCount,
-          geojson: action.geojson,
+        geojson: action.geojson,
         error: null
       });
       case DRAW_ADD_MAP:
