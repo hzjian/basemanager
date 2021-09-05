@@ -8,7 +8,10 @@ import "./login.css";
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.handleLogin = this.handleLogin.bind(this);
+    this.state ={
+      username: "",
+      password: "",
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -20,10 +23,6 @@ class Login extends Component {
           if(nextProps.role[0].authority === "ROLE_ADMIN")
           {
             rootpath ="/sysmanager";
-          }
-          else if(nextProps.role[0].authority === "ROLE_GROUP_ADMIN")
-          {
-            rootpath ="/groupmanager";
           }
           else
           {
@@ -40,30 +39,30 @@ class Login extends Component {
     }
   }
 
-  handleLogin(event) {
+  handleLogin = (event) => {
     event.preventDefault();
-    const username = this.refs.username;
-    const password = this.refs.password;
-    this.props.dispatch(login(username.value, password.value));
-    username.value = "";
-    password.value = "";
+    this.props.dispatch(login(this.state.username, this.state.password));
   }
 
+  handleChange = (e) =>{
+    this.setState({ [e.target.name]: e.target.value })
+  }
   render() {
     const { user, loginError } = this.props;
     return (
       <div className ="LoginRoot">
         <form className="login-form">
-          <div className="form-title">智慧农业信息平台</div>
+          <div className="form-title">十堰专用汽车协会应用管理平台</div>
           <div className="input-group">
             <span className="input-group-addon">
               <i className="fa fa-user" />
             </span>
             <input
+              name="username"
               type="text"
-              ref="username"
               className="form-control"
               placeholder="用户名："
+              onChange={this.handleChange}
               required
               autoFocus
             />
@@ -74,10 +73,11 @@ class Login extends Component {
               <i className="fa fa-lock" />
             </span>
             <input
+              name="password"
               type="password"
-              ref="password"
               className="form-control"
               placeholder="密码："
+              onChange={this.handleChange}
               required
             />
           </div>
@@ -88,18 +88,19 @@ class Login extends Component {
             </label>
           </div>
 
+
+          <button
+            className="btn btn-primary btn-block "
+            onClick={this.handleLogin}
+          >
+            <i className="fa fa-sign-in" />{" "}登 录
+          </button>
+
           {!user &&
             loginError &&
             <div className="alert alert-danger">
               {loginError.message}.
             </div>}
-
-          <button
-            className="btn btn-primary btn-block"
-            onClick={this.handleLogin}
-          >
-            <i className="fa fa-sign-in" />{" "}登 录
-          </button>
         </form>
       </div>
     );

@@ -12,8 +12,9 @@ const routerData = [
   {name: '我的任务', key: 'item2' , path:'/utaskmanager' ,  role :'ROLE_USER'}, 
 
   //ROLE_GROUP_ADMIN  
-  {name: '组织管理', key: 'item3' , path:'/groupmanager' , role :'ROLE_GROUP_ADMIN'}, 
-  {name: '任务管理', key: 'item4' , path:'/utaskmanager' , role :'ROLE_GROUP_ADMIN'}, 
+  //{name: '系统管理', key: 'item3' , path:'/groupmanager' , role :'ROLE_ADMIN'}, 
+  //{name: '任务管理', key: 'item4' , path:'/utaskmanager' , role :'ROLE_ADMIN'}, 
+  //{name: '数据源管理', key: 'item10' , path:'/dsmanager' , role :'ROLE_ADMIN'},
 
   //ROLE_ADMIN  
   {name: '系统管理', key: 'item5' , path:'/sysmanager'   , role :'ROLE_ADMIN'},

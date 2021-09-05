@@ -74,13 +74,13 @@ class EditUser extends Component {
     if(this.state.userName!=null && this.state.userName.length>0 && location && location.params)
     {
       this.props.saveGroupUser(this.state).then(()=>{
-        this.props.history.push({pathname:'/sysmanager/groupmgr/groupuser'});
+        this.props.history.push({pathname:'/sysmanager/usermgr'});
       });
     }
   }
 
   cancelUserClick =() =>{
-    this.props.history.push({pathname:'/sysmanager/groupmgr/groupuser'});
+    this.props.history.push({pathname:'/sysmanager/usermgr'});
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -109,7 +109,8 @@ class EditUser extends Component {
                           label="用户名称"
                           className={classes.textField}
                           value={this.state.userName}
-                          margin ="dense" variant="outlined"  disabled
+                          onChange={this.handleTextChange('userName')}
+                          margin ="dense" variant="outlined"  //disabled
                       />
                   </ListItem>
                   <ListItem>

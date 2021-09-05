@@ -1,9 +1,10 @@
 
 import jwt_decode from "jwt-decode";
+import {server as servername} from '../../app.json';
 
 export const ID_TOKEN = "x-auth-token";
 
-export const SYSID = "gamma.tl";
+export const SYSID = "sys";
 
 export function checkStatus(response) {
   if (!response.ok) {
@@ -41,7 +42,7 @@ export function callApi(
     dispatch(request);
     if(config && config.headers )
       config.headers[ID_TOKEN] = SYSID + "." + localStorage.getItem(ID_TOKEN);
-    return fetch(url, config)
+    return fetch(servername+url, config)
       .then(checkStatus)
       .then(parseJSON)
       .then(json => {

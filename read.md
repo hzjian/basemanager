@@ -1,1 +1,2 @@
-fdsfdsfdsf
+base manager
+trade club

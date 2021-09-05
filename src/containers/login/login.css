@@ -7,14 +7,19 @@
 
 .LoginRoot .login-form {
   position: absolute;
-  height: 300px;
-  width: 400px;
-  left: calc(50% - 200px);
-  top: calc(50% - 150px);
+  height: 400px;
+  width: 600px;
+  left: calc(50% - 300px);
+  top: calc(50% - 200px);
   padding: 40px 50px 40px 50px;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 5px; 
 }
+
+.LoginRoot .login-form .input-group{
+  padding: 20px 10px 20px 10px;
+}
+
 .LoginRoot .login-form .form-title 
 {
   color: #40a9ff; 

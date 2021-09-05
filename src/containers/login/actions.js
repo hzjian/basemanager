@@ -53,8 +53,8 @@ export function login(userName, userPassword) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      userName: userName.trim(),
-      userPassword: userPassword.trim()
+      username: userName.trim(),
+      password: userPassword.trim()
     })
   };
 
@@ -97,7 +97,7 @@ export function logout(user) {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      "x-auth-token": `gamma.tl.${idToken}`
+      "x-auth-token": `sys.${idToken}`
     },
     body: JSON.stringify({
       user

@@ -1,8 +1,5 @@
 /* jshint esversion: 6 */
 
-import {
-  SYSMANAGER_EDITUSER_UPDATE_REQUEST,SYSMANAGER_EDITUSER_UPDATE_SUCCESS,SYSMANAGER_EDITUSER_UPDATE_FAILURE,
-} from "./actionTypes";
 
 const initialState = {
 
@@ -10,12 +7,12 @@ const initialState = {
 
 export default (state = initialState,action)  => {
   switch (action.type) {
-    case SYSMANAGER_EDITUSER_UPDATE_REQUEST:
+    case "system_manager_user_update_query":
       return Object.assign({}, state, {
           page: action.payload.page,
       });
      
-      case SYSMANAGER_EDITUSER_UPDATE_FAILURE:
+      case "system_manager_user_update_failure":
           return Object.assign({}, state, {
               error: action.payload.error
           });

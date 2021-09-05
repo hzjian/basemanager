@@ -1,7 +1,4 @@
 import { callApi } from "../../utils/apiUtils";
-import {
-    SYSMANAGER_ADDUSER_ADD_REQUEST,SYSMANAGER_ADDUSER_ADD_SUCCESS,SYSMANAGER_ADDUSER_ADD_FAILURE,
-  } from './actionTypes'
 
 export const addGroupUser = (groupId,params) => dispatch => {
   const config ={
@@ -17,14 +14,14 @@ export const addGroupUser = (groupId,params) => dispatch => {
       config,
       () =>{
         return {
-          type: SYSMANAGER_ADDUSER_ADD_REQUEST,
+          type: "system_manager_user_add_query",
           payload: {
           }
         };
       },
       (result) => {
         return {
-          type: SYSMANAGER_ADDUSER_ADD_SUCCESS,
+          type: "system_manager_user_add_success", 
           payload: {
             userinfo: result.data,
           }
@@ -32,7 +29,7 @@ export const addGroupUser = (groupId,params) => dispatch => {
       },
       (error) => {
         return {
-            type: SYSMANAGER_ADDUSER_ADD_FAILURE,
+            type:  "system_manager_user_add_failure", 
             payload: {
               error: error,
             }

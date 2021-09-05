@@ -1,6 +1,6 @@
 {
-  "short_name": "Gamma application",
-  "name": "Gamma application",
+  "short_name": "application",
+  "name": "application",
   "icons": [
     {
       "src": "favicon.ico",

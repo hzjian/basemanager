@@ -1,7 +1,4 @@
 import { callApi } from "../../utils/apiUtils";
-import {
-    SYSMANAGER_EDITUSER_UPDATE_REQUEST,SYSMANAGER_EDITUSER_UPDATE_SUCCESS,SYSMANAGER_EDITUSER_UPDATE_FAILURE,
-  } from './actionTypes'
 
 export const saveGroupUser = (params) => dispatch => {
   const config ={
@@ -11,20 +8,20 @@ export const saveGroupUser = (params) => dispatch => {
       },
       body: JSON.stringify({"userName": params.userName,"userCnname":params.userCnname, "userPassword":params.userPassword, "userEmail":params.userEmail})
   }
-  const url = "/service/api/user/update";
+  const url = "/service/api/user/save";
   return dispatch(callApi(
       url,
       config,
       () =>{
         return {
-          type: SYSMANAGER_EDITUSER_UPDATE_REQUEST,
+          type: "system_manager_user_edit_query",
           payload: {
           }
         };
       },
       (result) => {
         return {
-          type: SYSMANAGER_EDITUSER_UPDATE_SUCCESS,
+          type: "system_manager_user_update_success", 
           payload: {
             userinfo: result.data,
           }
@@ -32,7 +29,7 @@ export const saveGroupUser = (params) => dispatch => {
       },
       (error) => {
         return {
-            type: SYSMANAGER_EDITUSER_UPDATE_FAILURE,
+            type: "system_manager_user_update_failure", 
             payload: {
               error: error,
             }
